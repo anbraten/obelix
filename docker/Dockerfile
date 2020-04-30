@@ -20,7 +20,7 @@ USER node
 RUN yarn install --silent --frozen-lockfile --production
 COPY --chown=node:node docker/set-env-vars.sh docker/entrypoint.sh backend/ ./
 COPY --chown=node:node --from=build-stage /app/spa/dist/ dist/
-EXPOSE 8080
+EXPOSE 3000
 ENTRYPOINT [ "./entrypoint.sh" ]
 CMD ["yarn", "run", "start"]
 ENV VERSION=${VERSION}

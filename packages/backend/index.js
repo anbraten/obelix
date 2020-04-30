@@ -6,7 +6,7 @@ const http = require('http');
 const app = express();
 const server = http.createServer(app);
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 const DIST_DIR = [__dirname, 'dist'];
 let connectedClients = 0;
 
