@@ -33,6 +33,6 @@ module.exports = {
     name: manifestJSON.short_name,
     msTileColor: manifestJSON.background_color,
     appleMobileWebAppCapable: 'yes',
-    appleMobileWebAppStatusBarStyle: 'black'
+    appleMobileWebAppStatusBarStyle: 'black',
   },
 };
