@@ -5,9 +5,13 @@
   "repository": "https://github.com/anbraten/obelix",
   "author": "Anbraten",
   "private": true,
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "yarn workspace @obelix/backend run dev & yarn workspace @obelix/app run dev",
+    "dev": "concurrently \"yarn dev:app\" \"yarn dev:backend\"",
+    "dev:app": "yarn workspace @obelix/app run dev",
+    "dev:backend": "yarn workspace @obelix/backend run dev",
     "build": "yarn workspace @obelix/app run build",
     "build:preview": "yarn generate:config && yarn build",
     "lint": "yarn workspaces run lint",
@@ -16,5 +20,8 @@
   },
   "resolutions": {
     "**/workbox-webpack-plugin": "5.0.0"
+  },
+  "dependencies": {
+    "concurrently": "^5.2.0"
   }
 }
