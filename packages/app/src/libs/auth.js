@@ -3,7 +3,7 @@ import config from '@/libs/config';
 
 const APP_URL = config('url', 'http://localhost:8080');
 const OIDC_URL = config('oidc_url');
-const OIDC_CLIENT_ID = config('oidc_url');
+const OIDC_CLIENT_ID = config('oidc_client_id');
 
 if (!OIDC_URL || !OIDC_CLIENT_ID) {
   console.error('OIDC is ot properly configured!');
