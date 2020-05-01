@@ -1,5 +1,5 @@
 #!/bin/sh
-FILE_PATH=${1:-./spa/env-config.js}
+FILE_PATH=${1:-./packages/app/public/env-config.js}
 FILE_DIR=$(dirname "${FILE_PATH}")
 PREFIX=${2:-APP_}
 
