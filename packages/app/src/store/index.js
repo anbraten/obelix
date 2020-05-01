@@ -1,17 +1,19 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import config from '@/libs/config';
-import Api from '@/libs/api';
 import subscribe from '@/libs/subscriptions';
+
+import Auth from './auth';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
-  modules: {},
+  modules: {
+    auth: Auth,
+  },
 
   state: {
     isConnected: false,
-    joinedChannels: [],
     title: null,
     isTester: localStorage.getItem('tester') === 'true' || false,
   },
@@ -31,33 +33,9 @@ const store = new Vuex.Store({
       state.isTester = isTester;
       localStorage.setItem('tester', isTester);
     },
-    addJoinedChannel(state, { name, data = null }) {
-      state.joinedChannels.push({ name, data });
-    },
-    removeJoinedChannel(state, channelName) {
-      state.joinedChannels = state.joinedChannels.filter((c) => c.name !== channelName);
-    },
   },
 
-  actions: {
-    joinChannel({ commit }, { name, data = null }) {
-      commit('addJoinedChannel', { name, data });
-      Api.emit(`join:${name}`, data);
-    },
-    leaveChannel({ commit, state }, channelName) {
-      state.joinedChannels.forEach((c) => {
-        if (c.name === channelName) {
-          Api.emit(`leave:${c.name}`, c.data);
-        }
-      });
-      commit('removeJoinedChannel', channelName);
-    },
-    reJoin({ state }) {
-      state.joinedChannels.forEach((c) => {
-        Api.emit(`join:${c.name}`, c.data);
-      });
-    },
-  },
+  actions: {},
 });
 
 // register socket.io subscriptions

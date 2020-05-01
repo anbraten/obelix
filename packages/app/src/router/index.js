@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+
 import Store from '@/store';
 
 Vue.use(VueRouter);
@@ -12,10 +13,29 @@ Vue.use(VueRouter);
 // }
 
 const routes = [
+  // auth routes
+  {
+    path: '/auth/login',
+    name: 'auth-login',
+    component: () => import(/* webpackChunkName: "auth-login" */ '../views/auth/Login.vue'),
+  },
+  {
+    path: '/auth/callback',
+    name: 'auth-callback',
+    component: () => import(/* webpackChunkName: "auth-callback" */ '../views/auth/Callback.vue'),
+  },
+  {
+    path: '/auth/unauthorized',
+    name: 'auth-unauthorized',
+    component: () => import(/* webpackChunkName: "auth-unauthorized" */ '../views/auth/Unauthorized.vue'),
+  },
+
+  // protected routes
   {
     path: '/',
     name: 'home',
     component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue'),
+    meta: { requiresAuth: true },
   },
   {
     path: '/about',
@@ -23,8 +43,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
     meta: {
       title: 'About',
+      requiresAuth: true,
     },
   },
+
+  // 404
   {
     path: '*',
     name: 'notFound',
@@ -38,8 +61,27 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   Store.commit('setTitle', to.meta.title);
+
+  await Store.dispatch('auth/getUser');
+
+  const isAuthenticated = Store.getters['auth/isAuthenticated'];
+  if (isAuthenticated) {
+    // already signed in, we can navigate anywhere
+    next();
+    return;
+  }
+
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    // authentication is required. Trigger the sign in process, including the return URI
+    Store.commit('auth/setRedirectUrl', to.path);
+
+    next({ name: 'auth-login' });
+    return;
+  }
+
+  // No auth required. We can navigate
   next();
 });
 

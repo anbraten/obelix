@@ -9,7 +9,7 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "concurrently \"yarn dev:app\" \"yarn dev:backend\"",
+    "dev": "dotenv concurrently \"yarn dev:app\" \"yarn dev:backend\"",
     "dev:app": "yarn workspace @obelix/app run dev",
     "dev:backend": "yarn workspace @obelix/backend run dev",
     "build": "yarn workspace @obelix/app run build",
@@ -22,6 +22,7 @@
     "**/workbox-webpack-plugin": "5.0.0"
   },
   "dependencies": {
-    "concurrently": "^5.2.0"
+    "concurrently": "^5.2.0",
+    "dotenv-cli": "^3.1.0"
   }
 }

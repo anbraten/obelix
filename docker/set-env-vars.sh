@@ -8,9 +8,9 @@ rm -rf $FILE_PATH
 mkdir -p $FILE_DIR && touch $FILE_PATH
 
 # load env vars from file if one exists
-if [ -f .env.local ]; then
+if [ -f .env ]; then
   set -a
-  . ./.env.local
+  . ./.env
   set +a
 fi
 

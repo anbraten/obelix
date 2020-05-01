@@ -34,4 +34,5 @@ module.exports = {
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: 'black',
   },
+  transpileDependencies: ['vue-oidc-client'],
 };

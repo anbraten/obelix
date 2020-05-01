@@ -3,7 +3,12 @@
     <div class="navbar">
       <div class="inner">
         <router-link :to="{ name: 'home' }" class="title">{{ title }}</router-link>
-        <span v-if="!isConnected" class="offline"><i class="fas fa-signal"/>Offline</span>
+        <div class="stretch" />
+        <template v-if="isAuthenticated">
+          <span>{{ userFullName }}</span>
+          <div class="logout" @click="logout"><i class="fas fa-sign-out-alt" /></div>
+        </template>
+        <span v-if="!isConnected" class="offline"><i class="fas fa-signal"/></span>
       </div>
     </div>
     <div class="placeholder"></div>
@@ -11,18 +16,30 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import config from '@/libs/config';
 
 export default {
   name: 'NavBar',
+
   data: () => ({
     title: config('title', 'Obelix'),
   }),
+
   computed: {
     ...mapState([
       'isConnected',
     ]),
+    ...mapGetters({
+      isAuthenticated: 'auth/isAuthenticated',
+      userFullName: 'auth/userFullName',
+    }),
+  },
+
+  methods: {
+    async logout() {
+      await this.$store.dispatch('auth/logout');
+    },
   },
 };
 </script>
@@ -40,6 +57,7 @@ export default {
     .inner {
       position: relative;
       display: flex;
+      align-items: center;
       flex-flow: row;
       width: 100%;
       max-width: 40rem;
@@ -61,18 +79,20 @@ export default {
     margin-left: auto;
   }
 
-  .title {
+  .title, span {
     color: #333;
     text-decoration: none;
     font-size: 1.1rem;
   }
 
-  .offline {
+  .stretch {
     margin-left: auto;
+  }
 
+  .offline {
     i {
       position: relative;
-      margin-right: .5rem;
+      margin-left: 1rem;
 
       &::after {
         position: absolute;
@@ -85,5 +105,10 @@ export default {
         content: '';
       }
     }
+  }
+
+  .logout {
+    margin-left: 1rem;
+    cursor: pointer;
   }
 </style>
