@@ -1,11 +1,17 @@
 import Oidc from 'oidc-client';
 import config from '@/libs/config';
 
-const APP_URL = config('APP_URL', 'http://localhost:8080');
+const APP_URL = config('url', 'http://localhost:8080');
+const OIDC_URL = config('oidc_url');
+const OIDC_CLIENT_ID = config('oidc_url');
+
+if (!OIDC_URL || !OIDC_CLIENT_ID) {
+  console.error('OIDC is ot properly configured!');
+}
 
 const mgr = new Oidc.UserManager({
-  authority: 'https://auth.rzab.de/auth/realms/rzab',
-  client_id: 'obelix',
+  authority: OIDC_URL,
+  client_id: OIDC_CLIENT_ID,
   redirect_uri: `${APP_URL}/auth/callback`,
   response_type: 'code',
   scope: 'openid profile offline_access api1',
