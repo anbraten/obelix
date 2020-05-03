@@ -156,8 +156,8 @@ export default {
     async createBooking() {
       const booking = {
         date: moment(this.booking.date).format('YYYY-MM-DD'),
-        startTime: moment(this.booking.startTime).format('HH:mm'),
-        endTime: moment(this.booking.endTime).format('HH:mm'),
+        startTime: this.booking.startTime,
+        endTime: this.booking.endTime,
         note: this.booking.note,
         rentable: this.selectedRentable.id,
       };
