@@ -1,6 +1,7 @@
 <template>
   <div class="about">
     <h1 class="title">{{ title }}</h1>
+    <img src="/img/icons/icon.png" />
     <p>Version: {{ version }}</p>
     <br />
     <div class="button" @click="setTester">{{ isTester ? 'Testmodus verlassen.' : 'Tester werden!' }}</div>
@@ -32,7 +33,8 @@ export default {
 
 <style lang="scss" scoped>
   .about {
-    margin: auto 0;
+    margin: auto;
+    text-align: center;
   }
 
   .title {
