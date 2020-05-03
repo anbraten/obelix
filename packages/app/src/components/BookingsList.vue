@@ -33,6 +33,9 @@
 
 <script>
 import moment from 'moment';
+import Debug from '@/libs/debug';
+
+const debug = Debug('BookingsList');
 
 export default {
   name: 'BookingsList',
@@ -85,7 +88,7 @@ export default {
       try {
         await this.$store.dispatch('rental/cancelBooking', booking.id);
       } catch (error) {
-        console.log(error);
+        debug(error);
         this.$buefy.toast.open({
           message: 'Es ist ein Fehler aufgetreten.',
           position: 'is-top',

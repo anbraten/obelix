@@ -1,4 +1,7 @@
 import auth from '@/libs/auth';
+import Debug from '@/libs/debug';
+
+const debug = Debug('auth');
 
 const KEY_REDIRECT_URL = 'redirect_url';
 
@@ -42,7 +45,7 @@ export default {
         const user = await auth.getUser();
         commit('setUser', user);
       } catch (err) {
-        console.log(err);
+        debug(err);
       }
     },
 
