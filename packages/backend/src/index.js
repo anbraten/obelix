@@ -11,7 +11,7 @@ const app = express();
 const server = http.createServer(app);
 
 const PORT = process.env.BACKEND_PORT || 3000;
-const DIST_DIR = [__dirname, 'dist'];
+const DIST_DIR = [__dirname, '..', 'dist'];
 const JWT_SECRET = process.env.JWT_SECRET || null;
 let connectedClients = 0;
 
