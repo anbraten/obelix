@@ -9,19 +9,21 @@
     <b-steps v-model="activeStep" :has-navigation="false">
       <b-step-item icon="calendar-day">
         <b-field label="Datum">
-          <b-datepicker v-model="booking.date" :date-formatter="dateFormatter" />
+          <b-datepicker v-model="booking.date" :date-formatter="dateFormatter" :min-date="new Date()" />
         </b-field>
 
         <b-field label="Startzeit">
-          <b-timepicker
+          <b-input
             v-model="booking.startTime"
-            :incrementMinutes="15" />
+            v-cleave="masks.time"
+            placeholder="HH:MM" />
         </b-field>
 
         <b-field label="Endzeit">
-          <b-timepicker
+          <b-input
             v-model="booking.endTime"
-            :incrementMinutes="15" />
+            v-cleave="masks.time"
+            placeholder="HH:MM" />
         </b-field>
         <div class="actions">
           <b-button class="next" @click="activeStep++" :disabled="!booking.date || !booking.startTime || !booking.endTime">Weiter</b-button>
@@ -81,9 +83,12 @@
 import { mapState } from 'vuex';
 import { groupBy } from 'lodash';
 import moment from 'moment';
+import cleave from '@/libs/cleave';
 
 export default {
   name: 'BookingCreate',
+
+  directives: { cleave },
 
   data() {
     return {
@@ -95,6 +100,12 @@ export default {
         startTime: null,
         endTime: null,
         note: null,
+      },
+      masks: {
+        time: {
+          time: true,
+          timePattern: ['h', 'm'],
+        },
       },
     };
   },
@@ -171,7 +182,10 @@ export default {
       return moment(date).format('DD.MM.YYYY');
     },
     time(date) {
-      return moment(date).format('HH:mm');
+      if (!date || !RegExp('\\d\\d:\\d\\d').test(date)) {
+        return null;
+      }
+      return moment(date, 'HH:mm').format('HH:mm');
     },
   },
 };
