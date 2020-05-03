@@ -26,8 +26,6 @@ function createSocket(socket) {
       };
     });
 
-    console.log(date, bookings);
-
     socket.emit('getBookings', bookings);
   });
 
@@ -54,15 +52,11 @@ function createSocket(socket) {
   socket.on('cancelBooking', (bookingId) => {
     const booking = db.get('bookings').find({ id: bookingId }).value();
 
-    console.log(bookingId, booking);
-
     // if booking not found or from different user
     if (!booking || booking.user !== socket.decoded_token.sub) {
       socket.emit('cancelBooking', { error: 'Permission denied' });
       return;
     }
-
-    console.log('removed booking');
 
     db.get('bookings').remove({ id: bookingId }).write();
     socket.emit('cancelBooking', { success: true });
