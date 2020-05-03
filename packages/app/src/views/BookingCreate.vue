@@ -171,7 +171,7 @@ export default {
       this.$buefy.toast.open({
         message: 'Deine Reservierung war erfolgreich.',
         position: 'is-top',
-        type: 'is-light',
+        type: 'is-success',
       });
       this.$router.replace({ name: 'home', params: { date: booking.date } });
       // redirect to date overview

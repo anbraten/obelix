@@ -21,7 +21,7 @@
         <span class="rentable">{{ booking.rentable.name }}</span>
         <span class="user">{{ booking.user.name }}</span>
         <span class="time">{{ booking.startTime }} - {{ booking.endTime }}</span>
-        <div class="cancel" @click="cancelBooking(booking)">x</div>
+        <div v-if="booking.user.id === userId" class="cancel" @click="cancelBooking(booking)"><i class="fas fa-trash" /></div>
       </div>
     </template>
 
@@ -40,18 +40,23 @@ const debug = Debug('BookingsList');
 export default {
   name: 'BookingsList',
 
-  data() {
-    return {
-      selectedDate: moment().format('YYYY-MM-DD'),
-    };
-  },
-
   computed: {
     bookings() {
       const { bookings } = this.$store.state.rental;
 
       // TODO: sort by start-time
       return bookings[this.selectedDate] || [];
+    },
+    selectedDate() {
+      if (this.$route.params.date) {
+        return this.$route.params.date;
+      }
+
+      // default today
+      return moment().format('YYYY-MM-DD');
+    },
+    userId() {
+      return this.$store.state.auth.user.profile.sub;
     },
   },
 
@@ -67,14 +72,16 @@ export default {
 
   methods: {
     today() {
-      this.selectedDate = moment().format('YYYY-MM-DD');
+      this.$router.replace({ params: { date: null } });
     },
     nextDay() {
       // TODO: max 7 days from today
-      this.selectedDate = moment(this.selectedDate).add(1, 'days').format('YYYY-MM-DD');
+      const date = moment(this.selectedDate).add(1, 'days').format('YYYY-MM-DD');
+      this.$router.replace({ params: { date } });
     },
     prevDay() {
-      this.selectedDate = moment(this.selectedDate).subtract(1, 'days').format('YYYY-MM-DD');
+      const date = moment(this.selectedDate).subtract(1, 'days').format('YYYY-MM-DD');
+      this.$router.replace({ params: { date } });
     },
     newBooking() {
       this.$router.push({ name: 'booking-create', params: { date: this.selectedDate } });
@@ -83,26 +90,34 @@ export default {
       await this.$store.dispatch('rental/getBookings', this.selectedDate);
     },
     async cancelBooking(booking) {
-      // TODO: show confirm
+      this.$buefy.dialog.confirm({
+        title: 'Reservierung löschen',
+        message: 'Möchtest du deine Reservierung wirklich löschen?',
+        cancelText: 'Abbrechen',
+        confirmText: 'Löschen',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: async () => {
+          try {
+            await this.$store.dispatch('rental/cancelBooking', booking.id);
+          } catch (error) {
+            debug(error);
+            this.$buefy.toast.open({
+              message: 'Es ist ein Fehler aufgetreten.',
+              position: 'is-top',
+              type: 'is-danger',
+            });
+            return;
+          }
 
-      try {
-        await this.$store.dispatch('rental/cancelBooking', booking.id);
-      } catch (error) {
-        debug(error);
-        this.$buefy.toast.open({
-          message: 'Es ist ein Fehler aufgetreten.',
-          position: 'is-top',
-          type: 'is-danger',
-        });
-        return;
-      }
+          await this.loadBookings();
 
-      await this.loadBookings();
-
-      this.$buefy.toast.open({
-        message: 'Deine Reservierung wurde erfolgreich storniert.',
-        position: 'is-top',
-        type: 'is-light',
+          this.$buefy.toast.open({
+            message: 'Deine Reservierung wurde erfolgreich storniert.',
+            position: 'is-top',
+            type: 'is-light',
+          });
+        },
       });
     },
   },
@@ -126,9 +141,12 @@ export default {
 
     .date {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
       margin-bottom: 1rem;
+      > * {
+        margin: 0 0.5rem;
+      }
     }
 
     .actions {
