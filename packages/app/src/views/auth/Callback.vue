@@ -6,6 +6,9 @@
 
 <script>
 import Store from '@/store';
+import Debug from '@/libs/debug';
+
+const debug = Debug('AuthCallback');
 
 export default {
   name: 'AuthCallback',
@@ -25,7 +28,7 @@ export default {
 
     const { redirectUrl } = Store.state.auth;
 
-    console.log('url', redirectUrl);
+    debug(redirectUrl);
 
     if (redirectUrl) {
       this.$router.push({ path: redirectUrl });

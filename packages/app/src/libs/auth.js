@@ -1,5 +1,8 @@
 import Oidc from 'oidc-client';
 import config from '@/libs/config';
+// import Debug from '@/libs/debug';
+
+// const debug = Debug('Subscriptions');
 
 const APP_URL = config('url', 'http://localhost:8080');
 const OIDC_URL = config('oidc_url');
@@ -34,14 +37,14 @@ const mgr = new Oidc.UserManager({
 // });
 
 // mgr.events.addAccessTokenExpiring(function () {
-//   // console.log('AccessToken Expiring：', arguments);
+//   // debug('AccessToken Expiring：', arguments);
 // });
 
 // mgr.events.addAccessTokenExpired(function () {
 //   mgr.signoutRedirect().then(function (resp) {
 //     store.commit('set_user', null); //clear user details in vuex
 //   }).catch(function (err) {
-//     console.log(err)
+//     debug(err)
 //   })
 // });
 
@@ -53,7 +56,7 @@ const mgr = new Oidc.UserManager({
 //   mgr.signoutRedirect().then(function (resp) {
 //     store.commit('set_user', null); //clear user details in vuex
 //   }).catch(function (err) {
-//     console.log(err)
+//     debug(err)
 //   })
 // });
 

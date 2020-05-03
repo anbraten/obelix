@@ -1,4 +1,7 @@
 import Api from '@/libs/api';
+import Debug from '@/libs/debug';
+
+const debug = Debug('Subscriptions');
 
 export default (store) => {
   // general socket listeners
@@ -11,7 +14,7 @@ export default (store) => {
   });
 
   Api.on('authenticated', () => {
-    console.log('Properly connected');
+    debug('Properly connected');
   });
 
   Api.on('unauthorized', async (msg) => {
