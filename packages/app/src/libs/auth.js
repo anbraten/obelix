@@ -1,15 +1,15 @@
 import Oidc from 'oidc-client';
 import config from '@/libs/config';
-// import Debug from '@/libs/debug';
+import Debug from '@/libs/debug';
 
-// const debug = Debug('Subscriptions');
+const debug = Debug('Subscriptions');
 
 const APP_URL = config('url', 'http://localhost:8080');
 const OIDC_URL = config('oidc_url');
 const OIDC_CLIENT_ID = config('oidc_client_id');
 
 if (!OIDC_URL || !OIDC_CLIENT_ID) {
-  console.error('OIDC is ot properly configured!');
+  debug('OIDC is ot properly configured!');
 }
 
 const mgr = new Oidc.UserManager({
