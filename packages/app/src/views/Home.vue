@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div class="title">Herzlich Willkommen bei Obelix.</div>
+    <div class="home-title">Herzlich Willkommen bei Obelix.</div>
 
     <!--
     <div class="categories">
@@ -9,7 +9,6 @@
     -->
 
     <div class="head">
-
     </div>
 
     <BookingsList />
@@ -40,7 +39,8 @@ export default {
   padding: 1rem 0;
 }
 
-.title {
+.home-title {
   font-size: 1.5rem;
+  text-align: center;
 }
 </style>
