@@ -4,6 +4,9 @@ const socketIo = require('socket.io');
 const socketioJwt = require('socketio-jwt');
 const http = require('http');
 
+const createSocket = require('./socket');
+const db = require('./db');
+
 const app = express();
 const server = http.createServer(app);
 
@@ -43,16 +46,32 @@ function start() {
       timeout: 15000, // 15 seconds to send the authentication message
     }))
     .on('authenticated', (socket) => {
-      connectedClients += 1;
       // this socket is authenticated, we are good to handle more events from it.
-      console.log(`hello! ${socket.decoded_token.name}`);
+      connectedClients += 1;
+
+      const user = {
+        id: socket.decoded_token.sub,
+        name: socket.decoded_token.name,
+        email: socket.decoded_token.email,
+      };
+
+      // check if user already exists
+      if (db.get('users').find({ id: user.id }).value()) {
+        // update user data
+        db.get('users').find({ id: user.id }).assign(user).write();
+      } else {
+        // add user data to db
+        db.get('users').push(user).write();
+      }
+
+      createSocket(socket);
     })
     .on('disconnect', () => {
       connectedClients -= 1;
     });
 
   server.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}!`);
+    console.log(`Server listening on port ${PORT}! (env: ${process.env.NODE_ENV})`);
   });
 }
 
