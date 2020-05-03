@@ -15,11 +15,6 @@ Vue.use(VueRouter);
 const routes = [
   // auth routes
   {
-    path: '/auth/login',
-    name: 'auth-login',
-    component: () => import(/* webpackChunkName: "auth-login" */ '../views/auth/Login.vue'),
-  },
-  {
     path: '/auth/callback',
     name: 'auth-callback',
     component: () => import(/* webpackChunkName: "auth-callback" */ '../views/auth/Callback.vue'),
@@ -83,7 +78,8 @@ router.beforeEach(async (to, from, next) => {
     // authentication is required. Trigger the sign in process, including the return URI
     Store.commit('auth/setRedirectUrl', to.path);
 
-    next({ name: 'auth-login' });
+    // start authentication
+    await Store.dispatch('auth/authenticate');
     return;
   }
 

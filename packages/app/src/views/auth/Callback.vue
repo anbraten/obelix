@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <p>Sign-in in progress</p>
-    </div>
+  <b-loading :is-full-page="true" :active="true" :can-cancel="false" />
 </template>
 
 <script>

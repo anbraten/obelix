@@ -9,7 +9,7 @@ const OIDC_URL = config('oidc_url');
 const OIDC_CLIENT_ID = config('oidc_client_id');
 
 if (!OIDC_URL || !OIDC_CLIENT_ID) {
-  debug('OIDC is ot properly configured!');
+  debug('OIDC is not properly configured!');
 }
 
 const mgr = new Oidc.UserManager({
@@ -21,14 +21,14 @@ const mgr = new Oidc.UserManager({
   post_logout_redirect_uri: `${APP_URL}/`,
   userStore: new Oidc.WebStorageStateStore({ store: window.localStorage }),
 
-  automaticSilentRenew: true,
-  silent_redirect_uri: `${APP_URL}/static/silent-renew.html`,
-  accessTokenExpiringNotificationTime: 10,
-  filterProtocolClaims: true,
+  // automaticSilentRenew: true,
+  // silent_redirect_uri: `${APP_URL}/static/silent-renew.html`,
+  // accessTokenExpiringNotificationTime: 10,
+  // filterProtocolClaims: true,
   // loadUserInfo: true,
 });
 
-// Oidc.Log.logger = console;
+Oidc.Log.logger = console;
 // Oidc.Log.level = Oidc.Log.INFO;
 
 // mgr.events.addUserLoaded(async function (user) {

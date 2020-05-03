@@ -54,7 +54,7 @@ export default {
     },
 
     async logout() {
-      await auth.signinRedirect();
+      await auth.signoutRedirect();
       await auth.removeUser();
     },
   },
