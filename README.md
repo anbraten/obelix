@@ -41,6 +41,3 @@ yarn lint
 
 yarn lint:fix
 ```
-
-## Roadmap
-See [Roadmap](https://github.com/anbraten/obelix/projects/1)
