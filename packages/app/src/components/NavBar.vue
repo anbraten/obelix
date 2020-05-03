@@ -1,8 +1,8 @@
 <template>
   <div class="top">
-    <div class="navbar">
+    <div class="nav">
       <div class="inner">
-        <router-link :to="{ name: 'home' }" class="title">{{ title }}</router-link>
+        <router-link :to="{ name: 'home' }" class="nav-title">{{ title }}</router-link>
         <div class="stretch" />
         <template v-if="isAuthenticated">
           <span>{{ userFullName }}</span>
@@ -45,70 +45,70 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .navbar {
-    position: fixed;
-    display: flex;
-    width: 100%;
-    padding: 1rem;
-    box-shadow: 0 1px 8px -1px rgba(0, 0, 0, .5);
-    z-index: 1000;
-    background: #fff;
+.nav {
+  position: fixed;
+  display: flex;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 1px 8px -1px rgba(0, 0, 0, .5);
+  z-index: 1000;
+  background: #fff;
 
-    .inner {
-      position: relative;
-      display: flex;
-      align-items: center;
-      flex-flow: row;
-      width: 100%;
-      max-width: 40rem;
-      margin: 0 auto;
-      padding: 0 0.5rem;
-    }
-  }
-
-  .top {
+  .inner {
     position: relative;
+    display: flex;
+    align-items: center;
+    flex-flow: row;
+    width: 100%;
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: 0 0.5rem;
   }
+}
 
-  .placeholder {
-    display: block;
-    height: calc(2rem + (1rem + 1px)); // padding + text size
-  }
+.top {
+  position: relative;
+}
 
-  .right {
-    margin-left: auto;
-  }
+.placeholder {
+  display: block;
+  height: calc(2rem + (1rem + 1px)); // padding + text size
+}
 
-  .title, span {
-    color: #333;
-    text-decoration: none;
-    font-size: 1.1rem;
-  }
+.right {
+  margin-left: auto;
+}
 
-  .stretch {
-    margin-left: auto;
-  }
+.nav-title, span {
+  color: #333;
+  text-decoration: none;
+  font-size: 1.1rem;
+}
 
-  .offline {
-    i {
-      position: relative;
-      margin-left: 1rem;
+.stretch {
+  margin-left: auto;
+}
 
-      &::after {
-        position: absolute;
-        top: 60%;
-        left: 60%;
-        width: 120%;
-        height: .2rem;
-        background: red;
-        transform: translate(-50%, -50%) rotate(45deg);
-        content: '';
-      }
+.offline {
+  i {
+    position: relative;
+    margin-left: 1rem;
+
+    &::after {
+      position: absolute;
+      top: 60%;
+      left: 60%;
+      width: 120%;
+      height: .2rem;
+      background: red;
+      transform: translate(-50%, -50%) rotate(45deg);
+      content: '';
     }
   }
+}
 
-  .logout {
-    margin-left: 1rem;
-    cursor: pointer;
-  }
+.logout {
+  margin-left: 1rem;
+  cursor: pointer;
+}
 </style>

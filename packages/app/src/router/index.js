@@ -32,9 +32,15 @@ const routes = [
 
   // protected routes
   {
-    path: '/',
+    path: '/:date?',
     name: 'home',
     component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/booking/create',
+    name: 'booking-create',
+    component: () => import(/* webpackChunkName: "booking-create" */ '../views/BookingCreate.vue'),
     meta: { requiresAuth: true },
   },
   {

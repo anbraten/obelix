@@ -4,12 +4,14 @@ import config from '@/libs/config';
 import subscribe from '@/libs/subscriptions';
 
 import Auth from './auth';
+import Rental from './rental';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   modules: {
     auth: Auth,
+    rental: Rental,
   },
 
   state: {

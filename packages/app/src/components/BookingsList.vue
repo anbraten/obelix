@@ -1,0 +1,161 @@
+<template>
+  <div class="bookings">
+
+    <div class="head">
+      <div class="date">
+        <div @click="prevDay" class="prevDay button"><i class="fas fa-backward" /></div>
+        <div class="selectedDate">
+          {{ this.selectedDate | date }}
+        </div>
+        <div @click="today" class="today button">Heute</div>
+        <div @click="nextDay" class="nextDay button"><i class="fas fa-forward" /></div>
+      </div>
+
+      <div class="actions">
+        <b-button @click="newBooking" class="button">Boot ausleihen</b-button>
+      </div>
+    </div>
+
+    <template v-if="bookings && bookings.length > 0">
+      <div v-for="booking in bookings" :key="booking.id" class="booking">
+        <span class="rentable">{{ booking.rentable.name }}</span>
+        <span class="user">{{ booking.user.name }}</span>
+        <span class="time">{{ booking.startTime }} - {{ booking.endTime }}</span>
+        <div class="cancel" @click="cancelBooking(booking)">x</div>
+      </div>
+    </template>
+
+    <div v-else class="empty">
+      <span>Es liegen noch keine Reservierungen vor!</span>
+    </div>
+  </div>
+</template>
+
+<script>
+import moment from 'moment';
+
+export default {
+  name: 'BookingsList',
+
+  data() {
+    return {
+      selectedDate: moment().format('YYYY-MM-DD'),
+    };
+  },
+
+  computed: {
+    bookings() {
+      const { bookings } = this.$store.state.rental;
+
+      // TODO: sort by start-time
+      return bookings[this.selectedDate] || [];
+    },
+  },
+
+  watch: {
+    async selectedDate() {
+      await this.loadBookings();
+    },
+  },
+
+  async created() {
+    await this.loadBookings();
+  },
+
+  methods: {
+    today() {
+      this.selectedDate = moment().format('YYYY-MM-DD');
+    },
+    nextDay() {
+      // TODO: max 7 days from today
+      this.selectedDate = moment(this.selectedDate).add(1, 'days').format('YYYY-MM-DD');
+    },
+    prevDay() {
+      this.selectedDate = moment(this.selectedDate).subtract(1, 'days').format('YYYY-MM-DD');
+    },
+    newBooking() {
+      this.$router.push({ name: 'booking-create', params: { date: this.selectedDate } });
+    },
+    async loadBookings() {
+      await this.$store.dispatch('rental/getBookings', this.selectedDate);
+    },
+    async cancelBooking(booking) {
+      // TODO: show confirm
+
+      try {
+        await this.$store.dispatch('rental/cancelBooking', booking.id);
+      } catch (error) {
+        console.log(error);
+        this.$buefy.toast.open({
+          message: 'Es ist ein Fehler aufgetreten.',
+          position: 'is-top',
+          type: 'is-danger',
+        });
+        return;
+      }
+
+      await this.loadBookings();
+
+      this.$buefy.toast.open({
+        message: 'Deine Reservierung wurde erfolgreich storniert.',
+        position: 'is-top',
+        type: 'is-light',
+      });
+    },
+  },
+
+  filters: {
+    date(date) {
+      return moment(date).format('dddd - D. MMMM YYYY');
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.bookings {
+  display: flex;
+  flex-flow: column;
+  margin-top: 2rem;
+
+  .head {
+    margin-bottom: 2rem;
+
+    .date {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .empty {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.booking {
+  display: flex;
+  padding: 0.5rem 1rem;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-shadow: inset 0 -1px 0 0 rgba(100,121,143,0.122);
+  text-align: left;
+  cursor: pointer;
+
+  &:hover {
+    -webkit-box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+    box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+    z-index: 1;
+  }
+}
+</style>

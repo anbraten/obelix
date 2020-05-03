@@ -5,6 +5,7 @@ import '@/libs/api';
 import tracking from '@/libs/tracking';
 import '@/registerServiceWorker';
 import App from './App.vue';
+import '@/libs/buefy';
 
 Vue.config.productionTip = false;
 
