@@ -141,6 +141,10 @@ export default {
   },
 
   async mounted() {
+    if (this.$route.params.date) {
+      this.booking.date = moment(this.$route.params.date).toDate();
+    }
+
     await this.$store.dispatch('rental/getCategories');
   },
 

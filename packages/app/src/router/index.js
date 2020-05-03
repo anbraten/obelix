@@ -33,7 +33,7 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/booking/create',
+    path: '/booking/create/:date?',
     name: 'booking-create',
     component: () => import(/* webpackChunkName: "booking-create" */ '../views/BookingCreate.vue'),
     meta: { requiresAuth: true },
