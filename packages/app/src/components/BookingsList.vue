@@ -45,10 +45,13 @@ export default {
 
   computed: {
     bookings() {
-      const { bookings } = this.$store.state.rental;
+      let { bookings } = this.$store.state.rental;
 
-      // TODO: sort by start-time
-      return bookings[this.selectedDate] || [];
+      bookings = bookings[this.selectedDate] || [];
+
+      bookings = bookings.sort((a, b) => new Date(`1970/01/01 ${a.startTime}`) - new Date(`1970/01/01 ${b.startTime}`));
+
+      return bookings;
     },
     selectedDate() {
       if (this.$route.params.date) {
