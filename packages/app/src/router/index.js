@@ -27,9 +27,15 @@ const routes = [
 
   // protected routes
   {
-    path: '/:date?',
+    path: '/',
     name: 'home',
-    component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue'),
+    redirect: { name: 'bookings' },
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/bookings/:date?',
+    name: 'bookings',
+    component: () => import(/* webpackChunkName: "home" */ '../views/Bookings.vue'),
     meta: { requiresAuth: true },
   },
   {

@@ -1,5 +1,5 @@
 <template>
-  <div class="notFound">
+  <div class="not-found">
     <h1>OOPS!</h1>
     <h2>Seite nicht gefunden.</h2>
     <router-link :to="{ name: 'home' }">Zurück zur Startseite</router-link>
@@ -13,8 +13,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .notFound {
-    margin: auto 0;
+  .not-found {
+    margin: auto;
+    text-align: center;
 
     h1 {
       font-size: 5rem;

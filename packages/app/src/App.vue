@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <NavBar />
-    <router-view/>
+    <router-view />
     <Footer />
     <Snackbar :show="updateExists" text="Es steht ein neues Update bereit" action="Installieren" @click="refreshApp" />
   </div>
@@ -14,11 +14,13 @@ import Snackbar from '@/components/Snackbar.vue';
 
 export default {
   name: 'App',
+
   components: {
     NavBar,
     Footer,
     Snackbar,
   },
+
   data() {
     return {
       refreshing: false,
@@ -26,6 +28,7 @@ export default {
       registration: null,
     };
   },
+
   created() {
     // Listen for swUpdated event and display refresh snackbar as required.
     document.addEventListener('swUpdated', this.showRefreshUI, { once: true });
@@ -37,6 +40,7 @@ export default {
       window.location.reload(true);
     });
   },
+
   methods: {
     showRefreshUI(e) {
       // Display a snackbar inviting the user to refresh/reload the app due
