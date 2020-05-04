@@ -17,7 +17,7 @@
     "lint": "yarn workspaces run lint",
     "lint:fix": "yarn workspaces run lint --fix",
     "generate:config": "./docker/set-env-vars.sh ./packages/app/public/env-config.js",
-    "release": "lerna version --conventional-commits --create-release github"
+    "release": "dotenv lerna version --conventional-commits --create-release github"
   },
   "resolutions": {
     "**/workbox-webpack-plugin": "5.0.0"
