@@ -4,23 +4,6 @@ import Debug from '@/libs/debug';
 
 const debug = Debug('subscriptions');
 
-async function connectApi(store) {
-  // if socket is already connected it is authenticated as well
-  if (store.state.isConnected) {
-    debug('already connected');
-    return;
-  }
-
-  await store.dispatch('auth/loadUser');
-
-  // don't connect without token
-  if (!store.getters['auth/isAuthenticated']) {
-    return;
-  }
-
-  Api.open();
-}
-
 export default async (store) => {
   // general socket listeners
   Api.on('connect', async () => {
@@ -51,8 +34,7 @@ export default async (store) => {
   // auth listeners
   Auth.events.addUserLoaded(async (user) => {
     debug(`user loaded ${user}`);
-
-    await connectApi(store);
+    // TODO: update user data?
   });
 
   Auth.events.addUserUnloaded(async () => {
@@ -77,6 +59,4 @@ export default async (store) => {
   Auth.events.addSilentRenewError((...args) => {
     debug(`silent token renew error：${args}`);
   });
-
-  await connectApi(store);
 };

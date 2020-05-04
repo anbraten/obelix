@@ -8,9 +8,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import NavBar from '@/components/NavBar.vue';
 import Footer from '@/components/Footer.vue';
 import UpdateBar from '@/components/UpdateBar.vue';
+
+import Api from '@/libs/api';
 
 export default {
   name: 'App',
@@ -19,6 +23,23 @@ export default {
     NavBar,
     Footer,
     UpdateBar,
+  },
+
+  computed: {
+    ...mapState([
+      'isConnected',
+    ]),
+    ...mapState('auth', [
+      'user',
+    ]),
+  },
+
+  watch: {
+    user(user) {
+      if (user) {
+        Api.open();
+      }
+    },
   },
 };
 </script>
