@@ -21,13 +21,15 @@
         <span class="rentable">{{ booking.rentable.name }}</span>
         <span class="user">{{ booking.user.name }}</span>
         <span class="time">{{ booking.startTime }} - {{ booking.endTime }}</span>
-        <div v-if="booking.user.id === userId" class="cancel" @click="cancelBooking(booking)"><i class="fas fa-trash" /></div>
+        <div class="cancel" @click="cancelBooking(booking)"><i v-if="booking.user.id === userId" class="fas fa-trash" /></div>
       </div>
     </template>
 
-    <div v-else class="empty">
+    <div v-else-if="bookings.length === 0" class="empty">
       <span>Es liegen noch keine Reservierungen vor!</span>
     </div>
+
+    <b-loading v-else :is-full-page="true" :active="true" :can-cancel="false" />
   </div>
 </template>
 
@@ -68,6 +70,12 @@ export default {
   },
 
   async created() {
+    if (!moment(this.selectedDate, 'YYYY-MM-DD', true).isValid()) {
+      const date = moment().format('YYYY-MM-DD');
+      this.$router.replace({ params: { date } });
+      return;
+    }
+
     await this.loadBookings();
   },
 
@@ -167,17 +175,31 @@ export default {
   display: flex;
   padding: 0.5rem 1rem;
   flex-flow: row;
-  align-items: center;
-  justify-content: space-between;
   width: 100%;
   box-shadow: inset 0 -1px 0 0 rgba(100,121,143,0.122);
-  text-align: left;
   cursor: pointer;
 
   &:hover {
     -webkit-box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
     box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
     z-index: 1;
+  }
+
+  .rentable {
+    width: 30%;
+  }
+
+  .user {
+    width: 45%;
+  }
+
+  .time {
+    width: 20%;
+  }
+
+  .cancel {
+    text-align: right;
+    width: 5%;
   }
 }
 </style>
