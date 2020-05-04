@@ -4,7 +4,7 @@ import Debug from '@/libs/debug';
 
 const debug = Debug('Auth');
 
-const APP_URL = config('url', 'http://localhost:8080');
+const APP_URL = `${window.location.protocol}//${window.location.host}`;
 const OIDC_URL = config('oidc_url');
 const OIDC_CLIENT_ID = config('oidc_client_id');
 
