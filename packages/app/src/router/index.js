@@ -65,7 +65,7 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
   Store.commit('setTitle', to.meta.title);
 
-  await Store.dispatch('auth/getUser');
+  await Store.dispatch('auth/loadUser');
 
   const isAuthenticated = Store.getters['auth/isAuthenticated'];
   if (isAuthenticated) {

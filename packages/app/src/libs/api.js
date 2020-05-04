@@ -6,6 +6,7 @@ const url = config('backend_url', `${window.location.protocol}//${window.locatio
 const socket = io(url, {
   path: '/api/socket',
   transports: ['websocket'], // websocket only
+  autoConnect: false, // we connecton by hand after getting a user token
 });
 
 export default socket;

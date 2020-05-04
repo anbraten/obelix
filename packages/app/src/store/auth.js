@@ -1,7 +1,7 @@
 import auth from '@/libs/auth';
 import Debug from '@/libs/debug';
 
-const debug = Debug('auth');
+const debug = Debug('store-auth');
 
 const KEY_REDIRECT_URL = 'redirect_url';
 
@@ -21,6 +21,7 @@ export default {
 
   mutations: {
     setUser(state, user) {
+      debug(`user set: ${user !== null}`);
       state.user = user;
     },
     setRedirectUrl(state, redirectUrl) {
@@ -30,19 +31,25 @@ export default {
   },
 
   actions: {
-    async authenticate({ dispatch, commit }) {
-      const user = await dispatch('getUser');
-
-      if (user) {
-        commit('setUser', user);
-      } else {
-        await auth.signinRedirect();
+    async authenticate({ state }) {
+      // already authenticated
+      if (state.user) {
+        return;
       }
+
+      await auth.signinRedirect();
     },
 
-    async getUser({ commit }) {
+    async loadUser({ commit, state }) {
+      // skip if user already loaded
+      if (state.user) {
+        debug('user already loaded');
+        return;
+      }
+
       try {
         const user = await auth.getUser();
+        debug('get user done');
         commit('setUser', user);
       } catch (err) {
         debug(err);
@@ -55,7 +62,6 @@ export default {
 
     async logout() {
       await auth.signoutRedirect();
-      await auth.removeUser();
     },
   },
 };
