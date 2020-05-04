@@ -34,6 +34,7 @@
 <script>
 import moment from 'moment';
 import Debug from '@/libs/debug';
+import { get } from 'lodash';
 
 const debug = Debug('BookingsList');
 
@@ -56,7 +57,7 @@ export default {
       return moment().format('YYYY-MM-DD');
     },
     userId() {
-      return this.$store.state.auth.user.profile.sub;
+      return get(this, '$store.state.auth.user.profile.sub', null);
     },
   },
 
