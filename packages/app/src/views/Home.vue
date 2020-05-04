@@ -1,7 +1,5 @@
 <template>
   <div class="home">
-    <div class="home-title">Herzlich Willkommen bei Obelix.</div>
-
     <!--
     <div class="categories">
       <CategoryCard v-for="category in categories" :key="category.id" :category="category" />
