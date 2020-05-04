@@ -21,7 +21,11 @@ export default {
 
   mutations: {
     setUser(state, user) {
-      debug(`user set: ${user !== null}`);
+      if (user === null) {
+        debug('user unset');
+      } else {
+        debug('user set');
+      }
       state.user = user;
     },
     setRedirectUrl(state, redirectUrl) {
@@ -43,13 +47,13 @@ export default {
     async loadUser({ commit, state }) {
       // skip if user already loaded
       if (state.user) {
-        debug('user already loaded');
+        // debug('user already loaded');
         return;
       }
 
       try {
         const user = await auth.getUser();
-        debug('get user done');
+        // debug('get user done');
         commit('setUser', user);
       } catch (err) {
         debug(err);
