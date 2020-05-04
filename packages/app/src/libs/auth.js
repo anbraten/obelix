@@ -17,7 +17,7 @@ const settings = {
   client_id: OIDC_CLIENT_ID,
   redirect_uri: `${APP_URL}/auth/callback`,
   response_type: 'code',
-  scope: 'openid profile email api1',
+  scope: 'openid profile email roles',
   post_logout_redirect_uri: `${APP_URL}/`,
   userStore: new Oidc.WebStorageStateStore({ store: window.localStorage }),
   filterProtocolClaims: true,

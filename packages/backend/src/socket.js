@@ -1,4 +1,5 @@
 const uuid = require('uuid').v4;
+const { get } = require('lodash');
 const db = require('./db');
 
 function createSocket(socket) {
@@ -60,6 +61,21 @@ function createSocket(socket) {
 
     db.get('bookings').remove({ id: bookingId }).write();
     socket.emit('cancelBooking', { success: true });
+  });
+
+  socket.on('createRentable', (rentable) => {
+    const roles = get(socket, 'decoded_token.resource_access.obelix.roles', []);
+    console.log(roles);
+
+    if (!roles || !roles.includes('admin')) {
+      socket.emit('createRentable', { error: 'access denied' });
+      return;
+    }
+
+    rentable.id = uuid();
+
+    db.get('rentables').push(rentable).write();
+    socket.emit('createRentable', rentable);
   });
 }
 

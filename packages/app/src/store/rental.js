@@ -74,5 +74,19 @@ export default {
         Api.emit('cancelBooking', booking);
       });
     },
+
+    createRentable(context, rentable) {
+      return new Promise((resolve, reject) => {
+        Api.once('createRentable', (result) => {
+          if (result.error) {
+            reject(result.error);
+          } else {
+            resolve(result);
+          }
+        });
+
+        Api.emit('createRentable', rentable);
+      });
+    },
   },
 };

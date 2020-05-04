@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
+import RouterWrapper from '@/components/RouterWrapper.vue';
 import Store from '@/store';
 
 Vue.use(VueRouter);
@@ -52,6 +53,26 @@ const routes = [
       title: 'About',
       requiresAuth: true,
     },
+  },
+  {
+    path: '/admin',
+    component: RouterWrapper,
+    meta: {
+      title: 'Admin',
+      requiresAuth: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'admin',
+        component: () => import(/* webpackChunkName: "admin" */ '../views/admin/Admin.vue'),
+      },
+      {
+        path: '/category/:category',
+        name: 'admin-category',
+        component: () => import(/* webpackChunkName: "admin-category" */ '../views/admin/AdminCategory.vue'),
+      },
+    ],
   },
 
   // 404

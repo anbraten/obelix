@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "lodash": "^4.17.15",
     "lowdb": "^1.0.0",
     "querystring": "^0.2.0",
     "socket.io": "^2.3.0",
