@@ -36,7 +36,6 @@ export const timeBetween = (start, min, max) => helpers.withParams({
   const startDate = moment(startValue, 'HH:mm');
   const endDate = moment(endValue, 'HH:mm');
   const duration = moment.duration(endDate.diff(startDate)).asHours();
-  console.log(startValue, endValue, duration);
   return duration >= min && duration <= max;
 });
 
