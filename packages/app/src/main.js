@@ -7,6 +7,7 @@ import '@/registerServiceWorker';
 import App from './App.vue';
 import '@/libs/buefy';
 import '@/libs/sentry';
+import '@/libs/vuelidate';
 
 Vue.config.productionTip = false;
 
