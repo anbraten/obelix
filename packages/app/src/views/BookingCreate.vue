@@ -39,7 +39,7 @@
       </b-step-item>
 
       <b-step-item icon="ship">
-        <div class="step-title">Wähle ein Boots-Typen aus.</div>
+        <div class="step-title">Wähle einen Boots-Typen aus.</div>
         <template v-if="categories">
           <div v-for="category in categories" :key="category.id" @click="selectCategory(category)" class="rentable">
             <span>{{ category.name }}</span>
