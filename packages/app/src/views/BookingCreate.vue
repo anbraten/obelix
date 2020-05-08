@@ -98,6 +98,7 @@ import {
   time,
   timeLater,
   futureDate,
+  timeBetween,
 } from '@/libs/vuelidate';
 
 export default {
@@ -139,6 +140,7 @@ export default {
       endTime: {
         required,
         time,
+        timeBetween: timeBetween('startTime', 1, 4), // min 1 hours, max 4 hours
         timeLater: timeLater('startTime'),
       },
     },

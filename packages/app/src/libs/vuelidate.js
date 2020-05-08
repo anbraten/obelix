@@ -12,12 +12,32 @@ Vue.use(vuelidateErrorExtractor, {
   messages: {
     time: '{attribute} muss im 24-Stundenformat angegeben sein. Bsp: 17:45',
     timeLater: '{attribute} muss später als {earlier} sein.',
+    timeBetween: '{attribute} muss mindesten {min} und maximal {max} Stunden nach {start} sein.',
   },
 });
 
 export const timeLater = (earlier) => helpers.withParams({ type: 'timeLater', earlier }, (value, parentVm) => {
   const earlierValue = helpers.ref(earlier, this, parentVm);
   return value >= earlierValue;
+});
+
+export const timeBetween = (start, min, max) => helpers.withParams({
+  type: 'timeBetween',
+  start,
+  min,
+  max,
+}, (endValue, parentVm) => {
+  const startValue = helpers.ref(start, this, parentVm);
+
+  if (!helpers.req(endValue) || !helpers.req(startValue)) {
+    return true;
+  }
+
+  const startDate = moment(startValue, 'HH:mm');
+  const endDate = moment(endValue, 'HH:mm');
+  const duration = moment.duration(endDate.diff(startDate)).asHours();
+  console.log(startValue, endValue, duration);
+  return duration >= min && duration <= max;
 });
 
 export const futureDate = (value) => {
