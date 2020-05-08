@@ -1,5 +1,6 @@
 import auth from '@/libs/auth';
 import Debug from '@/libs/debug';
+import Sentry from '@/libs/sentry';
 
 const debug = Debug('store-auth');
 
@@ -24,6 +25,11 @@ export default {
       if (user === null) {
         debug('user unset');
       } else {
+        // set sentry user data
+        if (user.profile && user.profile.email) {
+          Sentry.setUser({ email: user.profile.email });
+        }
+
         debug('user set');
       }
       state.user = user;

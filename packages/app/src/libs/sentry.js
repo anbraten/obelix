@@ -12,3 +12,5 @@ if (config('sentry_dsn')) {
     integrations: [new Integrations.Vue({ Vue, attachProps: true })],
   });
 }
+
+export default Sentry;
