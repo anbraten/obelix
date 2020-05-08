@@ -21,7 +21,11 @@
         <span class="rentable">{{ booking.rentable.name }}</span>
         <span class="user">{{ booking.user.name }}</span>
         <span class="time">{{ booking.startTime }} - {{ booking.endTime }}</span>
-        <div class="cancel" @click="cancelBooking(booking)"><i v-if="booking.user.id === userId" class="fas fa-trash" /></div>
+        <div class="actions">
+          <template v-if="booking.canCancel">
+            <i @click="cancelBooking(booking)" class="fas fa-trash" />
+          </template>
+        </div>
       </div>
     </template>
 
@@ -50,6 +54,17 @@ export default {
       bookings = bookings[this.selectedDate] || [];
 
       bookings = bookings.sort((a, b) => new Date(`1970/01/01 ${a.startTime}`) - new Date(`1970/01/01 ${b.startTime}`));
+
+      bookings = bookings.map((booking) => {
+        const date = moment(`${booking.date} ${booking.startTime}`, 'YYYY-MM-DD HH:mm');
+        const isInPast = moment().diff(date, 'hours') >= 0;
+        const canCancel = booking.user.id === this.userId && !isInPast;
+
+        return {
+          ...booking,
+          canCancel,
+        };
+      });
 
       return bookings;
     },
@@ -200,7 +215,7 @@ export default {
     width: 20%;
   }
 
-  .cancel {
+  .actions {
     text-align: right;
     width: 5%;
   }
