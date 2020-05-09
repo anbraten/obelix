@@ -14,7 +14,8 @@
             :value="selectedDate"
             @input="updateDate"
             :date-formatter="dateFormatter"
-            :min-date="today" />
+            :min-date="minDate"
+            :max-date="maxDate" />
         </form-group>
 
         <form-group :validator="$v.booking.startTime" label="Startzeit">
@@ -116,7 +117,6 @@ export default {
 
   data() {
     return {
-      today: moment().subtract(1, 'days').toDate(),
       activeStep: 0,
       selectedRentable: null,
       selectedCategory: null,
@@ -198,10 +198,17 @@ export default {
         };
       });
 
-      return rentables;
+      return rentables.sort((a, b) => a.name.localeCompare(b.name));
     },
     selectedDate() {
       return moment(this.booking.date, 'YYYY-MM-DD').toDate();
+    },
+    minDate() {
+      return moment().subtract(1, 'days').toDate();
+    },
+    maxDate() {
+      // TODO: allow user with trainer group to access 14 days
+      return moment().add(7, 'days').toDate();
     },
   },
 
