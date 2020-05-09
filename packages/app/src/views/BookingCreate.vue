@@ -80,8 +80,12 @@
           <b-field v-if="selectedRentable" label="Boot">
             <span>{{ selectedRentable.name }}</span>
           </b-field>
-          <b-field label="Notiz">
-            <b-input v-model="booking.note" maxlength="200" type="textarea"></b-input>
+          <b-field label="Bemerkung" grouped group-multiline>
+            <p class="control description">
+              <b-icon pack="fas" icon="info" size="is-small" />
+              <span>Du kannst hier eine öffentliche Bemerkung zu deiner Reservierung hinterlegen.</span>
+            </p>
+            <b-input v-model="booking.note" maxlength="200" type="textarea" expanded placeholder="Bsp: Ich werde wahrscheinlich Richtung Freudenholm fahren." />
           </b-field>
           <div class="actions">
             <b-button class="prev" @click="activeStep--">Zurück</b-button>
@@ -123,7 +127,7 @@ export default {
 
   data() {
     return {
-      activeStep: 0,
+      activeStep: 3,
       selectedRentable: null,
       selectedCategory: null,
       booking: {
