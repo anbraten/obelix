@@ -49,9 +49,7 @@ export default {
 
   computed: {
     bookings() {
-      let { bookings } = this.$store.state.rental;
-
-      bookings = bookings[this.selectedDate] || [];
+      let bookings = this.$store.state.rental.bookings[this.selectedDate] || [];
 
       bookings = bookings.sort((a, b) => new Date(`1970/01/01 ${a.startTime}`) - new Date(`1970/01/01 ${b.startTime}`));
 
