@@ -11,7 +11,7 @@
         <div @click="nextDay" class="nextDay button"><i class="fas fa-forward" /></div>
       </div>
 
-      <div class="actions">
+      <div v-if="canBook" class="actions">
         <b-button @click="newBooking" class="button">Boot ausleihen</b-button>
       </div>
     </div>
@@ -39,8 +39,17 @@
 
 <script>
 import moment from 'moment';
-import Debug from '@/libs/debug';
 import { get } from 'lodash';
+import Debug from '@/libs/debug';
+import {
+  isFutureDate,
+  diffFromToday,
+  dateFormat,
+  dateTimeFormat,
+  isPastDate,
+  isToday,
+  isValidDate,
+} from '@/libs/momentUtils';
 
 const debug = Debug('Bookings');
 
@@ -54,8 +63,8 @@ export default {
       bookings = bookings.sort((a, b) => new Date(`1970/01/01 ${a.startTime}`) - new Date(`1970/01/01 ${b.startTime}`));
 
       bookings = bookings.map((booking) => {
-        const date = moment(`${booking.date} ${booking.startTime}`, 'YYYY-MM-DD HH:mm');
-        const isInPast = moment().diff(date, 'hours') >= 0;
+        const date = moment(`${booking.date} ${booking.startTime}`, dateTimeFormat);
+        const isInPast = isPastDate(date, 'hours');
         const canCancel = booking.user.id === this.userId && !isInPast;
 
         return {
@@ -73,10 +82,16 @@ export default {
       }
 
       // default today
-      return moment().format('YYYY-MM-DD');
+      return moment().format(dateFormat);
     },
     userId() {
       return get(this, '$store.state.auth.user.profile.sub', null);
+    },
+    canBook() {
+      const date = moment(this.selectedDate, dateFormat);
+      const isInDiff = Math.abs(diffFromToday(date, 'days')) < 7;
+      // TODO: allow 28 days for trainer
+      return isToday(date) || (isFutureDate(date) && isInDiff);
     },
   },
 
@@ -86,10 +101,9 @@ export default {
     },
   },
 
-  async created() {
-    if (!moment(this.selectedDate, 'YYYY-MM-DD', true).isValid()) {
-      const date = moment().format('YYYY-MM-DD');
-      this.$router.replace({ params: { date } });
+  async mounted() {
+    if (!isValidDate(this.selectedDate)) {
+      this.$router.replace({ hash: null });
       return;
     }
 
@@ -101,11 +115,11 @@ export default {
       this.$router.replace({ params: { date: null } });
     },
     nextDay() {
-      const date = moment(this.selectedDate, 'YYYY-MM-DD').add(1, 'days').format('YYYY-MM-DD');
+      const date = moment(this.selectedDate, dateFormat).add(1, 'days').format(dateFormat);
       this.$router.replace({ hash: `#${date}` });
     },
     prevDay() {
-      const date = moment(this.selectedDate, 'YYYY-MM-DD').subtract(1, 'days').format('YYYY-MM-DD');
+      const date = moment(this.selectedDate, dateFormat).subtract(1, 'days').format(dateFormat);
       this.$router.replace({ hash: `#${date}` });
     },
     newBooking() {

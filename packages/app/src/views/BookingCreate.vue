@@ -107,6 +107,12 @@ import {
   futureDate,
   timeBetween,
 } from '@/libs/vuelidate';
+import {
+  timeRange,
+  dateFormat,
+  prettyDateFormat,
+  timeFormat,
+} from '@/libs/momentUtils';
 
 const moment = extendMoment(Moment);
 
@@ -166,10 +172,10 @@ export default {
       let bookings = this.$store.state.rental.bookings[this.booking.date] || [];
 
       // start & end time
-      const newBookingRange = moment.range(moment(this.booking.startTime, 'HH:mm'), moment(this.booking.endTime, 'HH:mm'));
+      const newBookingRange = timeRange(this.booking.startTime, this.booking.endTime);
 
       bookings = bookings.filter((booking) => {
-        const bookingRange = moment.range(moment(booking.startTime, 'HH:mm'), moment(booking.endTime, 'HH:mm'));
+        const bookingRange = timeRange(booking.startTime, booking.endTime);
         return newBookingRange.overlaps(bookingRange);
       });
 
@@ -201,13 +207,13 @@ export default {
       return rentables.sort((a, b) => a.name.localeCompare(b.name));
     },
     selectedDate() {
-      return moment(this.booking.date, 'YYYY-MM-DD').toDate();
+      return moment(this.booking.date, dateFormat).toDate();
     },
     minDate() {
       return moment().subtract(1, 'days').toDate();
     },
     maxDate() {
-      // TODO: allow user with trainer group to access 14 days
+      // TODO: allow 28 days for trainer
       return moment().add(7, 'days').toDate();
     },
   },
@@ -233,7 +239,7 @@ export default {
       this.booking.date = this.$route.hash.substr(1);
     } else {
       // today
-      this.booking.date = moment().format('YYYY-MM-DD');
+      this.booking.date = moment().format(dateFormat);
     }
 
     await this.$store.dispatch('rental/getCategories');
@@ -268,10 +274,10 @@ export default {
       // redirect to date overview
     },
     dateFormatter(date) {
-      return moment(date).format('DD.MM.YYYY');
+      return moment(date).format(prettyDateFormat);
     },
     updateDate(date) {
-      this.booking.date = moment(date).format('YYYY-MM-DD');
+      this.booking.date = moment(date).format(dateFormat);
       this.$v.booking.date.$touch();
     },
     updateStartTime({ target }) {
@@ -298,13 +304,13 @@ export default {
 
   filters: {
     date(date) {
-      return moment(date).format('DD.MM.YYYY');
+      return moment(date).format(prettyDateFormat);
     },
     time(date) {
       if (!date || !RegExp('\\d\\d:\\d\\d').test(date)) {
         return null;
       }
-      return moment(date, 'HH:mm').format('HH:mm');
+      return moment(date, timeFormat).format(timeFormat);
     },
   },
 };
