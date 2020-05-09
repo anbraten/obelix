@@ -34,13 +34,13 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/bookings/:date?',
+    path: '/bookings',
     name: 'bookings',
     component: () => import(/* webpackChunkName: "home" */ '../views/Bookings.vue'),
     meta: { requiresAuth: true },
   },
   {
-    path: '/booking/create/:date?',
+    path: '/booking/create',
     name: 'booking-create',
     component: () => import(/* webpackChunkName: "booking-create" */ '../views/BookingCreate.vue'),
     meta: { requiresAuth: true },

@@ -228,9 +228,11 @@ export default {
   },
 
   async mounted() {
-    if (this.$route.params.date) {
-      this.booking.date = this.$route.params.date;
+    if (this.$route.hash) {
+      // hash without #
+      this.booking.date = this.$route.hash.substr(1);
     } else {
+      // today
       this.booking.date = moment().format('YYYY-MM-DD');
     }
 
