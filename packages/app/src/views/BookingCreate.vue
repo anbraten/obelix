@@ -52,10 +52,15 @@
 
       <b-step-item icon="ship">
         <div class="step-title">Wähle ein Boot aus.</div>
-        <template v-if="selectedCategory && rentablesByCategory">
-          <div v-for="rentable in rentablesByCategory[selectedCategory.id]" :key="rentable.id" @click="selectRentable(rentable)" class="rentable">
-            <span>{{ rentable.name }}</span>
-          </div>
+        <template v-if="rentables">
+          <template v-for="rentable in rentables">
+            <div v-if="rentable.canBook" :key="rentable.id" @click="selectRentable(rentable)" class="rentable">
+              <span>{{ rentable.name }}</span>
+            </div>
+            <div v-else :key="rentable.id" @click="showAlreadyBookedAlert" class="rentable booked">
+              <span>{{ rentable.name }}</span>
+            </div>
+          </template>
         </template>
         <div class="actions">
          <b-button class="next" @click="activeStep--">Zurück</b-button>
@@ -89,8 +94,9 @@
 
 <script>
 import { mapState } from 'vuex';
-import { groupBy } from 'lodash';
-import moment from 'moment';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
+
 import { required } from 'vuelidate/lib/validators';
 
 import cleave from '@/libs/cleave';
@@ -100,6 +106,8 @@ import {
   futureDate,
   timeBetween,
 } from '@/libs/vuelidate';
+
+const moment = extendMoment(Moment);
 
 export default {
   name: 'BookingCreate',
@@ -114,8 +122,8 @@ export default {
       selectedCategory: null,
       booking: {
         date: null,
-        startTime: null,
-        endTime: null,
+        startTime: '',
+        endTime: '',
         note: null,
       },
       masks: {
@@ -148,15 +156,49 @@ export default {
 
   computed: {
     ...mapState('rental', [
-      'rentables',
       'categories',
     ]),
-    rentablesByCategory() {
-      if (!this.categories || !this.rentables) {
+    bookedRentables() {
+      if (!this.selectedCategory) {
         return null;
       }
 
-      return groupBy(this.rentables, (rentable) => rentable.category);
+      let bookings = this.$store.state.rental.bookings[this.booking.date] || [];
+
+      // start & end time
+      const newBookingRange = moment.range(moment(this.booking.startTime, 'HH:mm'), moment(this.booking.endTime, 'HH:mm'));
+
+      bookings = bookings.filter((booking) => {
+        const bookingRange = moment.range(moment(booking.startTime, 'HH:mm'), moment(booking.endTime, 'HH:mm'));
+        return newBookingRange.overlaps(bookingRange);
+      });
+
+      const bookedRentables = bookings.map((booking) => booking.rentable.id);
+
+      return bookedRentables;
+    },
+    rentables() {
+      if (!this.selectedCategory) {
+        return null;
+      }
+
+      let rentables = this.$store.state.rental.rentables || [];
+      rentables = rentables.filter((rentable) => rentable.category === this.selectedCategory.id);
+
+      rentables = rentables.map((rentable) => {
+        let canBook = true;
+
+        if (this.bookedRentables.includes(rentable.id)) {
+          canBook = false;
+        }
+
+        return {
+          ...rentable,
+          canBook,
+        };
+      });
+
+      return rentables;
     },
     selectedDate() {
       return moment(this.booking.date, 'YYYY-MM-DD').toDate();
@@ -168,11 +210,11 @@ export default {
       // step: select category
       if (step === 1) {
         this.$store.dispatch('rental/getCategories');
+        this.$store.dispatch('rental/getBookings', this.booking.date);
       }
 
       // step: select rentable
       if (step === 2) {
-        // TODO: only get availabel rentables
         this.$store.dispatch('rental/getRentables');
       }
     },
@@ -230,6 +272,18 @@ export default {
     updateEndTime({ target }) {
       this.booking.endTime = target._vCleave.getFormattedValue();
       this.$v.booking.endTime.$touch();
+    },
+    showAlreadyBookedAlert() {
+      this.$buefy.dialog.alert({
+        title: 'Bereits reserviert!',
+        message: 'Dieses Boot ist in deinem gewählten Zeitraum leider schon reserviert.',
+        type: 'is-danger',
+        hasIcon: true,
+        icon: 'times-circle',
+        iconPack: 'fa',
+        ariaRole: 'alertdialog',
+        ariaModal: true,
+      });
     },
   },
 
@@ -300,6 +354,10 @@ export default {
     -webkit-box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
     box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
     z-index: 1;
+  }
+
+  &.booked {
+    background: #fff5f7;
   }
 }
 </style>
