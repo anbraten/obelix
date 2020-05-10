@@ -223,10 +223,11 @@ export default {
 
   .rentable {
     width: 50%;
+    margin-bottom: .25rem;
   }
 
   .user {
-    width: 50%;
+    width: 100%;
   }
 
   .time {
@@ -255,6 +256,7 @@ export default {
       order: 1;
       width: 30%;
       text-align: left;
+      margin-bottom: 0;
     }
 
     .user {
@@ -264,7 +266,7 @@ export default {
 
     .time {
       order: 3;
-      width: 20%;
+      width: 25%;
     }
 
     .actions {
