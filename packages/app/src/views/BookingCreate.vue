@@ -39,7 +39,7 @@
         </div>
       </b-step-item>
 
-      <b-step-item icon="ship">
+      <b-step-item icon="grip-horizontal">
         <div class="step-title">Wähle einen Boots-Typen aus.</div>
         <template v-if="categories">
           <div v-for="category in categories" :key="category.id" @click="selectCategory(category)" class="rentable">
@@ -55,11 +55,9 @@
         <div class="step-title">Wähle ein Boot aus.</div>
         <template v-if="rentables">
           <template v-for="rentable in rentables">
-            <div v-if="rentable.canBook" :key="rentable.id" @click="selectRentable(rentable)" class="rentable">
-              <span>{{ rentable.name }}</span>
-            </div>
-            <div v-else :key="rentable.id" @click="showAlreadyBookedAlert" class="rentable booked">
-              <span>{{ rentable.name }}</span>
+            <div :key="rentable.id" @click="selectRentable(rentable)" class="rentable" :class="rentable.canBook ? '' : 'booked'">
+              <span class="name"><b-icon pack="fas" icon="ship" size="is-small"/> {{ rentable.name }}</span>
+              <span v-if="rentable.bookingInfo" class="info"><b-icon pack="fas" icon="info" size="is-small"/> {{ rentable.bookingInfo }}</span>
             </div>
           </template>
         </template>
@@ -127,7 +125,7 @@ export default {
 
   data() {
     return {
-      activeStep: 3,
+      activeStep: 0,
       selectedRentable: null,
       selectedCategory: null,
       booking: {
@@ -255,6 +253,39 @@ export default {
       this.activeStep += 1;
     },
     selectRentable(rentable) {
+      if (!rentable.canBook) {
+        this.$buefy.dialog.alert({
+          title: 'Bereits reserviert!',
+          message: 'Dieses Boot ist in deinem gewählten Zeitraum leider schon reserviert.',
+          type: 'is-danger',
+          hasIcon: true,
+          icon: 'times-circle',
+          iconPack: 'fa',
+          ariaRole: 'alertdialog',
+          ariaModal: true,
+        });
+        return;
+      }
+
+      if (rentable.bookingAlert) {
+        this.$buefy.dialog.confirm({
+          message: rentable.bookingAlert,
+          confirmText: 'Fortfahren',
+          cancelText: 'Abbrechen',
+          type: 'is-warning',
+          hasIcon: true,
+          icon: 'exclamation-triangle',
+          iconPack: 'fa',
+          ariaRole: 'alertdialog',
+          ariaModal: true,
+          onConfirm: () => {
+            this.selectedRentable = rentable;
+            this.activeStep += 1;
+          },
+        });
+        return;
+      }
+
       this.selectedRentable = rentable;
       this.activeStep += 1;
     },
@@ -291,18 +322,6 @@ export default {
     updateEndTime({ target }) {
       this.booking.endTime = target._vCleave.getFormattedValue();
       this.$v.booking.endTime.$touch();
-    },
-    showAlreadyBookedAlert() {
-      this.$buefy.dialog.alert({
-        title: 'Bereits reserviert!',
-        message: 'Dieses Boot ist in deinem gewählten Zeitraum leider schon reserviert.',
-        type: 'is-danger',
-        hasIcon: true,
-        icon: 'times-circle',
-        iconPack: 'fa',
-        ariaRole: 'alertdialog',
-        ariaModal: true,
-      });
     },
   },
 
@@ -368,6 +387,7 @@ export default {
   box-shadow: inset 0 -1px 0 0 rgba(100,121,143,0.122);
   text-align: left;
   cursor: pointer;
+  align-content: center;
 
   &:hover {
     -webkit-box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
@@ -377,6 +397,10 @@ export default {
 
   &.booked {
     background: #fff5f7;
+  }
+
+  .info {
+    margin-left: auto;
   }
 }
 </style>
