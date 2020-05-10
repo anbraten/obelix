@@ -2,7 +2,10 @@
   <div class="top">
     <div class="nav">
       <div class="inner">
-        <router-link :to="{ name: 'home' }" class="nav-title">{{ title }}</router-link>
+        <div class="nav-brand" @click="$router.push({ name: 'home' })">
+          <img class="nav-icon" src="/img/icons/icon.png">
+          <span class="nav-title">{{ title }}</span>
+        </div>
         <div class="stretch" />
         <template v-if="isAuthenticated">
           <span>{{ userFullName }}</span>
@@ -52,7 +55,8 @@ export default {
   padding: 0.75rem 0;
   box-shadow: 0 1px 8px -1px rgba(0, 0, 0, .5);
   z-index: 1000;
-  background: #fff;
+  background: rgba(34, 34, 40, .94);
+  color: #fff;
 
   .inner {
     position: relative;
@@ -63,6 +67,20 @@ export default {
     max-width: 40rem;
     margin: 0 auto;
     padding: 0 0.5rem;
+  }
+
+  &-brand {
+    cursor: pointer;
+    position: relative;
+    padding-left: 2.5rem;
+  }
+
+  &-icon {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 2rem;
+    transform: translateY(-50%);
   }
 }
 
@@ -80,7 +98,6 @@ export default {
 }
 
 .nav-title, span {
-  color: #333;
   text-decoration: none;
   font-size: 1.1rem;
 }
