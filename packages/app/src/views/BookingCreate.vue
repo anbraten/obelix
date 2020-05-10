@@ -79,11 +79,10 @@
             <span>{{ selectedRentable.name }}</span>
           </b-field>
           <b-field label="Bemerkung" grouped group-multiline>
-            <p class="control description">
-              <b-icon pack="fas" icon="info" size="is-small" />
-              <span>Du kannst hier eine öffentliche Bemerkung zu deiner Reservierung hinterlegen.</span>
-            </p>
-            <b-input v-model="booking.note" maxlength="200" type="textarea" expanded placeholder="Bsp: Ich werde wahrscheinlich Richtung Freudenholm fahren." />
+            <div class="control description" style="flex-shrink: 1">
+              <span><b-icon pack="fas" icon="info" size="is-small" /> Du kannst hier eine öffentliche Bemerkung zu deiner Reservierung hinterlegen.</span>
+            </div>
+            <b-input v-model="booking.note" maxlength="100" type="textarea" expanded placeholder="Bsp: Ich werde wahrscheinlich Richtung Freudenholm fahren." />
           </b-field>
           <div class="actions">
             <b-button class="prev" @click="activeStep--">Zurück</b-button>
@@ -396,7 +395,7 @@ export default {
   }
 
   &.booked {
-    background: #fff5f7;
+    background: hsl(348, 80%, 61%);
   }
 
   .info {
