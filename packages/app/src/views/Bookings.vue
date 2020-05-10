@@ -130,7 +130,6 @@ export default {
       await this.$store.dispatch('rental/getBookings', this.selectedDate);
     },
     async cancelBooking(booking) {
-      console.log('zug');
       this.$buefy.dialog.confirm({
         title: 'Reservierung löschen',
         message: 'Möchtest du deine Reservierung wirklich löschen?',
