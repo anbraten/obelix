@@ -18,13 +18,14 @@
 
     <template v-if="bookings && bookings.length > 0">
       <div v-for="booking in bookings" :key="booking.id" class="booking">
-        <span class="rentable">{{ booking.rentable.name }}</span>
-        <span class="user">{{ booking.user.name }}</span>
-        <span class="time">{{ booking.startTime }} - {{ booking.endTime }}</span>
+        <span class="rentable"><b-icon pack="fas" icon="ship" size="is-small"/> {{ booking.rentable.name }}</span>
+        <span class="time"><b-icon pack="fas" icon="clock" size="is-small"/> {{ booking.startTime }} - {{ booking.endTime }}</span>
+        <span class="user"><b-icon pack="fas" icon="user" size="is-small"/> {{ booking.user.name }}</span>
+        <span class="note" v-if="booking.note"><b-icon pack="fas" icon="sticky-note" size="is-small" /> {{ booking.note }}</span>
         <div class="actions">
-          <template v-if="booking.canCancel">
-            <i @click="cancelBooking(booking)" class="fas fa-trash" />
-          </template>
+          <div class="remove" v-if="booking.canCancel" @click="cancelBooking(booking)">
+            <b-icon pack="fas" icon="trash"  size="is-small" />
+          </div>
         </div>
       </div>
     </template>
@@ -129,6 +130,7 @@ export default {
       await this.$store.dispatch('rental/getBookings', this.selectedDate);
     },
     async cancelBooking(booking) {
+      console.log('zug');
       this.$buefy.dialog.confirm({
         title: 'Reservierung löschen',
         message: 'Möchtest du deine Reservierung wirklich löschen?',
@@ -207,9 +209,10 @@ export default {
 
 .booking {
   display: flex;
+  flex-wrap: wrap !important;
   padding: 0.5rem 1rem;
   flex-flow: row;
-  width: 100%;
+  max-width: 100%;
   box-shadow: inset 0 -1px 0 0 rgba(100,121,143,0.122);
   cursor: pointer;
 
@@ -220,20 +223,61 @@ export default {
   }
 
   .rentable {
-    width: 30%;
+    width: 50%;
   }
 
   .user {
-    width: 45%;
+    width: 50%;
   }
 
   .time {
-    width: 20%;
+    text-align: right;
+    width: 50%;
+  }
+
+  .note {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
   }
 
   .actions {
+    margin-left: auto;
     text-align: right;
     width: 5%;
+
+    .remove {
+      color: hsl(348, 80%, 61%);
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .rentable {
+      order: 1;
+      width: 30%;
+      text-align: left;
+    }
+
+    .user {
+      order: 2;
+      width: 45%;
+    }
+
+    .time {
+      order: 3;
+      width: 20%;
+    }
+
+    .actions {
+      order: 4;
+      text-align: right;
+      width: 5%;
+    }
+
+    .note {
+      order: 5;
+      width: 100%;
+    }
   }
 }
 </style>
