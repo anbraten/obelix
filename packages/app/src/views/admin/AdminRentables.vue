@@ -6,50 +6,22 @@
       <div />
     </div>
 
-    <template v-if="rentables">
-      <div v-for="rentable in rentables" :key="rentable.id" class="rentable">
+    <div v-if="rentables" class="rentables">
+      <div v-for="rentable in rentables" :key="rentable.id" @click="selectRentable(rentable)" class="rentable">
         <span>{{ rentable.name }}</span>
         <div class="remove" @click="removeRentable(rentable)"><i class="fas fa-trash" /></div>
       </div>
-    </template>
-
-    <div class="new-rentable">
-      <b-field label="Name">
-        <b-input v-model="rentable.name" required />
-      </b-field>
-      <b-field label="Bemerkungen">
-        <b-input v-model="rentable.note" maxlength="200" type="textarea" required />
-      </b-field>
-      <b-button @click="createRentable">Boot anlegen</b-button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'AdminCategory',
-
-  data() {
-    return {
-      rentable: {
-        name: null,
-        note: null,
-      },
-    };
-  },
+  name: 'AdminRentables',
 
   computed: {
-    category() {
-      return this.$route.params.category;
-    },
     rentables() {
-      const { rentables } = this.$store.state.rental;
-
-      if (!this.category || !rentables) {
-        return null;
-      }
-
-      return rentables.filter((rentable) => rentable.category === this.category);
+      return this.$store.state.rental.rentables;
     },
   },
 
@@ -61,28 +33,12 @@ export default {
     async loadData() {
       await this.$store.dispatch('rental/getRentables');
     },
-    async createRentable() {
-      const rentable = {
-        ...this.rentable,
-        category: this.category,
-      };
-
-      this.rentable = {
-        name: null,
-        note: null,
-      };
-
-      await this.$store.dispatch('rental/createRentable', rentable);
-
-      this.$buefy.toast.open({
-        message: 'Das neue Boot wurde erfolgreich angelegt',
-        type: 'is-success',
-      });
-
-      await this.loadData();
+    selectRentable(rentable) {
+      this.$router.push({ name: 'admin-rentable', params: { rentableId: rentable.id } });
     },
   },
   async removeRentable(rentable) {
+    // TODO: implement removeRentable in store & backend
     await this.$store.dispatch('rental/removeRentable', rentable);
     await this.loadData();
   },

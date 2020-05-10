@@ -1,86 +1,77 @@
 <template>
   <div class="page">
     <div class="head">
-      <div @click="$router.go(-1)" class="button"><i class="fas fa-angle-double-left" /></div>
-      <div class="head-title">Boots-Typen verwalten</div>
-      <div />
+      <div class="head-title">Admin</div>
     </div>
 
-    <template v-if="categories">
-      <div v-for="category in categories" :key="category.id" @click="selectCategory(category)" class="rentable">
-        <span>{{ category.name }}</span>
-        <div class="remove" @click="removeCategory(category)"><i class="fas fa-trash" /></div>
+    <div class="cards">
+      <div class="card" @click="$router.push({ name: 'admin-categories' })">
+        <b-icon class="icon" pack="fas" icon="grip-horizontal" size="is-big" />
+        <span>Boots-Typen</span>
       </div>
-    </template>
+
+      <div class="card" @click="$router.push({ name: 'admin-rentables' })">
+        <b-icon class="icon" pack="fas" icon="ship" size="is-big" />
+        <span>Boote</span>
+      </div>
+
+      <div class="card" @click="$router.push({ name: 'admin-users' })">
+        <b-icon class="icon" pack="fas" icon="users" size="is-big" />
+        <span>Benutzer</span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 export default {
   name: 'Admin',
-
-  computed: {
-    ...mapState('rental', [
-      'categories',
-    ]),
-  },
-
-  async created() {
-    await this.loadData();
-  },
-
-  methods: {
-    async loadData() {
-      await this.$store.dispatch('rental/getCategories');
-    },
-    selectCategory(category) {
-      this.$router.push({ name: 'admin-category', params: { category: category.id } });
-    },
-  },
 };
 </script>
 
 <style lang="scss" scoped>
+
 .page {
   display: flex;
   flex-flow: column;
   margin: 0 auto;
+  margin-top: 2rem;
   width: 100%;
   max-width: 40rem;
   padding: 1rem 0;
 
   .head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-bottom: 2rem;
-    padding: 0 .5rem;
 
     .head-title {
-      font-size: 1.5rem;
+      font-size: 2rem;
+      display: flex;
+      justify-content: center;
     }
   }
 }
 
-.rentable {
+.cards {
   display: flex;
-  padding: 0.5rem 1rem;
-  flex-flow: row;
-  width: 100%;
-  box-shadow: inset 0 -1px 0 0 rgba(100,121,143,0.122);
-  text-align: left;
-  cursor: pointer;
+  flex-wrap: wrap;
 
-  &:hover {
-    -webkit-box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
-    box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
-    z-index: 1;
-  }
+  .card {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 1rem;
+    border-radius: .5rem;
+    margin: 1rem;
+    width: calc(50% - 2rem);
+    cursor: pointer;
 
-  .remove {
-    margin-left: auto;
+    &:hover {
+      background: #eee;
+    }
+
+    .icon {
+      margin-bottom: 1rem;
+    }
   }
 }
 </style>

@@ -1,6 +1,7 @@
 const uuid = require('uuid').v4;
 const { get } = require('lodash');
 const db = require('./db');
+const { memberOf } = require('./utils');
 
 function createSocket(socket) {
   socket.on('getCategories', () => {
@@ -15,7 +16,7 @@ function createSocket(socket) {
       let user = db.get('users').find({ id: booking.user }).value();
       user = {
         id: user.id,
-        name: user.name, // TODO: mask user data
+        name: user.name,
       };
 
       const rentable = db.get('rentables').find({ id: booking.rentable }).value();
@@ -64,10 +65,7 @@ function createSocket(socket) {
   });
 
   socket.on('createRentable', (rentable) => {
-    const roles = get(socket, 'decoded_token.resource_access.obelix.roles', []);
-    console.log(roles);
-
-    if (!roles || !roles.includes('admin')) {
+    if (!memberOf(socket.decoded_token.sub, 'admin')) {
       socket.emit('createRentable', { error: 'access denied' });
       return;
     }
@@ -76,6 +74,24 @@ function createSocket(socket) {
 
     db.get('rentables').push(rentable).write();
     socket.emit('createRentable', rentable);
+  });
+
+  socket.on('updateRentable', (rentable) => {
+    if (!memberOf(socket.decoded_token.sub, 'admin')) {
+      socket.emit('updateRentable', { error: 'access denied' });
+      return;
+    }
+
+    // update data
+    db.get('rentables').find({ id: rentable.id }).assign(rentable).write();
+
+    socket.emit('updateRentable', rentable);
+  });
+
+  socket.on('getUser', () => {
+    const userId = socket.decoded_token.sub;
+    const user = db.get('users').find({ id: userId }).value();
+    socket.emit('getUser', user);
   });
 }
 

@@ -68,9 +68,29 @@ const routes = [
         component: () => import(/* webpackChunkName: "admin" */ '../views/admin/Admin.vue'),
       },
       {
-        path: '/category/:category',
-        name: 'admin-category',
-        component: () => import(/* webpackChunkName: "admin-category" */ '../views/admin/AdminCategory.vue'),
+        path: 'rentables',
+        name: 'admin-rentables',
+        component: () => import(/* webpackChunkName: "admin-rentables" */ '../views/admin/AdminRentables.vue'),
+      },
+      {
+        path: 'rentable/create',
+        name: 'admin-create',
+        component: () => import(/* webpackChunkName: "admin-rentable" */ '../views/admin/AdminRentable.vue'),
+      },
+      {
+        path: 'rentable/:rentableId',
+        name: 'admin-rentable',
+        component: () => import(/* webpackChunkName: "admin-rentable" */ '../views/admin/AdminRentable.vue'),
+      },
+      {
+        path: 'categories',
+        name: 'admin-categories',
+        component: () => import(/* webpackChunkName: "admin-categories" */ '../views/admin/AdminCategories.vue'),
+      },
+      {
+        path: 'users',
+        name: 'admin-users',
+        component: () => import(/* webpackChunkName: "admin-users" */ '../views/admin/AdminUsers.vue'),
       },
     ],
   },

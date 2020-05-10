@@ -88,5 +88,19 @@ export default {
         Api.emit('createRentable', rentable);
       });
     },
+
+    updateRentable(context, rentable) {
+      return new Promise((resolve, reject) => {
+        Api.once('updateRentable', (result) => {
+          if (result.error) {
+            reject(result.error);
+          } else {
+            resolve(result);
+          }
+        });
+
+        Api.emit('updateRentable', rentable);
+      });
+    },
   },
 };
