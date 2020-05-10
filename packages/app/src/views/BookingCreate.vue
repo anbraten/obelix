@@ -304,8 +304,8 @@ export default {
         position: 'is-top',
         type: 'is-success',
       });
-      this.$router.replace({ name: 'home', params: { date: booking.date } });
-      // redirect to date overview
+
+      this.$router.replace({ name: 'bookings', hash: `#${booking.date}` });
     },
     dateFormatter(date) {
       return moment(date).format(prettyDateFormat);
