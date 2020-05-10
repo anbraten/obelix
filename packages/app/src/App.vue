@@ -65,7 +65,7 @@ html, body, #app {
 #app {
   display: flex;
   flex-flow: column;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: sans-serif; // TODO: add proper font
   color: #2c3e50;
 }
 </style>
