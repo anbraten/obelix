@@ -1,5 +1,4 @@
 const uuid = require('uuid').v4;
-const { get } = require('lodash');
 const db = require('./db');
 const { memberOf } = require('./utils');
 
