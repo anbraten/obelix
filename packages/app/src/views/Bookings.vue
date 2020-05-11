@@ -51,6 +51,7 @@ import {
   isToday,
   isValidDate,
 } from '@/libs/momentUtils';
+import { mapGetters } from 'vuex';
 
 const debug = Debug('Bookings');
 
@@ -58,6 +59,9 @@ export default {
   name: 'Bookings',
 
   computed: {
+    ...mapGetters('rental', [
+      'isTrainer',
+    ]),
     bookings() {
       let bookings = this.$store.state.rental.bookings[this.selectedDate] || [];
 
@@ -90,8 +94,10 @@ export default {
     },
     canBook() {
       const date = moment(this.selectedDate, dateFormat);
-      const isInDiff = Math.abs(diffFromToday(date, 'days')) < 7;
-      // TODO: allow 28 days for trainer
+
+      const days = this.isTrainer ? (3 * 7) : 7; // trainers get 3 weeks
+      const isInDiff = Math.abs(diffFromToday(date, 'days')) < days;
+
       return isToday(date) || (isFutureDate(date) && isInDiff);
     },
   },

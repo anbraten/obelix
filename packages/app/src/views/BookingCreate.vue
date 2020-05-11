@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 
@@ -165,6 +165,9 @@ export default {
     ...mapState('rental', [
       'categories',
     ]),
+    ...mapGetters('rental', [
+      'isTrainer',
+    ]),
     bookedRentables() {
       if (!this.selectedCategory) {
         return null;
@@ -214,7 +217,10 @@ export default {
       return moment().subtract(1, 'days').toDate();
     },
     maxDate() {
-      // TODO: allow 28 days for trainer
+      if (this.isTrainer) {
+        return moment().add(3 * 7, 'days').toDate(); // 3 weeks
+      }
+
       return moment().add(7, 'days').toDate();
     },
   },
