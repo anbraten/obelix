@@ -18,6 +18,7 @@ export default async (store) => {
   Api.on('authenticated', () => {
     // api is marked as properly connected after successfull authentication
     store.commit('connect');
+    store.dispatch('rental/getUser');
     debug('api authenticated');
   });
 

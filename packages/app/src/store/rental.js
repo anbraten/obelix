@@ -8,6 +8,7 @@ export default {
     categories: null,
     bookings: {},
     rentables: null,
+    user: null,
   },
 
   mutations: {
@@ -19,6 +20,20 @@ export default {
     },
     setRentables(state, rentables) {
       state.rentables = rentables;
+    },
+    setUser(state, user) {
+      state.user = user;
+    },
+  },
+
+  getters: {
+    memberOf: (state) => (...groups) => {
+      if (!state.user || !state.user.groups) {
+        return false;
+      }
+
+      // check if user is member of one of the provided groups
+      return groups.some((g) => state.user.groups.includes(g));
     },
   },
 
@@ -101,6 +116,14 @@ export default {
 
         Api.emit('updateRentable', rentable);
       });
+    },
+
+    getUser({ commit }) {
+      Api.once('getUser', (result) => {
+        commit('setUser', result);
+      });
+
+      Api.emit('getUser');
     },
   },
 };
