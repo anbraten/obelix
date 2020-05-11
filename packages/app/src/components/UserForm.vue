@@ -13,9 +13,13 @@
         <b-radio-button :value="user.group" native-value="trainer" @input="$emit('group', 'trainer')">Trainer</b-radio-button>
         <b-radio-button :value="user.group" native-value="admin" @input="$emit('group', 'admin')">Admin</b-radio-button>
       </b-field>
+
+      <b-field label="Zugriff" horizontal>
+        <b-radio-button type="is-success" :value="user.access  || 'granted'" native-value="granted" @input="$emit('access', 'granted')">Freigegeben</b-radio-button>
+        <b-radio-button type="is-danger" :value="user.access" native-value="denied" @input="$emit('access', 'denied')">Gesperrt</b-radio-button>
+      </b-field>
     </section>
     <footer class="modal-card-foot">
-        <button class="button is-danger" type="button" @click="removeUser">Löschen</button>
         <button class="button" type="button" @click="$parent.close()">Schließen</button>
     </footer>
   </div>
@@ -29,22 +33,6 @@ export default {
     user: {
       type: Object,
       required: true,
-    },
-  },
-
-  methods: {
-    removeUser() {
-      this.$buefy.dialog.confirm({
-        title: 'Benutzer löschen',
-        message: `Möchtest du "${this.user.name}" wirklich löschen?`,
-        cancelText: 'Abbrechen',
-        confirmText: 'Löschen',
-        type: 'is-danger',
-        hasIcon: true,
-        onConfirm: async () => {
-          await this.$emit('remove');
-        },
-      });
     },
   },
 };

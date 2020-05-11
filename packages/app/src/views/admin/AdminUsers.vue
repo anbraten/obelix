@@ -19,7 +19,7 @@
         :destroy-on-hide="false"
         aria-role="dialog"
         aria-modal>
-      <UserForm v-if="selectedUser" @group="changeGroup" @remove="removeUser" :user="selectedUser" />
+      <UserForm v-if="selectedUser" @group="changeGroup" @access="changeAccess" :user="selectedUser" />
     </b-modal>
   </div>
 </template>
@@ -75,21 +75,14 @@ export default {
 
       this.$store.dispatch('rental/updateUser', this.selectedUser);
     },
-    removeUser() {
+    changeAccess(access) {
       if (!this.selectedUser) {
         return;
       }
 
-      this.$store.dispatch('rental/removeUser', this.selectedUser.id);
-      this.selectedUser = null;
+      this.$set(this.selectedUser, 'access', access);
 
-      this.$buefy.toast.open({
-        message: 'Der Benutzer wurde erfolgreich gelöscht.',
-        position: 'is-top',
-        type: 'is-success',
-      });
-
-      this.loadData();
+      this.$store.dispatch('rental/updateUser', this.selectedUser);
     },
   },
 };

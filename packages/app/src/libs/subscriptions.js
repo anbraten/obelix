@@ -1,3 +1,5 @@
+import { DialogProgrammatic as Dialog } from 'buefy';
+
 import Api from '@/libs/api';
 import Auth from '@/libs/auth';
 import Debug from '@/libs/debug';
@@ -30,6 +32,22 @@ export default async (store) => {
   Api.on('disconnect', (reason) => {
     debug(`api disconnected, reason: ${reason}`);
     store.commit('disconnect');
+  });
+
+  Api.on('access', (access) => {
+    debug(`api access ${access}`);
+    if (access === 'denied') {
+      Dialog.alert({
+        title: 'Access denied',
+        message: 'Dir wurde der Zugriff auf Obelix verwehrt.<br>Du kannst einen Administrator um Zugriff bitten.',
+        type: 'is-danger',
+        hasIcon: true,
+        icon: 'times-circle',
+        iconPack: 'fa',
+        ariaRole: 'alertdialog',
+        ariaModal: true,
+      });
+    }
   });
 
   // auth listeners
