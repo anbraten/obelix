@@ -35,6 +35,8 @@ export default {
       // check if user is member of one of the provided groups
       return groups.some((g) => state.user.groups.includes(g));
     },
+    isTrainer: (state, getters) => getters.memberOf('trainer', 'admin'), // admins are trainers as well
+    isAdmin: (state, getters) => getters.memberOf('admin'),
   },
 
   actions: {

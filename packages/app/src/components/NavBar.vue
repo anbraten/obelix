@@ -9,8 +9,11 @@
         <div class="stretch" />
         <template v-if="isAuthenticated">
           <span>{{ userFullName }}</span>
-          <div class="logout" @click="logout"><i class="fas fa-sign-out-alt" /></div>
+          <div class="logout" @click="logout"><b-icon pack="fas" icon="sign-out-alt" size="is-small" /></div>
         </template>
+        <div class="admin" v-if="isAdmin" @click="$router.push({ name: 'admin' })">
+          <b-icon pack="fas" icon="cog" size="is-small" />
+        </div>
         <span v-if="!isConnected" class="offline"><i class="fas fa-signal"/></span>
       </div>
     </div>
@@ -36,6 +39,7 @@ export default {
     ...mapGetters({
       isAuthenticated: 'auth/isAuthenticated',
       userFullName: 'auth/userFullName',
+      isAdmin: 'rental/isAdmin',
     }),
   },
 
@@ -104,6 +108,11 @@ export default {
 
 .stretch {
   margin-left: auto;
+}
+
+.admin {
+  margin-left: 1rem;
+  cursor: pointer;
 }
 
 .offline {
