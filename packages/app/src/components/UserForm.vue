@@ -15,7 +15,8 @@
       </b-field>
     </section>
     <footer class="modal-card-foot">
-        <button class="button" type="button" @click="$parent.close()">Close</button>
+        <button class="button is-danger" type="button" @click="removeUser">Löschen</button>
+        <button class="button" type="button" @click="$parent.close()">Schließen</button>
     </footer>
   </div>
 </template>
@@ -28,6 +29,22 @@ export default {
     user: {
       type: Object,
       required: true,
+    },
+  },
+
+  methods: {
+    removeUser() {
+      this.$buefy.dialog.confirm({
+        title: 'Benutzer löschen',
+        message: `Möchtest du "${this.user.name}" wirklich löschen?`,
+        cancelText: 'Abbrechen',
+        confirmText: 'Löschen',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: async () => {
+          await this.$emit('remove');
+        },
+      });
     },
   },
 };
