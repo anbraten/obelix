@@ -92,6 +92,45 @@ function createSocket(socket) {
     const user = db.get('users').find({ id: userId }).value();
     socket.emit('getUser', user);
   });
+
+  socket.on('getUsers', () => {
+    if (!memberOf(socket.decoded_token.sub, 'admin')) {
+      socket.emit('getUsers', { error: 'access denied' });
+      return;
+    }
+
+    const users = db.get('users').value();
+    socket.emit('getUsers', users);
+  });
+
+  socket.on('removeUser', (userId) => {
+    if (!memberOf(socket.decoded_token.sub, 'admin')) {
+      socket.emit('removeUser', { error: 'access denied' });
+      return;
+    }
+
+    const user = db.get('users').find({ id: userId }).value();
+
+    if (!user) {
+      socket.emit('removeUser', { error: 'Permission denied' });
+      return;
+    }
+
+    db.get('users').remove({ id: userId }).write();
+    socket.emit('removeUser', { success: true });
+  });
+
+  socket.on('updateUser', (user) => {
+    if (!memberOf(socket.decoded_token.sub, 'admin')) {
+      socket.emit('updateUser', { error: 'access denied' });
+      return;
+    }
+
+    // update data
+    db.get('users').find({ id: user.id }).assign(user).write();
+
+    socket.emit('updateUser', user);
+  });
 }
 
 module.exports = createSocket;

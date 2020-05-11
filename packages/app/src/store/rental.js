@@ -9,6 +9,7 @@ export default {
     bookings: {},
     rentables: null,
     user: null,
+    users: null,
   },
 
   mutations: {
@@ -24,18 +25,14 @@ export default {
     setUser(state, user) {
       state.user = user;
     },
+    setUsers(state, users) {
+      state.users = users;
+    },
   },
 
   getters: {
-    memberOf: (state) => (...groups) => {
-      if (!state.user || !state.user.groups) {
-        return false;
-      }
-
-      // check if user is member of one of the provided groups
-      return groups.some((g) => state.user.groups.includes(g));
-    },
-    isTrainer: (state, getters) => getters.memberOf('trainer', 'admin'), // admins are trainers as well
+    memberOf: (state) => (group) => state.user && state.user.group && state.user.group === group,
+    isTrainer: (state, getters) => getters.memberOf('trainer') || getters.memberOf('admin'), // admins are trainers as well
     isAdmin: (state, getters) => getters.memberOf('admin'),
   },
 
@@ -126,6 +123,42 @@ export default {
       });
 
       Api.emit('getUser');
+    },
+
+    getUsers({ commit }) {
+      Api.once('getUsers', (result) => {
+        commit('setUsers', result);
+      });
+
+      Api.emit('getUsers');
+    },
+
+    removeUser(context, user) {
+      return new Promise((resolve, reject) => {
+        Api.once('removeUser', (result) => {
+          if (result.error) {
+            reject(result.error);
+          } else {
+            resolve(result);
+          }
+        });
+
+        Api.emit('removeUser', user);
+      });
+    },
+
+    updateUser(context, user) {
+      return new Promise((resolve, reject) => {
+        Api.once('updateUser', (result) => {
+          if (result.error) {
+            reject(result.error);
+          } else {
+            resolve(result);
+          }
+        });
+
+        Api.emit('updateUser', user);
+      });
     },
   },
 };
