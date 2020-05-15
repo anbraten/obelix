@@ -119,7 +119,8 @@ export default {
 
   methods: {
     today() {
-      this.$router.replace({ params: { date: null } });
+      if (!this.$route.hash) { return; }
+      this.$router.replace({ hash: null });
     },
     nextDay() {
       const date = moment(this.selectedDate, dateFormat).add(1, 'days').format(dateFormat);
