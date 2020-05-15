@@ -106,6 +106,7 @@ import {
   time,
   timeLater,
   futureDate,
+  futureTime,
   timeBetween,
 } from '@/libs/vuelidate';
 import {
@@ -151,6 +152,7 @@ export default {
       startTime: {
         required,
         time,
+        futureTime: futureTime('date'),
       },
       endTime: {
         required,
