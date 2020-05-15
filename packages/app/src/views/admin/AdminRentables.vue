@@ -3,13 +3,13 @@
     <div class="head">
       <div @click="$router.go(-1)" class="button"><i class="fas fa-angle-double-left" /></div>
       <div class="head-title">Boote verwalten</div>
-      <div />
+      <div class="button" @click="$router.push({ name: 'admin-create-rentable' })">Neues Boot anlegen</div>
     </div>
 
     <div v-if="rentables" class="rentables">
       <div v-for="rentable in rentables" :key="rentable.id" @click="selectRentable(rentable)" class="rentable">
         <span>{{ rentable.name }}</span>
-        <div class="remove" @click="removeRentable(rentable)"><i class="fas fa-trash" /></div>
+        <!-- <div class="remove" @click="removeRentable(rentable)"><i class="fas fa-trash" /></div> -->
       </div>
     </div>
   </div>

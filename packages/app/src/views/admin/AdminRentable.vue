@@ -8,17 +8,17 @@
     </div>
 
     <div class="rentable">
-      <b-field label="Name">
-        <b-input v-model="form.name" required />
-      </b-field>
+      <form-group :validator="$v.form.name" label="Name">
+        <b-input v-model.trim="$v.form.name.$model" placeholder="Name" />
+      </form-group>
 
-      <b-field label="Boots-Typ">
-        <b-select placeholder="Select a name" v-model="form.category">
+      <form-group :validator="$v.form.category" label="Boots-Typ">
+        <b-select placeholder="Boots-Typ auswählen ..." v-model="$v.form.category.$model">
           <option v-for="option in categories" :value="option.id" :key="option.id">
               {{ option.name }}
           </option>
         </b-select>
-      </b-field>
+      </form-group>
 
       <b-field label="Reservierungs Info" grouped group-multiline>
         <p class="control description">
@@ -36,13 +36,15 @@
         <b-input v-model="form.bookingAlert" maxlength="200" type="textarea" expanded placeholder="Bsp: Du benötigst zum Fahren dieses Bootes eine Genehmigung der Ruderwartin" />
       </b-field>
 
-      <b-button v-if="isCreate" @click="createRentable">Boot anlegen</b-button>
-      <b-button v-else @click="updateRentable">Boot speichern</b-button>
+      <b-button v-if="isCreate" @click="createRentable" :disabled="$v.$invalid">Boot anlegen</b-button>
+      <b-button v-else @click="updateRentable" :disabled="$v.$invalid">Boot speichern</b-button>
     </div>
   </div>
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators';
+
 export default {
   name: 'AdminRentable',
 
@@ -57,12 +59,23 @@ export default {
     };
   },
 
+  validations: {
+    form: {
+      name: {
+        required,
+      },
+      category: {
+        required,
+      },
+    },
+  },
+
   computed: {
     rentableId() {
       return this.$route.params.rentableId;
     },
     isCreate() {
-      return this.rentableId === 'create';
+      return this.$route.name === 'admin-create-rentable';
     },
     rentable() {
       if (this.isCreate) {
@@ -94,20 +107,20 @@ export default {
   },
 
   async created() {
+    await this.$store.dispatch('rental/getCategories');
+
     if (!this.isCreate) {
-      await this.loadData();
+      await this.loadRentables();
     }
   },
 
   methods: {
-    async loadData() {
-      await this.$store.dispatch('rental/getCategories');
+    async loadRentables() {
       await this.$store.dispatch('rental/getRentables');
     },
     async createRentable() {
       const rentable = {
-        ...this.rentable,
-        category: this.category,
+        ...this.form,
       };
 
       const r = await this.$store.dispatch('rental/createRentable', rentable);
@@ -132,7 +145,7 @@ export default {
         type: 'is-success',
       });
 
-      await this.loadData();
+      await this.loadRentables();
     },
   },
 };

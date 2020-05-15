@@ -74,7 +74,7 @@ const routes = [
       },
       {
         path: 'rentable/create',
-        name: 'admin-create',
+        name: 'admin-create-rentable',
         component: () => import(/* webpackChunkName: "admin-rentable" */ '../views/admin/AdminRentable.vue'),
       },
       {

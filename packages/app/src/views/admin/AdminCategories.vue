@@ -9,14 +9,14 @@
     <div v-if="categories" class="categories">
       <div v-for="category in categories" :key="category.id" @click="selectCategory(category)" class="category">
         <span>{{ category.name }}</span>
-        <div class="remove" @click="removeCategory(category)"><i class="fas fa-trash" /></div>
+        <!--<div class="remove" @click="removeCategory(category)"><i class="fas fa-trash" /></div>-->
       </div>
     </div>
 
-    <div class="new-category">
+    <!--<div class="new-category">
       <div class="">Neuer Boots-Typ</div>
       TODO
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -40,8 +40,8 @@ export default {
     async loadData() {
       await this.$store.dispatch('rental/getCategories');
     },
-    selectCategory(category) {
-      this.$router.push({ name: 'admin-category', params: { category: category.id } });
+    selectCategory(/* category */) {
+      // this.$router.push({ name: 'admin-category', params: { category: category.id } });
     },
   },
 };
