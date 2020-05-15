@@ -2,7 +2,7 @@
   <div class="top">
     <div class="nav">
       <div class="inner">
-        <div class="nav-brand" @click="$router.push({ name: 'home' })">
+        <div class="nav-brand" @click="toHome">
           <img class="nav-icon" src="/img/icons/icon.png">
           <span class="nav-title">{{ title }}</span>
         </div>
@@ -46,6 +46,9 @@ export default {
   methods: {
     async logout() {
       await this.$store.dispatch('auth/logout');
+    },
+    toHome() {
+      this.$router.push({ name: 'home' }).catch(() => {});
     },
   },
 };
