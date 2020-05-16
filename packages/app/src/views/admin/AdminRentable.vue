@@ -172,28 +172,4 @@ export default {
     }
   }
 }
-
-.category {
-  display: flex;
-  padding: 0.5rem 1rem;
-  flex-flow: row;
-  width: 100%;
-  box-shadow: inset 0 -1px 0 0 rgba(100,121,143,0.122);
-  text-align: left;
-  cursor: pointer;
-
-  &:hover {
-    -webkit-box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
-    box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
-    z-index: 1;
-  }
-
-  .remove {
-    margin-left: auto;
-  }
-}
-
-.new-category {
-  margin-top: 2rem;
-}
 </style>

@@ -117,7 +117,7 @@ export default {
   }
 }
 
-.step-item {
+::v-deep.step-item {
   .step-title {
     text-align: center;
     font-size: 1.5rem;
