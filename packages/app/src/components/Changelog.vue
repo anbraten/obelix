@@ -3,7 +3,7 @@
     :active.sync="visible"
     has-modal-card
     trap-focus
-    :destroy-on-hide="false"
+    :destroy-on-hide="true"
     aria-role="dialog"
     aria-modal
   >
