@@ -109,10 +109,10 @@ export default {
   mounted() {
     if (this.$route.hash) {
       // hash without #
-      this.form.date = this.$route.hash.substr(1);
+      this.$set(this.form, 'date', this.$route.hash.substr(1));
     } else {
       // today
-      this.form.date = moment().format(dateFormat);
+      this.$set(this.form, 'date', moment().format(dateFormat));
     }
   },
 
@@ -121,15 +121,15 @@ export default {
       return moment(date).format(prettyDateFormat);
     },
     updateDate(date) {
-      this.form.date = moment(date).format(dateFormat);
+      this.$set(this.form, 'date', moment(date).format(dateFormat));
       this.$v.form.date.$touch();
     },
     updateStartTime({ target }) {
-      this.form.startTime = target._vCleave.getFormattedValue();
+      this.$set(this.form, 'startTime', target._vCleave.getFormattedValue());
       this.$v.form.startTime.$touch();
     },
     updateEndTime({ target }) {
-      this.form.endTime = target._vCleave.getFormattedValue();
+      this.$set(this.form, 'endTime', target._vCleave.getFormattedValue());
       this.$v.form.endTime.$touch();
     },
     submit() {

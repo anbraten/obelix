@@ -4,10 +4,14 @@
 
     <div class="categories">
       <template v-if="categories">
-        <div v-for="category in categories" :key="category.id" @click="selectCategory(category)" class="category">
+        <div v-for="category in categories" :key="category.id" @click="$emit('done', category)" class="category">
           <span>{{ category.name }}</span>
         </div>
       </template>
+
+      <div v-if="isTrainer" @click="$emit('training')" class="category">
+        <span>Training</span>
+      </div>
     </div>
 
     <div class="actions">
@@ -33,15 +37,6 @@ export default {
 
   mounted() {
     this.$store.dispatch('rental/getCategories');
-  },
-
-  methods: {
-    selectCategory(category) {
-      this.$emit('done', category);
-    },
-    startTraining() {
-      this.$emit('training');
-    },
   },
 };
 </script>

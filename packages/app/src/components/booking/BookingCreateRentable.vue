@@ -34,10 +34,6 @@ export default {
 
   computed: {
     bookedRentables() {
-      if (!this.category) {
-        return null;
-      }
-
       let bookings = this.$store.state.rental.bookings[this.booking.date] || [];
 
       // start & end time
