@@ -18,6 +18,7 @@ const store = new Vuex.Store({
     isConnected: false,
     title: null,
     isTester: localStorage.getItem('tester') === 'true' || false,
+    version: localStorage.getItem('version') || false,
   },
 
   mutations: {
@@ -34,6 +35,10 @@ const store = new Vuex.Store({
     setTester(state, isTester) {
       state.isTester = isTester;
       localStorage.setItem('tester', isTester);
+    },
+    setVersion(state, version) {
+      state.version = version;
+      localStorage.setItem('version', version);
     },
   },
 
