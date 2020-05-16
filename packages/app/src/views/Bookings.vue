@@ -162,7 +162,7 @@ export default {
           this.$buefy.toast.open({
             message: 'Deine Reservierung wurde erfolgreich storniert.',
             position: 'is-top',
-            type: 'is-light',
+            type: 'is-success',
           });
         },
       });
