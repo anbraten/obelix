@@ -18,8 +18,24 @@
         </ul>
       </b-field>
 
+      <b-field v-if="isAdmin" label="Benutzer" grouped group-multiline>
+        <div class="control description" style="flex-shrink: 1; width: 100%">
+          <span><b-icon pack="fas" icon="info" size="is-small" /> Als Admin kannst du Reservierungen für andere Benutzer vornehmen.</span>
+        </div>
+        <b-autocomplete
+          :value="username"
+          placeholder="Hier kannst du einen anderen Benutzer wählen"
+          :keep-first="true"
+          :open-on-focus="true"
+          :data="users"
+          field="name"
+          clearable
+          expanded
+          @select="option => user = option" />
+      </b-field>
+
       <b-field label="Bemerkung" grouped group-multiline>
-        <div class="control description" style="flex-shrink: 1">
+        <div class="control description" style="flex-shrink: 1; width: 100%">
           <span><b-icon pack="fas" icon="info" size="is-small" /> Du kannst hier eine öffentliche Bemerkung zu deiner Reservierung hinterlegen.</span>
         </div>
         <b-input v-model="note" maxlength="100" type="textarea" expanded placeholder="Bsp: Ich werde wahrscheinlich Richtung Freudenholm fahren." />
@@ -34,6 +50,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import { prettyDateFormat, timeFormat, moment } from '@/libs/momentUtils';
 
 export default {
@@ -42,6 +60,7 @@ export default {
   data() {
     return {
       note: null,
+      user: null,
     };
   },
 
@@ -52,6 +71,19 @@ export default {
   },
 
   computed: {
+    ...mapGetters('rental', [
+      'isAdmin',
+    ]),
+    username() {
+      if (this.user) {
+        return this.user.name;
+      }
+
+      return this.$store.getters['auth/userFullName'];
+    },
+    users() {
+      return this.$store.state.rental.users || [];
+    },
     rentables() {
       return this.$store.state.rental.rentables || [];
     },
@@ -67,17 +99,36 @@ export default {
     },
   },
 
+  mounted() {
+    this.loadData();
+  },
+
+  watch: {
+    isAdmin() {
+      this.loadData();
+    },
+  },
+
   methods: {
+    loadData() {
+      if (!this.isAdmin) {
+        return;
+      }
+      this.$store.dispatch('rental/getUsers');
+    },
     createBooking() {
       const booking = {
         ...this.booking,
         note: this.note,
       };
 
+      if (this.isAdmin && this.user) {
+        booking.user = this.user.id;
+      }
+
       this.$emit('done', booking);
     },
   },
-
 
   filters: {
     date(date) {

@@ -43,8 +43,11 @@ function createSocket(socket) {
 
     booking.id = uuid();
 
-    // assign user id to booking
-    booking.user = socket.decoded_token.sub;
+    // if not admin or admin hasn't set a user
+    if (!memberOf(socket.decoded_token.sub, 'admin') || !booking.user) {
+      // set user to current user
+      booking.user = socket.decoded_token.sub;
+    }
 
     db.get('bookings').push(booking).write();
     socket.emit('createBooking', booking);
