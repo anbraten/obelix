@@ -43,22 +43,14 @@ export default {
       // start & end time
       const newBookingRange = timeRange(this.booking.startTime, this.booking.endTime);
 
-      bookings = bookings.filter((booking) => {
-        const bookingRange = timeRange(booking.startTime, booking.endTime);
-        return newBookingRange.overlaps(bookingRange);
-      });
+      bookings = bookings
+        .filter((booking) => {
+          const bookingRange = timeRange(booking.startTime, booking.endTime);
+          return newBookingRange.overlaps(bookingRange);
+        })
+        .reduce((total, booking) => [...total, ...booking.rentables], []);
 
-      const bookedRentables = bookings.reduce((total, booking) => {
-        // old dataset // TODO: remove
-        if (booking.rentable) {
-          return [...total, booking.rentable.id];
-        }
-
-        const rentables = booking.rentables.map((rentable) => rentable.id);
-        return [...total, ...rentables];
-      }, []);
-
-      return bookedRentables;
+      return bookings;
     },
     rentables() {
       if (!this.category) {
