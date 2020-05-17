@@ -122,7 +122,7 @@ export default {
 
   watch: {
     async selectedDate() {
-      await this.loadBookings();
+      await this.loadData();
     },
   },
 
@@ -250,13 +250,18 @@ export default {
     margin-right: .5rem;
   }
 
-
   .rentables {
     width: 50%;
     margin-bottom: .25rem;
 
     .rentable {
       display: flex;
+      align-items: center;
+      margin-top: .25rem;
+
+      &:first-of-type {
+        margin-top: 0;
+      }
     }
   }
 
@@ -270,9 +275,11 @@ export default {
   }
 
   .note {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: .5rem;
+    padding: .5rem;
     width: 100%;
+    border-radius: 5px;
+    background: #eee;
   }
 
   .actions {
