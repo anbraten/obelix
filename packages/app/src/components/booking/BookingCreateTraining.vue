@@ -128,7 +128,7 @@ export default {
         return false;
       }
 
-      return false;
+      return true;
     },
     submit() {
       const rentables = this.selectedRentables.map((rentable) => rentable.id);
