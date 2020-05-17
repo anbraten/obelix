@@ -1,6 +1,10 @@
 {
   "changes": [
     {
+      "timestamp": "2020-05-17",
+      "content": "<i class=\"fas fa-child icon\"></i> Trainer können jetzt mehrere Boote auf einmal reservieren"
+    },
+    {
       "timestamp": "2020-04-30",
       "content": "<i class=\"fas fa-birthday-cake icon\"></i> Projekt gestartet"
     }
