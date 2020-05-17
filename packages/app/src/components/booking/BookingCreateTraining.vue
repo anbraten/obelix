@@ -3,34 +3,17 @@
     <div class="step-title">Erstelle ein neues Training</div>
 
     <template v-if="rentables">
-      <b-table
-        :data="rentables"
-        :default-sort="['name', 'asc']"
-        :paginated="true"
-        :per-page="10"
-        :row-class="(row, index) => !row.canBook && 'booked'"
-        @click="selectRentable" >
-        <template slot-scope="props">
-          <b-table-column>
-            <b-checkbox class="check" v-if="props.row.canBook" :value="selectedRentables.includes(props.row.id)" disabled />
-          </b-table-column>
-
-          <b-table-column field="name" label="Name" sortable>
-            <span>{{ props.row.name }}</span>
-          </b-table-column>
-
-          <b-table-column field="category.name" label="Boots-Typ" sortable>
-            <span v-if="props.row.category">{{ props.row.category.name || '' }}</span>
-          </b-table-column>
-
-          <b-table-column field="bookingInfo" label="Informationen" sortable>
-            <span v-if="props.row.bookingInfo">
-              <b-icon pack="fas" icon="info" size="is-small" />
-              {{ props.row.bookingInfo }}
-            </span>
-          </b-table-column>
-        </template>
-      </b-table>
+      <b-field label="Boote auswählen">
+        <b-taginput
+          v-model="selectedRentables"
+          :data="filteredRentables"
+          autocomplete
+          field="name"
+          icon="ship"
+          :before-adding="beforeAddingRentable"
+          placeholder="Boot hinzufügen"
+          @typing="getFilteredRentables" />
+      </b-field>
     </template>
 
     <div class="actions">
@@ -55,32 +38,29 @@ export default {
   data() {
     return {
       selectedRentables: [],
+      filteredRentables: [],
     };
   },
 
   computed: {
     bookedRentables() {
+      if (!this.booking) {
+        return [];
+      }
+
       let bookings = this.$store.state.rental.bookings[this.booking.date] || [];
 
       // start & end time
       const newBookingRange = timeRange(this.booking.startTime, this.booking.endTime);
 
-      bookings = bookings.filter((booking) => {
-        const bookingRange = timeRange(booking.startTime, booking.endTime);
-        return newBookingRange.overlaps(bookingRange);
-      });
+      bookings = bookings
+        .filter((booking) => {
+          const bookingRange = timeRange(booking.startTime, booking.endTime);
+          return newBookingRange.overlaps(bookingRange);
+        })
+        .reduce((total, booking) => [...total, ...booking.rentables], []);
 
-      const bookedRentables = bookings.reduce((total, booking) => {
-        // old dataset // TODO: remove
-        if (booking.rentable) {
-          return [...total, booking.rentable.id];
-        }
-
-        const rentables = booking.rentables.map((rentable) => rentable.id);
-        return [...total, ...rentables];
-      }, []);
-
-      return bookedRentables;
+      return bookings;
     },
     categories() {
       return this.$store.state.rental.categories || [];
@@ -109,13 +89,13 @@ export default {
   },
 
   methods: {
-    selectRentable(rentable) {
-      // if already selected => unselect
-      if (this.selectedRentables.includes(rentable.id)) {
-        this.selectedRentables = this.selectedRentables.filter((r) => r !== rentable.id);
-        return;
-      }
-
+    getFilteredRentables(text) {
+      this.filteredRentables = this.rentables.filter((option) => option.name
+        .toString()
+        .toLowerCase()
+        .indexOf(text.toLowerCase()) >= 0);
+    },
+    beforeAddingRentable(rentable) {
       if (!rentable.canBook) {
         this.$buefy.dialog.alert({
           title: 'Bereits reserviert!',
@@ -127,7 +107,7 @@ export default {
           ariaRole: 'alertdialog',
           ariaModal: true,
         });
-        return;
+        return false;
       }
 
       if (rentable.bookingAlert) {
@@ -142,16 +122,17 @@ export default {
           ariaRole: 'alertdialog',
           ariaModal: true,
           onConfirm: () => {
-            this.selectedRentables.push(rentable.id);
+            this.selectedRentables.push(rentable);
           },
         });
-        return;
+        return false;
       }
 
-      this.selectedRentables.push(rentable.id);
+      return false;
     },
     submit() {
-      this.$emit('done', this.selectedRentables);
+      const rentables = this.selectedRentables.map((rentable) => rentable.id);
+      this.$emit('done', rentables);
     },
   },
 };
