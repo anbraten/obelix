@@ -9,7 +9,7 @@
         </div>
       </template>
 
-      <div v-if="isTrainer" @click="$emit('training')" class="category">
+      <div v-if="isTrainer" @click="$emit('done', 'training')" class="category">
         <span>Training</span>
       </div>
     </div>

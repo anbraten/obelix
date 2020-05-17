@@ -16,11 +16,12 @@
       </b-step-item>
 
       <b-step-item icon="ship">
-       <BookingCreateRentable :booking="booking" :category="selectedCategory" @done="updateRentable" @back="activeStep--" />
+        <BookingCreateTraining v-if="isTraining" :booking="booking" @done="updateTraining" @back="activeStep--" />
+        <BookingCreateRentable v-else :booking="booking" :category="selectedCategory" @done="updateRentable" @back="activeStep--" />
       </b-step-item>
 
       <b-step-item icon="check">
-        <BookingCreateFinish :booking="booking" :rentable="selectedRentable" @done="createBooking" @back="activeStep--" />
+        <BookingCreateFinish :booking="booking" @done="createBooking" @back="activeStep--" />
       </b-step-item>
     </b-steps>
   </div>
@@ -31,6 +32,7 @@ import BookingCreateDate from '@/components/booking/BookingCreateDate.vue';
 import BookingCreateCategory from '@/components/booking/BookingCreateCategory.vue';
 import BookingCreateRentable from '@/components/booking/BookingCreateRentable.vue';
 import BookingCreateFinish from '@/components/booking/BookingCreateFinish.vue';
+import BookingCreateTraining from '@/components/booking/BookingCreateTraining.vue';
 
 export default {
   name: 'BookingCreate',
@@ -40,33 +42,52 @@ export default {
     BookingCreateCategory,
     BookingCreateRentable,
     BookingCreateFinish,
+    BookingCreateTraining,
   },
 
   data() {
     return {
       activeStep: 0,
       selectedCategory: null,
-      selectedRentable: null,
       booking: null,
     };
   },
 
-  watch: {
-    activeStep(step) {
-      // step: select category
-      if (step === 1) {
-        this.$store.dispatch('rental/getCategories');
-      }
-
-      // step: select rentable
-      if (step === 2) {
-        this.$store.dispatch('rental/getBookings', this.booking.date);
-        this.$store.dispatch('rental/getRentables');
-      }
+  computed: {
+    isTraining() {
+      return this.selectedCategory === 'training';
     },
   },
 
+  watch: {
+    activeStep() {
+      this.loadData();
+    },
+  },
+
+  mounted() {
+    this.loadData();
+  },
+
   methods: {
+    loadData() {
+      // step: select category
+      if (this.activeStep === 1) {
+        this.$store.dispatch('rental/getCategories');
+      }
+
+      // step: select rentable / create training
+      if (this.activeStep === 2) {
+        this.$store.dispatch('rental/getBookings', this.booking.date);
+        this.$store.dispatch('rental/getRentables');
+        this.$store.dispatch('rental/getCategories');
+      }
+
+      // step: finish
+      if (this.activeStep === 3) {
+        this.$store.dispatch('rental/getRentables');
+      }
+    },
     updateDate(booking) {
       this.booking = booking;
       this.activeStep += 1;
@@ -76,8 +97,11 @@ export default {
       this.activeStep += 1;
     },
     updateRentable(rentable) {
-      this.selectedRentable = rentable;
-      this.booking.rentable = rentable.id;
+      this.$set(this.booking, 'rentables', [rentable.id]);
+      this.activeStep += 1;
+    },
+    updateTraining(rentables) {
+      this.$set(this.booking, 'rentables', rentables);
       this.activeStep += 1;
     },
     async createBooking(booking) {
@@ -129,8 +153,12 @@ export default {
     justify-content: center;
     margin-top: 1rem;
 
-    .prev {
-      margin-right: 1rem;
+    .button {
+      margin-left: 1rem;
+
+      &:first-of-type {
+        margin-left: 0;
+      }
     }
   }
 }

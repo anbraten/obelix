@@ -1,18 +1,41 @@
 <template>
   <div class="step">
-    <div class="step-title">Wähle ein Boot aus.</div>
+    <div class="step-title">Erstelle ein neues Training</div>
 
     <template v-if="rentables">
-      <template v-for="rentable in rentables">
-        <div :key="rentable.id" @click="selectRentable(rentable)" class="rentable" :class="rentable.canBook ? '' : 'booked'">
-          <span class="name"><b-icon pack="fas" icon="ship" size="is-small"/> {{ rentable.name }}</span>
-          <span v-if="rentable.bookingInfo" class="info"><b-icon pack="fas" icon="info" size="is-small"/> {{ rentable.bookingInfo }}</span>
-        </div>
-      </template>
+      <b-table
+        :data="rentables"
+        :default-sort="['name', 'asc']"
+        :paginated="true"
+        :per-page="10"
+        :row-class="(row, index) => !row.canBook && 'booked'"
+        @click="selectRentable" >
+        <template slot-scope="props">
+          <b-table-column>
+            <b-checkbox class="check" v-if="props.row.canBook" :value="selectedRentables.includes(props.row.id)" disabled />
+          </b-table-column>
+
+          <b-table-column field="name" label="Name" sortable>
+            <span>{{ props.row.name }}</span>
+          </b-table-column>
+
+          <b-table-column field="category.name" label="Boots-Typ" sortable>
+            <span v-if="props.row.category">{{ props.row.category.name || '' }}</span>
+          </b-table-column>
+
+          <b-table-column field="bookingInfo" label="Informationen" sortable>
+            <span v-if="props.row.bookingInfo">
+              <b-icon pack="fas" icon="info" size="is-small" />
+              {{ props.row.bookingInfo }}
+            </span>
+          </b-table-column>
+        </template>
+      </b-table>
     </template>
 
     <div class="actions">
       <b-button class="next" @click="$emit('back')">Zurück</b-button>
+      <b-button class="next" @click="submit" :disabled="selectedRentables.length < 1">Weiter</b-button>
     </div>
   </div>
 </template>
@@ -21,23 +44,22 @@
 import { timeRange } from '@/libs/momentUtils';
 
 export default {
-  name: 'BookingCreateRentable',
+  name: 'BookingCreateTraining',
 
   props: {
     booking: {
       required: true,
     },
-    category: {
-      required: true,
-    },
+  },
+
+  data() {
+    return {
+      selectedRentables: [],
+    };
   },
 
   computed: {
     bookedRentables() {
-      if (!this.booking) {
-        return [];
-      }
-
       let bookings = this.$store.state.rental.bookings[this.booking.date] || [];
 
       // start & end time
@@ -60,13 +82,11 @@ export default {
 
       return bookedRentables;
     },
+    categories() {
+      return this.$store.state.rental.categories || [];
+    },
     rentables() {
-      if (!this.category) {
-        return null;
-      }
-
       let rentables = this.$store.state.rental.rentables || [];
-      rentables = rentables.filter((rentable) => rentable.category === this.category.id);
 
       rentables = rentables.map((rentable) => {
         let canBook = true;
@@ -75,18 +95,27 @@ export default {
           canBook = false;
         }
 
+        const category = this.categories.find((c) => c.id === rentable.category);
+
         return {
           ...rentable,
+          category,
           canBook,
         };
       });
 
-      return rentables.sort((a, b) => a.name.localeCompare(b.name));
+      return rentables;
     },
   },
 
   methods: {
     selectRentable(rentable) {
+      // if already selected => unselect
+      if (this.selectedRentables.includes(rentable.id)) {
+        this.selectedRentables = this.selectedRentables.filter((r) => r !== rentable.id);
+        return;
+      }
+
       if (!rentable.canBook) {
         this.$buefy.dialog.alert({
           title: 'Bereits reserviert!',
@@ -113,13 +142,16 @@ export default {
           ariaRole: 'alertdialog',
           ariaModal: true,
           onConfirm: () => {
-            this.$emit('done', rentable);
+            this.selectedRentables.push(rentable.id);
           },
         });
         return;
       }
 
-      this.$emit('done', rentable);
+      this.selectedRentables.push(rentable.id);
+    },
+    submit() {
+      this.$emit('done', this.selectedRentables);
     },
   },
 };
@@ -141,12 +173,28 @@ export default {
     z-index: 1;
   }
 
-  &.booked {
-    background: hsl(348, 80%, 61%);
-  }
-
   .info {
     margin-left: auto;
+  }
+}
+
+::v-deep tr {
+  cursor: pointer;
+
+  &:hover {
+    background: #ccc;
+  }
+
+  .check {
+    cursor: pointer;
+  }
+
+  &.booked {
+    background: hsl(348, 80%, 61%);
+
+    &:hover {
+      background: hsl(348, 40%, 61%);
+    }
   }
 }
 </style>
