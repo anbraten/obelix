@@ -176,7 +176,7 @@ export default {
             return;
           }
 
-          await this.loadBookings();
+          await this.loadData();
 
           this.$buefy.toast.open({
             message: 'Deine Reservierung wurde erfolgreich storniert.',
