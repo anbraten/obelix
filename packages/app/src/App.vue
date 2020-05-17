@@ -4,6 +4,7 @@
     <router-view />
     <Footer />
     <UpdateBar />
+    <Changelog />
   </div>
 </template>
 
@@ -13,6 +14,7 @@ import { mapState } from 'vuex';
 import NavBar from '@/components/NavBar.vue';
 import Footer from '@/components/Footer.vue';
 import UpdateBar from '@/components/UpdateBar.vue';
+import Changelog from '@/components/Changelog.vue';
 
 import Api from '@/libs/api';
 
@@ -23,6 +25,7 @@ export default {
     NavBar,
     Footer,
     UpdateBar,
+    Changelog,
   },
 
   computed: {

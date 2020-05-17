@@ -61,7 +61,7 @@ export default {
   width: 100%;
   padding: 0.75rem 0;
   box-shadow: 0 1px 8px -1px rgba(0, 0, 0, .5);
-  z-index: 1000;
+  z-index: 10;
   background: rgba(34, 34, 40, .94);
   color: #fff;
 
