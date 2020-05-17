@@ -18,12 +18,12 @@ function createSocket(socket) {
         name: user.name,
       };
 
-      const rentable = db.get('rentables').find({ id: booking.rentable }).value();
+      const rentables = booking.rentables || [booking.rentable];
 
       return {
         ...booking,
         user,
-        rentable,
+        rentables,
       };
     });
 

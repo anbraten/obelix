@@ -18,10 +18,23 @@
 
     <template v-if="bookings && bookings.length > 0">
       <div v-for="booking in bookings" :key="booking.id" class="booking">
-        <span class="rentable"><b-icon pack="fas" icon="ship" size="is-small"/> {{ booking.rentable.name }}</span>
-        <span class="time"><b-icon pack="fas" icon="clock" size="is-small"/> {{ booking.startTime }} - {{ booking.endTime }}</span>
-        <span class="user"><b-icon pack="fas" icon="user" size="is-small"/> {{ booking.user.name }}</span>
-        <span class="note" v-if="booking.note"><b-icon pack="fas" icon="sticky-note" size="is-small" /> {{ booking.note }}</span>
+        <div class="rentables">
+          <div v-for="rentable in booking.rentables" :key="rentable.id" class="rentable">
+            <b-icon class="icon" pack="fas" icon="ship" size="is-small"/><span>{{ rentable.name }}</span>
+          </div>
+        </div>
+        <div class="time">
+          <b-icon class="icon" pack="fas" icon="clock" size="is-small"/>
+          <span>{{ booking.startTime }} - {{ booking.endTime }}</span>
+        </div>
+        <div class="user">
+          <b-icon class="icon" pack="fas" icon="user" size="is-small"/>
+          <span>{{ booking.user.name }}</span>
+        </div>
+        <div class="note" v-if="booking.note">
+          <b-icon class="icon" pack="fas" icon="sticky-note" size="is-small" />
+          <span>{{ booking.note }}</span>
+        </div>
         <div class="actions">
           <div class="remove" v-if="booking.canCancel" @click="cancelBooking(booking)">
             <b-icon pack="fas" icon="trash"  size="is-small" />
@@ -62,6 +75,9 @@ export default {
     ...mapGetters('rental', [
       'isTrainer',
     ]),
+    rentables() {
+      return this.$store.state.rental.rentables || [];
+    },
     bookings() {
       let bookings = this.$store.state.rental.bookings[this.selectedDate] || [];
 
@@ -69,12 +85,14 @@ export default {
 
       bookings = bookings.map((booking) => {
         const date = moment(`${booking.date} ${booking.startTime}`, dateTimeFormat);
-        const isInPast = isPastDate(date, 'hours');
+        const isInPast = isPastDate(date, 'minutes');
         const canCancel = booking.user.id === this.userId && !isInPast;
+        const rentables = booking.rentables.map((id) => this.rentables.find((rentable) => rentable.id === id));
 
         return {
           ...booking,
           canCancel,
+          rentables,
         };
       });
 
@@ -114,7 +132,7 @@ export default {
       return;
     }
 
-    await this.loadBookings();
+    await this.loadData();
   },
 
   methods: {
@@ -133,7 +151,8 @@ export default {
     newBooking() {
       this.$router.push({ name: 'booking-create', hash: `#${this.selectedDate}` });
     },
-    async loadBookings() {
+    async loadData() {
+      await this.$store.dispatch('rental/getRentables');
       await this.$store.dispatch('rental/getBookings', this.selectedDate);
     },
     async cancelBooking(booking) {
@@ -227,9 +246,18 @@ export default {
     z-index: 1;
   }
 
-  .rentable {
+  .icon {
+    margin-right: .5rem;
+  }
+
+
+  .rentables {
     width: 50%;
     margin-bottom: .25rem;
+
+    .rentable {
+      display: flex;
+    }
   }
 
   .user {
@@ -258,7 +286,7 @@ export default {
   }
 
   @media screen and (min-width: 768px) {
-    .rentable {
+    .rentables {
       order: 1;
       width: 30%;
       text-align: left;
