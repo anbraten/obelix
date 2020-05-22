@@ -1,5 +1,6 @@
+const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 // get last commit id as revision for /env-config.js
-const envConfigRevision = process.env.VERSION || null;
+const VERSION = process.env.VERSION || null;
 const manifestJSON = require('./public/manifest.json');
 
 module.exports = {
@@ -18,7 +19,7 @@ module.exports = {
       swSrc: './src/sw.js',
       swDest: 'service-worker.js',
       additionalManifestEntries: [
-        { url: '/env-config.js', revision: envConfigRevision },
+        { url: '/env-config.js', revision: VERSION },
       ],
     },
     iconPaths: {
@@ -34,5 +35,13 @@ module.exports = {
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: 'black',
   },
-  transpileDependencies: ['vue-oidc-client'],
+  configureWebpack: {
+    plugins: [
+      new SentryWebpackPlugin({
+        release: VERSION,
+        include: 'dist',
+        dryRun: process.env.NODE_ENV !== 'production',
+      }),
+    ],
+  },
 };

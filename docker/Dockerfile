@@ -1,6 +1,7 @@
 FROM node:12.13-alpine as build-stage
 ARG VERSION
 ENV VUE_APP_VERSION=${VERSION}
+ENV VERSION=${VERSION}
 WORKDIR /app
 COPY packages/app/package.json ./packages/app/
 COPY package.json yarn.lock ./
