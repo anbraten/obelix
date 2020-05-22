@@ -14,6 +14,10 @@ export default {
   },
 
   created() {
+    if (!('serviceWorker' in navigator)) {
+      return;
+    }
+
     // Listen for swUpdated event and display refresh snackbar as required.
     document.addEventListener('swUpdated', this.showRefreshUI, { once: true });
 
