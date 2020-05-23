@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === 'production') {
       dryRun: process.env.NODE_ENV !== 'production',
     }));
   } else {
-    console.log('Please set SENTRY_AUTH_TOKEN, SENTRY_ORG and SENTRY_PROJET to enable sentry releases!');
+    console.log('Please set SENTRY_AUTH_TOKEN, SENTRY_ORG and SENTRY_PROJECT to enable sentry releases!');
   }
 }
 
