@@ -6,11 +6,15 @@ const manifestJSON = require('./public/manifest.json');
 const webpackPlugins = [];
 
 if (process.env.NODE_ENV === 'production') {
-  webpackPlugins.push(new SentryWebpackPlugin({
-    release: VERSION,
-    include: 'dist',
-    dryRun: process.env.NODE_ENV !== 'production',
-  }));
+  if (process.env.SENTRY_AUTH_TOKEN && process.env.SENTRY_ORG && process.env.SENTRY_PROJET) {
+    webpackPlugins.push(new SentryWebpackPlugin({
+      release: VERSION,
+      include: 'dist',
+      dryRun: process.env.NODE_ENV !== 'production',
+    }));
+  } else {
+    console.log('Please set SENTRY_AUTH_TOKEN, SENTRY_ORG and SENTRY_PROJET to enable sentry releases!');
+  }
 }
 
 module.exports = {
