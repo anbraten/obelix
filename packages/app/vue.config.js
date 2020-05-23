@@ -6,7 +6,7 @@ const manifestJSON = require('./public/manifest.json');
 const webpackPlugins = [];
 
 if (process.env.NODE_ENV === 'production') {
-  if (process.env.SENTRY_AUTH_TOKEN && process.env.SENTRY_ORG && process.env.SENTRY_PROJET) {
+  if (process.env.SENTRY_AUTH_TOKEN && process.env.SENTRY_ORG && process.env.SENTRY_PROJECT) {
     webpackPlugins.push(new SentryWebpackPlugin({
       release: VERSION,
       include: 'dist',
