@@ -56,6 +56,11 @@ jobs:
         run: yarn --frozen-lockfile
       - name: Build
         run: yarn build
+        env:
+          SENTRY_URL: ${{ secrets.SENTRY_URL }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
       # TODO: remove .map files from dist
       # Docker jobs
