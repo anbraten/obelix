@@ -1,8 +1,8 @@
 import { DialogProgrammatic as Dialog } from 'buefy';
 
 import Api from '@/libs/api';
-import Auth from '@/libs/auth';
 import Debug from '@/libs/debug';
+import Sentry from '@/libs/sentry';
 
 const debug = Debug('subscriptions');
 
@@ -50,32 +50,23 @@ export default async (store) => {
     }
   });
 
-  // auth listeners
-  Auth.events.addUserLoaded(async (user) => {
-    debug(`user loaded ${user}`);
-    // TODO: update user data?
-  });
+  // isAuthenticated => connect api
+  store.watch(
+    (state, getters) => getters['auth/isAuthenticated'],
+    (isAuthenticated) => {
+      if (isAuthenticated) {
+        Api.open();
+      }
+    },
+  );
 
-  Auth.events.addUserUnloaded(async () => {
-    debug('user unloaded');
-    await store.commit('auth/setUser', null); // clear user detail
-  });
-
-  Auth.events.addUserSignedOut(() => {
-    debug('user singed out');
-    store.commit('auth/setUser', null); // clear user details
-  });
-
-  Auth.events.addAccessTokenExpiring((...args) => {
-    debug(`accesstoken expiring： ${args}`);
-  });
-
-  Auth.events.addAccessTokenExpired(async (...args) => {
-    debug(`accesstoken expired: ${args}`);
-    await store.dispatch('auth/logout');
-  });
-
-  Auth.events.addSilentRenewError((...args) => {
-    debug(`silent token renew error：${args}`);
-  });
+  // user profile set => set sentry user
+  store.watch(
+    (state, getters) => getters['auth/profile'],
+    (profile) => {
+      if (profile && profile.email) {
+        Sentry.setUser({ email: profile.email });
+      }
+    },
+  );
 };

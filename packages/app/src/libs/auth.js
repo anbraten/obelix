@@ -1,10 +1,12 @@
-import Oidc from 'oidc-client';
+import Vue from 'vue';
+import { createOidcAuth, SignInType, LogLevel } from 'vue-oidc-client';
+
 import config from '@/libs/config';
 import Debug from '@/libs/debug';
 
 const debug = Debug('Auth');
 
-const APP_URL = `${window.location.protocol}//${window.location.host}`;
+const APP_URL = `${window.location.protocol}//${window.location.host}${process.env.BASE_URL}`;
 const OIDC_URL = config('oidc_url');
 const OIDC_CLIENT_ID = config('oidc_client_id');
 
@@ -15,22 +17,13 @@ if (!OIDC_URL || !OIDC_CLIENT_ID) {
 const settings = {
   authority: OIDC_URL,
   client_id: OIDC_CLIENT_ID,
-  redirect_uri: `${APP_URL}/auth/callback`,
+  // response_type: 'id_token token',
   response_type: 'code',
-  scope: 'openid profile email roles',
-  post_logout_redirect_uri: `${APP_URL}/`,
-  userStore: new Oidc.WebStorageStateStore({ store: window.localStorage }),
-  filterProtocolClaims: true,
-  automaticSilentRenew: true,
-
-  // silent_redirect_uri: `${APP_URL}/static/silent-renew.html`,
-  // accessTokenExpiringNotificationTime: 10,
-  // loadUserInfo: true,
+  scope: 'openid profile email',
 };
 
-const mgr = new Oidc.UserManager(settings);
+const mainOidc = createOidcAuth('main', SignInType.Window, APP_URL, settings, console, LogLevel.Error);
 
-// Oidc.Log.logger = console;
-// Oidc.Log.level = Oidc.Log.INFO;
+Vue.prototype.$oidc = mainOidc;
 
-export default mgr;
+export default mainOidc;

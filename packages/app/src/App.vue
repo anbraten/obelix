@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <NavBar />
-    <router-view />
+    <router-view  />
     <Footer />
     <UpdateBar />
     <Changelog />
@@ -9,14 +9,10 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 import NavBar from '@/components/NavBar.vue';
 import Footer from '@/components/Footer.vue';
 import UpdateBar from '@/components/UpdateBar.vue';
 import Changelog from '@/components/Changelog.vue';
-
-import Api from '@/libs/api';
 
 export default {
   name: 'App',
@@ -26,23 +22,6 @@ export default {
     Footer,
     UpdateBar,
     Changelog,
-  },
-
-  computed: {
-    ...mapState([
-      'isConnected',
-    ]),
-    ...mapState('auth', [
-      'user',
-    ]),
-  },
-
-  watch: {
-    user(user) {
-      if (user) {
-        Api.open();
-      }
-    },
   },
 };
 </script>

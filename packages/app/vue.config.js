@@ -3,6 +3,16 @@ const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 const VERSION = process.env.VERSION || null;
 const manifestJSON = require('./public/manifest.json');
 
+const webpackPlugins = [];
+
+if (process.env.NODE_ENV === 'production') {
+  webpackPlugins.push(new SentryWebpackPlugin({
+    release: VERSION,
+    include: 'dist',
+    dryRun: process.env.NODE_ENV !== 'production',
+  }));
+}
+
 module.exports = {
   devServer: {
     proxy: {
@@ -36,12 +46,7 @@ module.exports = {
     appleMobileWebAppStatusBarStyle: 'black',
   },
   configureWebpack: {
-    plugins: [
-      new SentryWebpackPlugin({
-        release: VERSION,
-        include: 'dist',
-        dryRun: process.env.NODE_ENV !== 'production',
-      }),
-    ],
+    plugins: webpackPlugins,
   },
+  transpileDependencies: ['vue-oidc-client'],
 };

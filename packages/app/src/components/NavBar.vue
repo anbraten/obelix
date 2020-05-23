@@ -7,13 +7,13 @@
           <span class="nav-title">{{ title }}</span>
         </div>
         <div class="stretch" />
-        <template v-if="isAuthenticated">
-          <span>{{ userFullName }}</span>
+        <template>
+          <span v-if="userFullName">{{ userFullName }}</span>
           <div class="logout" @click="logout"><b-icon pack="fas" icon="sign-out-alt" size="is-small" /></div>
+          <div class="admin" v-if="isAdmin" @click="$router.push({ name: 'admin' })">
+            <b-icon pack="fas" icon="cog" size="is-small" />
+          </div>
         </template>
-        <div class="admin" v-if="isAdmin" @click="$router.push({ name: 'admin' })">
-          <b-icon pack="fas" icon="cog" size="is-small" />
-        </div>
         <span v-if="!isConnected" class="offline"><i class="fas fa-signal"/></span>
       </div>
     </div>
@@ -23,6 +23,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+// import auth from '@/libs/auth';
 import config from '@/libs/config';
 
 export default {
@@ -37,7 +38,6 @@ export default {
       'isConnected',
     ]),
     ...mapGetters({
-      isAuthenticated: 'auth/isAuthenticated',
       userFullName: 'auth/userFullName',
       isAdmin: 'rental/isAdmin',
     }),
