@@ -24,8 +24,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - run: yarn --frozen-lockfile
-      - run: yarn lint
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - name: Lint
+        run: yarn lint
 
   build:
     needs: lint
@@ -39,6 +41,15 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - name: Build
+        run: yarn build
+      # remove .map files from dist
       - name: Login to DockerHub Registry
         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Build the Docker image
