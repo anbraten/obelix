@@ -41,6 +41,13 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+
+      # Build jobs (node)
+      - name: Create VERSION tag
+        run: |
+          export VERSION="$(date +%d.%m.%Y-%H:%M)-${GITHUB_SHA::8}"
+          echo "::set-env name=VERSION::$VERSION"
+          echo "::set-env name=VUE_APP_VERSION::$VERSION"
       - name: Set up Node
         uses: actions/setup-node@v1
         with:
@@ -49,10 +56,12 @@ jobs:
         run: yarn --frozen-lockfile
       - name: Build
         run: yarn build
-      # remove .map files from dist
+
+      # TODO: remove .map files from dist
+      # Docker jobs
       - name: Login to DockerHub Registry
         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Build the Docker image
-        run: docker build --file docker/Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/obelix:latest --build-arg VERSION="$(date +%d.%m.%Y-%H:%M)-${GITHUB_SHA::8}" --cache-from ${{ secrets.DOCKERHUB_USERNAME }}/obelix:latest .
+        run: docker build --file docker/Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/obelix:latest --build-arg VERSION="$VERSION" --cache-from ${{ secrets.DOCKERHUB_USERNAME }}/obelix:latest .
       - name: Push image to DockerHub
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/obelix
