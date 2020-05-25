@@ -65,7 +65,7 @@ export default {
       return new Promise((resolve, reject) => {
         Api.once('createBooking', (result) => {
           if (result.error) {
-            reject(result.error);
+            reject(new Error(result.error));
           } else {
             resolve(result);
           }
@@ -79,7 +79,7 @@ export default {
       return new Promise((resolve, reject) => {
         Api.once('cancelBooking', (result) => {
           if (result.error) {
-            reject(result.error);
+            reject(new Error(result.error));
           } else {
             resolve(result);
           }
@@ -93,7 +93,7 @@ export default {
       return new Promise((resolve, reject) => {
         Api.once('createRentable', (result) => {
           if (result.error) {
-            reject(result.error);
+            reject(new Error(result.error));
           } else {
             resolve(result);
           }
@@ -107,7 +107,7 @@ export default {
       return new Promise((resolve, reject) => {
         Api.once('updateRentable', (result) => {
           if (result.error) {
-            reject(result.error);
+            reject(new Error(result.error));
           } else {
             resolve(result);
           }
@@ -137,7 +137,7 @@ export default {
       return new Promise((resolve, reject) => {
         Api.once('removeUser', (result) => {
           if (result.error) {
-            reject(result.error);
+            reject(new Error(result.error));
           } else {
             resolve(result);
           }
@@ -151,7 +151,7 @@ export default {
       return new Promise((resolve, reject) => {
         Api.once('updateUser', (result) => {
           if (result.error) {
-            reject(result.error);
+            reject(new Error(result.error));
           } else {
             resolve(result);
           }
