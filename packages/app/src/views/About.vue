@@ -39,7 +39,9 @@ export default {
       await Promise.all((await caches.keys()).map((cacheName) => caches.delete(cacheName)));
 
       // unregister service-worker
-      await Promise.all((await navigator.serviceWorker.getRegistrations()).map((registraion) => registraion.unregister()));
+      if ('serviceWorker' in navigator) {
+        await Promise.all((await navigator.serviceWorker.getRegistrations()).map((registraion) => registraion.unregister()));
+      }
 
       // clear localstorage
       localStorage.clear();
