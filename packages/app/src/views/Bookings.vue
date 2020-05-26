@@ -53,7 +53,6 @@
 
 <script>
 import moment from 'moment';
-import { get } from 'lodash';
 import Debug from '@/libs/debug';
 import {
   isFutureDate,
@@ -108,7 +107,7 @@ export default {
       return moment().format(dateFormat);
     },
     userId() {
-      return get(this, '$store.state.auth.user.profile.sub', null);
+      return this.$store.getters['auth/userId'];
     },
     canBook() {
       const date = moment(this.selectedDate, dateFormat);

@@ -10,6 +10,7 @@ export default {
     isAuthenticated: () => Auth.isAuthenticated || false,
     accessToken: () => Auth.accessToken || null,
     userFullName: () => (Auth.userProfile && Auth.userProfile.given_name) || null,
+    userId: () => (Auth.userProfile && Auth.userProfile.sub) || null,
     profile: () => Auth.userProfile || null,
   },
 
