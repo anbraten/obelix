@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import { createOidcAuth, SignInType, LogLevel } from 'vue-oidc-client';
+import { WebStorageStateStore } from 'oidc-client';
 
 import config from '@/libs/config';
 import Debug from '@/libs/debug';
@@ -20,6 +21,7 @@ const settings = {
   // response_type: 'id_token token',
   response_type: 'code',
   scope: 'openid profile email',
+  userStore: new WebStorageStateStore({ store: window.localStorage }),
 };
 
 const mainOidc = createOidcAuth('main', SignInType.Window, APP_URL, settings, console, LogLevel.Error);
