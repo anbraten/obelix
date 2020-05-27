@@ -42,12 +42,13 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 html, body, #app {
   width: 100%;
   height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 #app {
   display: flex;
   flex-flow: column;
-  font-family: sans-serif; // TODO: add proper font
+  font-family: Arial, Helvetica, sans-serif;
   color: #2c3e50;
 }
 </style>
