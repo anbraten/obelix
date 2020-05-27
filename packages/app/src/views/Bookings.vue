@@ -36,9 +36,7 @@
           <span>{{ booking.note }}</span>
         </div>
         <div class="actions">
-          <div class="remove" v-if="booking.canCancel" @click="cancelBooking(booking)">
-            <b-icon pack="fas" icon="trash"  size="is-small" />
-          </div>
+          <b-button type="is-danger" class="remove" v-if="booking.canCancel" @click="cancelBooking(booking)" icon-right="trash" />
         </div>
       </div>
     </template>
@@ -73,6 +71,7 @@ export default {
   computed: {
     ...mapGetters('rental', [
       'isTrainer',
+      'isAdmin',
     ]),
     rentables() {
       return this.$store.state.rental.rentables || [];
@@ -85,7 +84,7 @@ export default {
       bookings = bookings.map((booking) => {
         const date = moment(`${booking.date} ${booking.startTime}`, dateTimeFormat);
         const isInPast = isPastDate(date, 'minutes');
-        const canCancel = booking.user.id === this.userId && !isInPast;
+        const canCancel = (booking.user.id === this.userId || this.isAdmin) && !isInPast;
         const rentables = booking.rentables.map((id) => this.rentables.find((rentable) => rentable.id === id));
 
         return {
@@ -296,10 +295,9 @@ export default {
   .actions {
     margin-left: auto;
     text-align: right;
-    width: 5%;
 
     .remove {
-      color: hsl(348, 80%, 61%);
+      margin-top: .5rem;
     }
   }
 
@@ -324,7 +322,6 @@ export default {
     .actions {
       order: 4;
       text-align: right;
-      width: 5%;
     }
 
     .note {
