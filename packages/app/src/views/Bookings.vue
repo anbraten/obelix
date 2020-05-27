@@ -12,7 +12,7 @@
       </div>
 
       <div v-if="canBook" class="actions">
-        <b-button @click="newBooking" class="button">Boot ausleihen</b-button>
+        <b-button @click="newBooking" type="is-info" outlined class="button" icon-left="plus">Boot ausleihen</b-button>
       </div>
     </div>
 
