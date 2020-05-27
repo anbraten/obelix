@@ -36,7 +36,7 @@
           <span>{{ booking.note }}</span>
         </div>
         <div class="actions">
-          <b-button type="is-danger" class="remove" v-if="booking.canCancel" @click="cancelBooking(booking)" icon-right="trash" />
+          <b-button type="is-danger" class="remove" size="is-small" v-if="booking.canCancel" @click="cancelBooking(booking)" icon-left="trash" />
         </div>
       </div>
     </template>
@@ -202,7 +202,6 @@ export default {
   display: flex;
   flex-flow: column;
   margin: 0 auto;
-  margin-top: 2rem;
   width: 100%;
   max-width: 40rem;
   padding: 1rem 0;
@@ -239,6 +238,10 @@ export default {
     display: flex;
     width: 100%;
     justify-content: center;
+  }
+
+  @media screen and (min-width: 768px) {
+    margin-top: 2rem;
   }
 }
 
