@@ -13,7 +13,7 @@ export function diffFromToday(date, checkOn = 'hours') {
 }
 
 export function isToday(date) {
-  return diffFromToday(date, 'days') === 0;
+  return date.isSame(new Date(), 'day');
 }
 
 export function isFutureDate(date, checkOn) {

@@ -7,7 +7,7 @@
         <div class="selectedDate">
           {{ this.selectedDate | date }}
         </div>
-        <div @click="today" class="today button">Heute</div>
+        <div v-if="!isTodaySelected" @click="today" class="today button">Heute</div>
         <div @click="nextDay" class="nextDay button"><i class="fas fa-forward" /></div>
       </div>
 
@@ -117,6 +117,9 @@ export default {
 
       return isToday(date) || (isFutureDate(date) && isInDiff);
     },
+    isTodaySelected() {
+      return isToday(moment(this.selectedDate, dateFormat));
+    },
   },
 
   watch: {
@@ -210,9 +213,18 @@ export default {
 
     .date {
       display: flex;
-      justify-content: center;
+      margin: 0 auto;
       align-items: center;
       margin-bottom: 1rem;
+
+      @media screen and (min-width: 768px) {
+        max-width: 75%;
+      }
+
+      .selectedDate {
+        margin: 0 auto;
+      }
+
       > * {
         margin: 0 0.5rem;
       }
