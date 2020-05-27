@@ -28,6 +28,7 @@ export default {
     padding: .5rem 0;
     text-align: center;
     justify-content: center;
+    background: #fff;
 
     a {
       color: #333;
