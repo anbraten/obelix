@@ -28,6 +28,60 @@
     <div class="actions">
       <b-button class="next" @click="submit" :disabled="$v.$invalid">Weiter</b-button>
     </div>
+
+    <div class="info-box mt-6">
+      <div class="title is-3 has-text-centered">Trainings-Slots Ergometer</div>
+      <table class="table" style="width: 100%">
+        <thead>
+          <tr>
+            <th>Mo - Fr</th>
+            <th>Sa + So</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>17:30 - 19:00</td>
+            <td>06:00 - 07:30</td>
+          </tr>
+          <tr>
+            <td>19:00 - 20:30</td>
+            <td>07:30 - 09:00</td>
+          </tr>
+          <tr>
+            <td>20:30 - 22:00</td>
+            <td>09:00 - 10:30</td>
+          </tr>
+          <tr>
+            <td>---</td>
+            <td>10:30 - 12:00</td>
+          </tr>
+          <tr>
+            <td>---</td>
+            <td>12:00 - 13:30</td>
+          </tr>
+          <tr>
+            <td>---</td>
+            <td>13:30 - 15:00</td>
+          </tr>
+          <tr>
+            <td>---</td>
+            <td>15:00 - 16:30</td>
+          </tr>
+          <tr>
+            <td>---</td>
+            <td>16:30 - 18:00</td>
+          </tr>
+          <tr>
+            <td>---</td>
+            <td>18:00 - 19:30</td>
+          </tr>
+          <tr>
+            <td>---</td>
+            <td>19:30 - 21:00</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -138,7 +192,3 @@ export default {
   },
 };
 </script>
-
-<style>
-
-</style>
