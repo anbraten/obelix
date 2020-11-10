@@ -1,6 +1,6 @@
 # obelix
-[![Docker Build](https://github.com/anbraten/obelix/workflows/Docker%20Build/badge.svg)](https://github.com/anbraten/obelix/actions?query=workflow%3A%22Docker+Build%22)
-[![Linting](https://github.com/anbraten/obelix/workflows/Linting/badge.svg)](https://github.com/anbraten/obelix/actions?query=workflow%3ALinting)
+[![Release](https://github.com/anbraten/obelix/workflows/Release/badge.svg)](https://github.com/anbraten/obelix/actions?query=workflow%3ARelease)
+[![Checks](https://github.com/anbraten/obelix/workflows/Checks/badge.svg)](https://github.com/anbraten/obelix/actions?query=workflow%3AChecks)
 [![](https://images.microbadger.com/badges/image/anbraten/obelix.svg)](https://microbadger.com/images/anbraten/obelix "Get your own image badge on microbadger.com")
 
 This wep app allows you to book boats.

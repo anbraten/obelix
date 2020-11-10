@@ -13,7 +13,6 @@
     "dev:app": "dotenv yarn workspace @obelix/app run dev",
     "dev:backend": "dotenv yarn workspace @obelix/backend run dev",
     "build": "yarn workspace @obelix/app run build",
-    "build:preview": "yarn generate:config && yarn build",
     "lint": "yarn workspaces run lint",
     "lint:fix": "yarn workspaces run lint --fix",
     "generate:config": "./docker/set-env-vars.sh ./packages/app/public/env-config.js",
