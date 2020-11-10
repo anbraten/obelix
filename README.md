@@ -3,7 +3,7 @@
 [![Linting](https://github.com/anbraten/obelix/workflows/Linting/badge.svg)](https://github.com/anbraten/obelix/actions?query=workflow%3ALinting)
 [![](https://images.microbadger.com/badges/image/anbraten/obelix.svg)](https://microbadger.com/images/anbraten/obelix "Get your own image badge on microbadger.com")
 
-This wep app allows you to view live updates of bus arrivals.
+This wep app allows you to book boats.
 
 [![dockeri.co](https://dockeri.co/image/anbraten/obelix)](https://hub.docker.com/r/anbraten/obelix)
 
