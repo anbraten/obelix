@@ -10,8 +10,8 @@
   ],
   "scripts": {
     "dev": "dotenv concurrently \"yarn dev:app\" \"yarn dev:backend\"",
-    "dev:app": "yarn workspace @obelix/app run dev",
-    "dev:backend": "yarn workspace @obelix/backend run dev",
+    "dev:app": "dotenv yarn workspace @obelix/app run dev",
+    "dev:backend": "dotenv yarn workspace @obelix/backend run dev",
     "build": "yarn workspace @obelix/app run build",
     "build:preview": "yarn generate:config && yarn build",
     "lint": "yarn workspaces run lint",
@@ -23,10 +23,10 @@
     "**/workbox-webpack-plugin": "5.0.0"
   },
   "dependencies": {
-    "concurrently": "^5.2.0",
-    "dotenv-cli": "^3.1.0"
+    "concurrently": "^5.3.0",
+    "dotenv-cli": "^4.0.0"
   },
   "devDependencies": {
-    "lerna": "^3.20.2"
+    "lerna": "^3.22.1"
   }
 }
