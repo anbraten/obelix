@@ -8,18 +8,18 @@
     "lint": "eslint --ext .js --ignore-path ../../.gitignore ."
   },
   "dependencies": {
-    "express": "^4.17.1",
-    "lodash": "^4.17.20",
-    "lowdb": "^1.0.0",
-    "querystring": "^0.2.0",
-    "socket.io": "^2.3.0",
-    "socketio-jwt": "^4.6.2",
-    "uuid": "^8.3.1"
+    "express": "4.17.1",
+    "lodash": "4.17.20",
+    "lowdb": "1.0.0",
+    "querystring": "0.2.0",
+    "socket.io": "2.3.0",
+    "socketio-jwt": "4.6.2",
+    "uuid": "8.3.1"
   },
   "devDependencies": {
-    "eslint": "^7.13.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1",
-    "nodemon": "^2.0.6"
+    "eslint": "7.13.0",
+    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-plugin-import": "2.22.1",
+    "nodemon": "2.0.6"
   }
 }
