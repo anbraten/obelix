@@ -1,6 +1,6 @@
 {
   "name": "@obelix/app",
-  "version": "1.3.13",
+  "version": "1.3.14",
   "scripts": {
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
