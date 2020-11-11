@@ -7,8 +7,7 @@ COPY packages/backend/package.json yarn.lock ./
 USER node
 RUN yarn install --silent --frozen-lockfile --production
 COPY --chown=node:node docker/set-env-vars.sh docker/entrypoint.sh packages/backend/ ./
-COPY --chown=node:node packages/app/dist/ dist/
 EXPOSE 8080
-ENTRYPOINT [ "./entrypoint.sh" ]
-CMD ["yarn", "run", "start"]
+# ENTRYPOINT [ "./entrypoint.sh" ]
+CMD ["node", "src/"]
 ENV VERSION=${VERSION}
