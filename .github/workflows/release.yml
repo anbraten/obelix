@@ -61,10 +61,13 @@ jobs:
           yarn build
         env:
           APP_TITLE: Obelix
-          APP_MATOMO_URL: ${{ secrets.MATOMO_URL }}
-          APP_MATOMO_SITE: ${{ secrets.MATOMO_SITE }}
-          APP_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-          APP_BACKEND_URL: ${{ secrets.BACKEND_URL }}
+          APP_URL: ${{ secrets.APP_URL }}
+          APP_OIDC_URL: ${{ secrets.APP_OIDC_URL }}
+          APP_OIDC_CLIENT_ID: ${{ secrets.APP_OIDC_CLIENT_ID }}
+          APP_MATOMO_URL: ${{ secrets.APP_MATOMO_URL }}
+          APP_MATOMO_SITE: ${{ secrets.APP_MATOMO_SITE }}
+          APP_BACKEND_URL: ${{ secrets.APP_BACKEND_URL }}
+          APP_SENTRY_DSN: ${{ secrets.APP_SENTRY_DSN }}
           SENTRY_URL: ${{ secrets.SENTRY_URL }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
