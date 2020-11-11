@@ -71,7 +71,7 @@ jobs:
           SENTRY_URL: ${{ secrets.SENTRY_URL }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          # SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }} # disable sentry token
 
       - name: Install SSH Client 🔑
         uses: webfactory/ssh-agent@v0.4.1
