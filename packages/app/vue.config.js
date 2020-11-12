@@ -32,9 +32,6 @@ module.exports = {
     workboxOptions: {
       swSrc: './src/sw.js',
       swDest: 'service-worker.js',
-      additionalManifestEntries: [
-        { url: '/env-config.js', revision: VERSION },
-      ],
     },
     iconPaths: {
       favicon32: 'img/icons/favicon-32x32.png',
