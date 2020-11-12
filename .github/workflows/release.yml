@@ -61,7 +61,6 @@ jobs:
           yarn build
         env:
           APP_TITLE: Obelix
-          APP_URL: ${{ secrets.APP_URL }}
           APP_OIDC_URL: ${{ secrets.APP_OIDC_URL }}
           APP_OIDC_CLIENT_ID: ${{ secrets.APP_OIDC_CLIENT_ID }}
           APP_MATOMO_URL: ${{ secrets.APP_MATOMO_URL }}
