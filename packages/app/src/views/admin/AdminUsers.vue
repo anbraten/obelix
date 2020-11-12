@@ -1,25 +1,31 @@
 <template>
   <div class="page">
     <div class="head">
-      <div @click="$router.go(-1)" class="button"><i class="fas fa-angle-double-left" /></div>
-      <div class="head-title">Benutzer verwalten</div>
+      <div class="button" @click="$router.go(-1)">
+        <i class="fas fa-angle-double-left" />
+      </div>
+      <div class="head-title">
+        Benutzer verwalten
+      </div>
       <div />
     </div>
 
     <template v-if="users">
       <div v-for="user in users" :key="user.id" class="user" @click="selectedUser = user">
-        <span class="name"><b-icon pack="fas" icon="user" size="is-small"/> {{ user.name }}</span>
+        <span class="name"><b-icon pack="fas" icon="user" size="is-small" /> {{ user.name }}</span>
         <span class="group">{{ user.group || 'Standard' }}</span>
       </div>
     </template>
 
-    <b-modal :active.sync="isModalOpen"
-        has-modal-card
-        trap-focus
-        :destroy-on-hide="false"
-        aria-role="dialog"
-        aria-modal>
-      <UserForm v-if="selectedUser" @group="changeGroup" @access="changeAccess" :user="selectedUser" />
+    <b-modal
+      :active.sync="isModalOpen"
+      has-modal-card
+      trap-focus
+      :destroy-on-hide="false"
+      aria-role="dialog"
+      aria-modal
+    >
+      <UserForm v-if="selectedUser" :user="selectedUser" @group="changeGroup" @access="changeAccess" />
     </b-modal>
   </div>
 </template>

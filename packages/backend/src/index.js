@@ -19,6 +19,7 @@ let connectedClients = 0;
 
 function start() {
   if (!JWT_SECRET) {
+    // eslint-disable-next-line no-console
     console.error('Please provide JWT_SECRET');
     process.exit(1);
   }
@@ -85,6 +86,7 @@ function start() {
     });
 
   server.listen(PORT, () => {
+    // eslint-disable-next-line no-console
     console.log(`Server listening on port ${PORT}! (env: ${process.env.NODE_ENV})`);
   });
 }

@@ -1,8 +1,12 @@
 <template>
   <div class="step">
     <template v-if="booking">
-      <div v-if="isTraining" class="step-title">Du möchtest folgendes Training erstellen?</div>
-      <div v-else class="step-title">Du möchtest folgende Reservierung aufgeben?</div>
+      <div v-if="isTraining" class="step-title">
+        Du möchtest folgendes Training erstellen?
+      </div>
+      <div v-else class="step-title">
+        Du möchtest folgende Reservierung aufgeben?
+      </div>
 
       <b-field label="Datum">
         <span>{{ booking.date | date }}</span>
@@ -14,7 +18,9 @@
 
       <b-field :label="isTraining ? 'Boote' : 'Boot'">
         <ul>
-          <li v-for="rentable in bookedRentables" :key="rentable.id">{{ rentable.name }}</li>
+          <li v-for="rentable in bookedRentables" :key="rentable.id">
+            {{ rentable.name }}
+          </li>
         </ul>
       </b-field>
 
@@ -31,7 +37,8 @@
           field="name"
           clearable
           expanded
-          @select="option => user = option" />
+          @select="option => user = option"
+        />
       </b-field>
 
       <b-field label="Bemerkung" grouped group-multiline>
@@ -42,8 +49,12 @@
       </b-field>
 
       <div class="actions">
-        <b-button class="prev" @click="$emit('back')">Zurück</b-button>
-        <b-button class="next" @click="createBooking">Reservieren</b-button>
+        <b-button class="prev" @click="$emit('back')">
+          Zurück
+        </b-button>
+        <b-button class="next" @click="createBooking">
+          Reservieren
+        </b-button>
       </div>
     </template>
   </div>
@@ -57,17 +68,30 @@ import { prettyDateFormat, timeFormat, moment } from '@/libs/momentUtils';
 export default {
   name: 'CreateBookingFinish',
 
+  filters: {
+    date(date) {
+      return moment(date).format(prettyDateFormat);
+    },
+    time(date) {
+      if (!date || !RegExp('\\d\\d:\\d\\d').test(date)) {
+        return null;
+      }
+      return moment(date, timeFormat).format(timeFormat);
+    },
+  },
+
+  props: {
+    booking: {
+      validator: (booking) => booking instanceof Object || booking === null,
+      required: true,
+    },
+  },
+
   data() {
     return {
       note: null,
       user: null,
     };
-  },
-
-  props: {
-    booking: {
-      required: true,
-    },
   },
 
   computed: {
@@ -99,14 +123,14 @@ export default {
     },
   },
 
-  mounted() {
-    this.loadData();
-  },
-
   watch: {
     isAdmin() {
       this.loadData();
     },
+  },
+
+  mounted() {
+    this.loadData();
   },
 
   methods: {
@@ -127,18 +151,6 @@ export default {
       }
 
       this.$emit('done', booking);
-    },
-  },
-
-  filters: {
-    date(date) {
-      return moment(date).format(prettyDateFormat);
-    },
-    time(date) {
-      if (!date || !RegExp('\\d\\d:\\d\\d').test(date)) {
-        return null;
-      }
-      return moment(date, timeFormat).format(timeFormat);
     },
   },
 };

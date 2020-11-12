@@ -7,6 +7,7 @@ const dbBasePath = process.env.DB_PATH || path.join(__dirname, '..', 'data');
 const dbPath = path.join(dbBasePath, 'db.json');
 
 function seedDatabase() {
+  // eslint-disable-next-line no-console
   console.log('Database seeded!');
   const dbSeedPath = path.join(__dirname, '..', 'db-seed.json');
   // not database found copy sample data

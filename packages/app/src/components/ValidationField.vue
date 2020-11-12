@@ -1,6 +1,6 @@
 <template>
   <b-field :label="label" :type="type" :message="firstErrorMessage">
-    <slot/>
+    <slot />
   </b-field>
 </template>
 <script>

@@ -1,6 +1,8 @@
 <template>
   <div class="step">
-    <div class="step-title">Erstelle ein neues Training</div>
+    <div class="step-title">
+      Erstelle ein neues Training
+    </div>
 
     <template v-if="rentables">
       <b-field label="Boote auswählen">
@@ -12,13 +14,18 @@
           icon="ship"
           :before-adding="beforeAddingRentable"
           placeholder="Boot hinzufügen"
-          @typing="getFilteredRentables" />
+          @typing="getFilteredRentables"
+        />
       </b-field>
     </template>
 
     <div class="actions">
-      <b-button class="next" @click="$emit('back')">Zurück</b-button>
-      <b-button class="next" @click="submit" :disabled="selectedRentables.length < 1">Weiter</b-button>
+      <b-button class="next" @click="$emit('back')">
+        Zurück
+      </b-button>
+      <b-button class="next" :disabled="selectedRentables.length < 1" @click="submit">
+        Weiter
+      </b-button>
     </div>
   </div>
 </template>
@@ -31,6 +38,7 @@ export default {
 
   props: {
     booking: {
+      validator: (booking) => booking instanceof Object || booking === null,
       required: true,
     },
   },

@@ -1,6 +1,6 @@
 <template>
   <div v-if="isConnected">
-    <router-view  />
+    <router-view />
   </div>
   <b-loading v-else :active="true" />
 </template>

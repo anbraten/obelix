@@ -1,36 +1,43 @@
 <template>
   <div class="step">
-    <form-group :validator="$v.form.date" v-if="form.date" label="Datum">
+    <form-group v-if="form.date" :validator="$v.form.date" label="Datum">
       <b-datepicker
         :value="selectedDate"
-        @input="updateDate"
         :date-formatter="dateFormatter"
         :min-date="minDate"
-        :max-date="maxDate" />
+        :max-date="maxDate"
+        @input="updateDate"
+      />
     </form-group>
 
     <form-group :validator="$v.form.startTime" label="Startzeit">
       <b-input
         v-cleave="masks.time"
         :value="form.startTime"
+        placeholder="HH:MM"
         @input.native="updateStartTime"
-        placeholder="HH:MM" />
+      />
     </form-group>
 
     <form-group :validator="$v.form.endTime" label="Endzeit">
       <b-input
         v-cleave="masks.time"
         :value="form.endTime"
+        placeholder="HH:MM"
         @input.native="updateEndTime"
-        placeholder="HH:MM" />
+      />
     </form-group>
 
     <div class="actions">
-      <b-button class="next" @click="submit" :disabled="$v.$invalid">Weiter</b-button>
+      <b-button class="next" :disabled="$v.$invalid" @click="submit">
+        Weiter
+      </b-button>
     </div>
 
     <div class="info-box mt-6">
-      <div class="title is-3 has-text-centered">Trainings-Slots Ergometer</div>
+      <div class="title is-3 has-text-centered">
+        Trainings-Slots Ergometer
+      </div>
       <table class="table" style="width: 100%">
         <thead>
           <tr>

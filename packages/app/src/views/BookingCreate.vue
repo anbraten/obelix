@@ -1,8 +1,12 @@
 <template>
   <div class="booking">
     <div class="head">
-      <div @click="$router.go(-1)" class="button"><i class="fas fa-angle-double-left" /></div>
-      <div class="head-title">Neues Boot ausleihen</div>
+      <div class="button" @click="$router.go(-1)">
+        <i class="fas fa-angle-double-left" />
+      </div>
+      <div class="head-title">
+        Neues Boot ausleihen
+      </div>
       <div />
     </div>
 

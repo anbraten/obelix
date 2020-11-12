@@ -13,6 +13,7 @@ if (process.env.NODE_ENV === 'production') {
       dryRun: process.env.NODE_ENV !== 'production',
     }));
   } else {
+    // eslint-disable-next-line no-console
     console.log('Please set SENTRY_AUTH_TOKEN, SENTRY_ORG and SENTRY_PROJECT to enable sentry releases!');
   }
 }
@@ -32,9 +33,6 @@ module.exports = {
     workboxOptions: {
       swSrc: './src/sw.js',
       swDest: 'service-worker.js',
-      additionalManifestEntries: [
-        { url: '/env-config.js', revision: VERSION },
-      ],
     },
     iconPaths: {
       favicon32: 'img/icons/favicon-32x32.png',
