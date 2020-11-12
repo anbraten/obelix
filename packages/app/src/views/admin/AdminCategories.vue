@@ -1,13 +1,17 @@
 <template>
   <div class="page">
     <div class="head">
-      <div @click="$router.go(-1)" class="button"><i class="fas fa-angle-double-left" /></div>
-      <div class="head-title">Boots-Typen verwalten</div>
+      <div class="button" @click="$router.go(-1)">
+        <i class="fas fa-angle-double-left" />
+      </div>
+      <div class="head-title">
+        Boots-Typen verwalten
+      </div>
       <div />
     </div>
 
     <div v-if="categories" class="categories">
-      <div v-for="category in categories" :key="category.id" @click="selectCategory(category)" class="category">
+      <div v-for="category in categories" :key="category.id" class="category" @click="selectCategory(category)">
         <span>{{ category.name }}</span>
         <!--<div class="remove" @click="removeCategory(category)"><i class="fas fa-trash" /></div>-->
       </div>

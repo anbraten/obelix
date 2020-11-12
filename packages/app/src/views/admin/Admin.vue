@@ -1,7 +1,9 @@
 <template>
   <div class="page">
     <div class="head">
-      <div class="head-title">Admin</div>
+      <div class="head-title">
+        Admin
+      </div>
     </div>
 
     <div class="cards">

@@ -9,11 +9,16 @@
   >
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">Neue Funktionen</p>
+        <p class="modal-card-title">
+          Neue Funktionen
+        </p>
       </header>
       <section class="modal-card-body">
         <div v-for="change in changes" :key="change.timestamp" class="change-block">
-          <p class="change-title">{{ change.timestamp }}</p>
+          <p class="change-title">
+            {{ change.timestamp }}
+          </p>
+          <!-- eslint-disable-next-line vue/no-v-html -->
           <span class="change-content" v-html="change.content" />
         </div>
       </section>

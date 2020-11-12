@@ -1,12 +1,18 @@
 <template>
   <div class="about">
-    <h1 class="title">{{ title }}</h1>
-    <img src="/img/icons/icon.png" />
+    <h1 class="title">
+      {{ title }}
+    </h1>
+    <img src="/img/icons/icon.png">
     <p>Version: {{ version }}</p>
-    <br />
-    <div class="button tester" @click="setTester">{{ isTester ? 'Testmodus verlassen.' : 'Tester werden.' }}</div>
-    <br />
-    <div class="button reset" @click="resetApp">App zurücksetzen!</div>
+    <br>
+    <div class="button tester" @click="setTester">
+      {{ isTester ? 'Testmodus verlassen.' : 'Tester werden.' }}
+    </div>
+    <br>
+    <div class="button reset" @click="resetApp">
+      App zurücksetzen!
+    </div>
   </div>
 </template>
 

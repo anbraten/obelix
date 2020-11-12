@@ -1,9 +1,15 @@
 <template>
   <div class="page">
     <div class="head">
-      <div @click="$router.go(-1)" class="button"><i class="fas fa-angle-double-left" /></div>
-      <div v-if="isCreate" class="head-title">Boot anlegen</div>
-      <div v-else class="head-title">Boot verwalten</div>
+      <div class="button" @click="$router.go(-1)">
+        <i class="fas fa-angle-double-left" />
+      </div>
+      <div v-if="isCreate" class="head-title">
+        Boot anlegen
+      </div>
+      <div v-else class="head-title">
+        Boot verwalten
+      </div>
       <div />
     </div>
 
@@ -13,9 +19,9 @@
       </form-group>
 
       <form-group :validator="$v.form.category" label="Boots-Typ">
-        <b-select placeholder="Boots-Typ auswählen ..." v-model="$v.form.category.$model">
-          <option v-for="option in categories" :value="option.id" :key="option.id">
-              {{ option.name }}
+        <b-select v-model="$v.form.category.$model" placeholder="Boots-Typ auswählen ...">
+          <option v-for="option in categories" :key="option.id" :value="option.id">
+            {{ option.name }}
           </option>
         </b-select>
       </form-group>
@@ -36,8 +42,12 @@
         <b-input v-model="form.bookingAlert" maxlength="200" type="textarea" expanded placeholder="Bsp: Du benötigst zum Fahren dieses Bootes eine Genehmigung der Ruderwartin" />
       </b-field>
 
-      <b-button v-if="isCreate" @click="createRentable" :disabled="$v.$invalid">Boot anlegen</b-button>
-      <b-button v-else @click="updateRentable" :disabled="$v.$invalid">Boot speichern</b-button>
+      <b-button v-if="isCreate" :disabled="$v.$invalid" @click="createRentable">
+        Boot anlegen
+      </b-button>
+      <b-button v-else :disabled="$v.$invalid" @click="updateRentable">
+        Boot speichern
+      </b-button>
     </div>
   </div>
 </template>

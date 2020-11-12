@@ -1,21 +1,25 @@
 <template>
   <div class="step">
-    <div class="step-title">Wähle einen Boots-Typen aus.</div>
+    <div class="step-title">
+      Wähle einen Boots-Typen aus.
+    </div>
 
     <div class="categories">
       <template v-if="categories">
-        <div v-for="category in categories" :key="category.id" @click="$emit('done', category)" class="category">
+        <div v-for="category in categories" :key="category.id" class="category" @click="$emit('done', category)">
           <span>{{ category.name }}</span>
         </div>
       </template>
 
-      <div v-if="isTrainer" @click="$emit('done', 'training')" class="category">
+      <div v-if="isTrainer" class="category" @click="$emit('done', 'training')">
         <span>Training</span>
       </div>
     </div>
 
     <div class="actions">
-      <b-button class="next" @click="$emit('back')">Zurück</b-button>
+      <b-button class="next" @click="$emit('back')">
+        Zurück
+      </b-button>
     </div>
   </div>
 </template>

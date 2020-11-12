@@ -1,18 +1,22 @@
 <template>
   <div class="step">
-    <div class="step-title">Wähle ein Boot aus.</div>
+    <div class="step-title">
+      Wähle ein Boot aus.
+    </div>
 
     <template v-if="rentables">
       <template v-for="rentable in rentables">
-        <div :key="rentable.id" @click="selectRentable(rentable)" class="rentable" :class="rentable.canBook ? '' : 'booked'">
-          <span class="name"><b-icon pack="fas" icon="ship" size="is-small"/> {{ rentable.name }}</span>
-          <span v-if="rentable.bookingInfo" class="info"><b-icon pack="fas" icon="info" size="is-small"/> {{ rentable.bookingInfo }}</span>
+        <div :key="rentable.id" class="rentable" :class="rentable.canBook ? '' : 'booked'" @click="selectRentable(rentable)">
+          <span class="name"><b-icon pack="fas" icon="ship" size="is-small" /> {{ rentable.name }}</span>
+          <span v-if="rentable.bookingInfo" class="info"><b-icon pack="fas" icon="info" size="is-small" /> {{ rentable.bookingInfo }}</span>
         </div>
       </template>
     </template>
 
     <div class="actions">
-      <b-button class="next" @click="$emit('back')">Zurück</b-button>
+      <b-button class="next" @click="$emit('back')">
+        Zurück
+      </b-button>
     </div>
   </div>
 </template>
@@ -25,9 +29,11 @@ export default {
 
   props: {
     booking: {
+      validator: (booking) => booking instanceof Object || booking === null,
       required: true,
     },
     category: {
+      validator: (category) => category instanceof Object || category instanceof String || category === null,
       required: true,
     },
   },

@@ -7,17 +7,17 @@
           <span class="nav-title">{{ title }}</span>
         </div>
         <div class="stretch" />
-        <template>
-          <span v-if="userFullName">{{ userFullName }}</span>
-          <div class="logout" @click="logout"><b-icon pack="fas" icon="sign-out-alt" size="is-small" /></div>
-          <div class="admin" v-if="isAdmin" @click="$router.push({ name: 'admin' })">
-            <b-icon pack="fas" icon="cog" size="is-small" />
-          </div>
-        </template>
-        <span v-if="!isConnected" class="offline"><i class="fas fa-signal"/></span>
+        <span v-if="userFullName">{{ userFullName }}</span>
+        <div class="logout" @click="logout">
+          <b-icon pack="fas" icon="sign-out-alt" size="is-small" />
+        </div>
+        <div v-if="isAdmin" class="admin" @click="$router.push({ name: 'admin' })">
+          <b-icon pack="fas" icon="cog" size="is-small" />
+        </div>
+        <span v-if="!isConnected" class="offline"><i class="fas fa-signal" /></span>
       </div>
     </div>
-    <div class="placeholder"></div>
+    <div class="placeholder" />
   </div>
 </template>
 

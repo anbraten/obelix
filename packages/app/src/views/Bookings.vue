@@ -1,18 +1,25 @@
 <template>
   <div class="bookings">
-
     <div class="head">
       <div class="date">
-        <div @click="prevDay" class="prevDay button"><i class="fas fa-backward" /></div>
-        <div class="selectedDate">
-          {{ this.selectedDate | date }}
+        <div class="prevDay button" @click="prevDay">
+          <i class="fas fa-backward" />
         </div>
-        <div v-if="!isTodaySelected" @click="today" class="today button">Heute</div>
-        <div @click="nextDay" class="nextDay button"><i class="fas fa-forward" /></div>
+        <div class="selectedDate">
+          {{ selectedDate | date }}
+        </div>
+        <div v-if="!isTodaySelected" class="today button" @click="today">
+          Heute
+        </div>
+        <div class="nextDay button" @click="nextDay">
+          <i class="fas fa-forward" />
+        </div>
       </div>
 
       <div v-if="canBook" class="actions">
-        <b-button @click="newBooking" type="is-info" outlined class="button" icon-left="plus">Boot ausleihen</b-button>
+        <b-button type="is-info" outlined class="button" icon-left="plus" @click="newBooking">
+          Boot ausleihen
+        </b-button>
       </div>
     </div>
 
@@ -20,23 +27,23 @@
       <div v-for="booking in bookings" :key="booking.id" class="booking">
         <div class="rentables">
           <div v-for="rentable in booking.rentables" :key="rentable.id" class="rentable">
-            <b-icon class="icon" pack="fas" icon="ship" size="is-small"/><span>{{ rentable.name }}</span>
+            <b-icon class="icon" pack="fas" icon="ship" size="is-small" /><span>{{ rentable.name }}</span>
           </div>
         </div>
         <div class="time">
-          <b-icon class="icon" pack="fas" icon="clock" size="is-small"/>
+          <b-icon class="icon" pack="fas" icon="clock" size="is-small" />
           <span>{{ booking.startTime }} - {{ booking.endTime }}</span>
         </div>
         <div class="user">
-          <b-icon class="icon" pack="fas" icon="user" size="is-small"/>
+          <b-icon class="icon" pack="fas" icon="user" size="is-small" />
           <span>{{ booking.user.name }}</span>
         </div>
-        <div class="note" v-if="booking.note">
+        <div v-if="booking.note" class="note">
           <b-icon class="icon" pack="fas" icon="sticky-note" size="is-small" />
           <span>{{ booking.note }}</span>
         </div>
         <div class="actions">
-          <b-button type="is-danger" class="remove" size="is-small" v-if="booking.canCancel" @click="cancelBooking(booking)" icon-left="trash" />
+          <b-button v-if="booking.canCancel" type="is-danger" class="remove" size="is-small" icon-left="trash" @click="cancelBooking(booking)" />
         </div>
       </div>
     </template>
@@ -67,6 +74,12 @@ const debug = Debug('Bookings');
 
 export default {
   name: 'Bookings',
+
+  filters: {
+    date(date) {
+      return moment(date).format('dddd - D. MMMM YYYY');
+    },
+  },
 
   computed: {
     ...mapGetters('rental', [
@@ -186,12 +199,6 @@ export default {
           });
         },
       });
-    },
-  },
-
-  filters: {
-    date(date) {
-      return moment(date).format('dddd - D. MMMM YYYY');
     },
   },
 };
