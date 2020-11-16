@@ -22,6 +22,7 @@ const oidcSettings = {
   redirectUri: `${APP_URL}/auth/callback`,
   automaticSilentRenew: true,
   // silentRedirectUri: `${APP_URL}/silent-renew-oidc.html`,
+  postLogoutRedirectUri: `${APP_URL}/`,
 };
 
 debug('oidc settings', oidcSettings);
