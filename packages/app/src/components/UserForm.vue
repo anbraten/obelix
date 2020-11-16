@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-card" style="width: auto">
+  <div class="modal-card" style="width: auto;">
     <header class="modal-card-head">
       <p class="modal-card-title">
         {{ user.name }}
@@ -51,7 +51,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-
-</style>

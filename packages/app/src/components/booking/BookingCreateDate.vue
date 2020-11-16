@@ -38,7 +38,7 @@
       <div class="title is-3 has-text-centered">
         Trainings-Slots Ergometer
       </div>
-      <table class="table" style="width: 100%">
+      <table class="table" style="width: 100%;">
         <thead>
           <tr>
             <th>Mo - Fr</th>

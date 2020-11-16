@@ -59,7 +59,7 @@ export default {
   position: fixed;
   display: flex;
   width: 100%;
-  padding: 0.75rem 0;
+  padding: .75rem 0;
   box-shadow: 0 1px 8px -1px rgba(0, 0, 0, .5);
   z-index: 10;
   background: rgba(34, 34, 40, .94);
@@ -73,7 +73,7 @@ export default {
     width: 100%;
     max-width: 40rem;
     margin: 0 auto;
-    padding: 0 0.5rem;
+    padding: 0 .5rem;
   }
 
   &-brand {
@@ -104,7 +104,8 @@ export default {
   margin-left: auto;
 }
 
-.nav-title, span {
+.nav-title,
+span {
   text-decoration: none;
   font-size: 1.1rem;
 }

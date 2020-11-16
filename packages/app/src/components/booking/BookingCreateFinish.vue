@@ -25,7 +25,7 @@
       </b-field>
 
       <b-field v-if="isAdmin" label="Benutzer" grouped group-multiline>
-        <div class="control description" style="flex-shrink: 1; width: 100%">
+        <div class="control description" style="flex-shrink: 1; width: 100%;">
           <span><b-icon pack="fas" icon="info" size="is-small" /> Als Admin kannst du Reservierungen für andere Benutzer vornehmen.</span>
         </div>
         <b-autocomplete
@@ -42,7 +42,7 @@
       </b-field>
 
       <b-field label="Bemerkung" grouped group-multiline>
-        <div class="control description" style="flex-shrink: 1; width: 100%">
+        <div class="control description" style="flex-shrink: 1; width: 100%;">
           <span><b-icon pack="fas" icon="info" size="is-small" /> Du kannst hier eine öffentliche Bemerkung zu deiner Reservierung hinterlegen.</span>
         </div>
         <b-input v-model="note" maxlength="100" type="textarea" expanded placeholder="Bsp: Ich werde wahrscheinlich Richtung Freudenholm fahren." />

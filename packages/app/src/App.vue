@@ -31,6 +31,7 @@ export default {
 
 // import fontawesome
 $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
+
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
 @import '~@fortawesome/fontawesome-free/scss/regular';
 @import '~@fortawesome/fontawesome-free/scss/solid';
@@ -39,7 +40,9 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
   box-sizing: border-box;
 }
 
-html, body, #app {
+html,
+body,
+#app {
   width: 100%;
   height: 100%;
   font-family: Arial, Helvetica, sans-serif;

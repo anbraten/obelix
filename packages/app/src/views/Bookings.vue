@@ -16,7 +16,7 @@
         </div>
       </div>
 
-      <div v-if="canBook" class="actions">
+      <div v-if="canBook" class="bookings-actions">
         <b-button type="is-info" outlined class="button" icon-left="plus" @click="newBooking">
           Boot ausleihen
         </b-button>
@@ -42,7 +42,7 @@
           <b-icon class="icon" pack="fas" icon="sticky-note" size="is-small" />
           <span>{{ booking.note }}</span>
         </div>
-        <div class="actions">
+        <div class="booking-actions">
           <b-button v-if="booking.canCancel" type="is-danger" class="remove" size="is-small" icon-left="trash" @click="cancelBooking(booking)" />
         </div>
       </div>
@@ -231,14 +231,14 @@ export default {
       }
 
       > * {
-        margin: 0 0.5rem;
+        margin: 0 .5rem;
       }
     }
+  }
 
-    .actions {
-      display: flex;
-      justify-content: center;
-    }
+  &-actions {
+    display: flex;
+    justify-content: center;
   }
 
   .empty {
@@ -254,15 +254,14 @@ export default {
 
 .booking {
   display: flex;
-  flex-wrap: wrap !important;
-  padding: 0.5rem 1rem;
-  flex-flow: row;
+  flex-flow: row wrap;
+  padding: .5rem 1rem;
   max-width: 100%;
-  box-shadow: inset 0 -1px 0 0 rgba(100,121,143,0.122);
+  box-shadow: inset 0 -1px 0 0 rgba(100, 121, 143, .122);
   cursor: pointer;
 
   &:hover {
-    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+    box-shadow: 0 2px 3px rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .1);
     z-index: 1;
   }
 
@@ -302,7 +301,7 @@ export default {
     background: #eee;
   }
 
-  .actions {
+  &-actions {
     margin-left: auto;
     text-align: right;
 
@@ -329,7 +328,7 @@ export default {
       width: 25%;
     }
 
-    .actions {
+    &-actions {
       order: 4;
       text-align: right;
     }

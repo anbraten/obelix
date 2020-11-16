@@ -60,7 +60,7 @@ export default {
     width: calc(50% - 2rem);
     cursor: pointer;
     background-color: white;
-    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+    box-shadow: 0 2px 3px rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .1);
     color: #4a4a4a;
     max-width: 100%;
 

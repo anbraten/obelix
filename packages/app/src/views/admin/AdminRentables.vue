@@ -75,20 +75,20 @@ export default {
 
 .new-rentable {
   margin-top: 2rem;
-  padding: 0.5rem;
+  padding: .5rem;
 }
 
 .rentable {
   display: flex;
-  padding: 0.5rem 1rem;
+  padding: .5rem 1rem;
   flex-flow: row;
   width: 100%;
-  box-shadow: inset 0 -1px 0 0 rgba(100,121,143,0.122);
+  box-shadow: inset 0 -1px 0 0 rgba(100, 121, 143, .122);
   text-align: left;
   cursor: pointer;
 
   &:hover {
-    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+    box-shadow: 0 2px 3px rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .1);
     z-index: 1;
   }
 

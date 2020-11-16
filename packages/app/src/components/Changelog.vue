@@ -64,7 +64,6 @@ export default {
 
 <style lang="scss" scoped>
 .modal .animation-content {
-
   .modal-card {
     width: calc(100% - 2rem);
     margin: 1rem;
@@ -89,7 +88,7 @@ export default {
           position: absolute;
           background: #dbdbdb;
           left: 0;
-          bottom: -0.5rem;
+          bottom: -.5rem;
           width: 100%;
           height: 1px;
         }
@@ -114,7 +113,7 @@ export default {
       }
 
       .icon {
-        margin-left: 0.2rem !important;
+        margin-left: .2rem !important;
       }
     }
   }

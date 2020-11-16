@@ -118,15 +118,14 @@ export default {
 
 .user {
   display: flex;
-  flex-wrap: wrap !important;
-  padding: 0.5rem 1rem;
-  flex-flow: row;
+  flex-flow: row wrap;
+  padding: .5rem 1rem;
   max-width: 100%;
-  box-shadow: inset 0 -1px 0 0 rgba(100,121,143,0.122);
+  box-shadow: inset 0 -1px 0 0 rgba(100, 121, 143, .122);
   cursor: pointer;
 
   &:hover {
-    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+    box-shadow: 0 2px 3px rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .1);
     z-index: 1;
   }
 
