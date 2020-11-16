@@ -11,14 +11,14 @@ export default async (store) => {
   Api.on('connect', async () => {
     debug('api connected');
 
-    if (store.getters['auth/isAuthenticated']) {
-      Api.emit('authenticate', { token: store.getters['auth/accessToken'] });
+    if (store.getters['oidc/oidcIsAuthenticated']) {
+      Api.emit('authenticate', { token: store.state.oidc.access_token });
       debug('api authentication requested');
     }
   });
 
   Api.on('authenticated', () => {
-    // api is marked as properly connected after successfull authentication
+    // api is marked as properly connected after successful authentication
     store.commit('connect');
     store.dispatch('rental/getUser');
     debug('api authenticated');
@@ -26,7 +26,7 @@ export default async (store) => {
 
   Api.on('unauthorized', async (msg) => {
     debug(`unauthorized: ${JSON.stringify(msg)}`);
-    await store.dispatch('auth/logout');
+    await store.dispatch('oidc/signOutOidc');
   });
 
   Api.on('disconnect', (reason) => {
@@ -52,7 +52,7 @@ export default async (store) => {
 
   // isAuthenticated => connect api
   store.watch(
-    (state, getters) => getters['auth/isAuthenticated'],
+    (state, getters) => getters['oidc/oidcIsAuthenticated'],
     (isAuthenticated) => {
       if (isAuthenticated) {
         Api.open();
@@ -62,10 +62,10 @@ export default async (store) => {
 
   // user profile set => set sentry user
   store.watch(
-    (state, getters) => getters['auth/profile'],
-    (profile) => {
-      if (profile && profile.email) {
-        Sentry.setUser({ email: profile.email });
+    (state, getters) => getters['oidc/oidcUser'],
+    (user) => {
+      if (user && user.email) {
+        Sentry.setUser({ email: user.email });
       }
     },
   );

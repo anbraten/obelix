@@ -1,9 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import { vuexOidcCreateRouterMiddleware } from 'vuex-oidc';
 
+import store from '@/store';
 import OnlineWrapper from '@/components/OnlineWrapper.vue';
 import RouterWrapper from '@/components/RouterWrapper.vue';
-import auth from '@/libs/auth';
+import AuthRoutes from '@/router/auth';
 
 Vue.use(VueRouter);
 
@@ -15,7 +17,7 @@ Vue.use(VueRouter);
 // }
 
 const routes = [
-  // protected routes
+  ...AuthRoutes,
   {
     path: '/',
     component: OnlineWrapper,
@@ -24,19 +26,16 @@ const routes = [
         path: '',
         name: 'home',
         redirect: { name: 'bookings' },
-        meta: { authName: auth.authName },
       },
       {
         path: 'bookings',
         name: 'bookings',
         component: () => import(/* webpackChunkName: "home" */ '../views/Bookings.vue'),
-        meta: { authName: auth.authName },
       },
       {
         path: 'booking/create',
         name: 'booking-create',
         component: () => import(/* webpackChunkName: "booking-create" */ '../views/BookingCreate.vue'),
-        meta: { authName: auth.authName },
       },
       {
         path: 'about',
@@ -44,7 +43,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
         meta: {
           title: 'About',
-          authName: auth.authName,
+          isPublic: true,
         },
       },
       {
@@ -52,7 +51,6 @@ const routes = [
         component: RouterWrapper,
         meta: {
           title: 'Admin',
-          authName: auth.authName,
         },
         children: [
           {
@@ -95,6 +93,7 @@ const routes = [
     path: '*',
     name: 'notFound',
     component: () => import(/* webpackChunkName: "notFound" */ '../views/NotFound.vue'),
+    meta: { isPublic: true },
   },
 ];
 
@@ -104,6 +103,6 @@ const router = new VueRouter({
   routes,
 });
 
-auth.useRouter(router);
+router.beforeEach(vuexOidcCreateRouterMiddleware(store, 'oidc'));
 
 export default router;

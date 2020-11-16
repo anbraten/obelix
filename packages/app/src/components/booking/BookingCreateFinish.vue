@@ -103,7 +103,7 @@ export default {
         return this.user.name;
       }
 
-      return this.$store.getters['auth/userFullName'];
+      return this.$store.getters['oidc/oidcUser'] && this.$store.getters['oidc/oidcUser'].name;
     },
     users() {
       return this.$store.state.rental.users || [];

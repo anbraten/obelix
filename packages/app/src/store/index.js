@@ -3,15 +3,15 @@ import Vuex from 'vuex';
 import config from '@/libs/config';
 import subscribe from '@/libs/subscriptions';
 
-import Auth from './auth';
 import Rental from './rental';
+import Oidc from './oidc';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   modules: {
-    auth: Auth,
     rental: Rental,
+    oidc: Oidc,
   },
 
   state: {

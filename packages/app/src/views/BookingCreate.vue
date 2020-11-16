@@ -110,7 +110,7 @@ export default {
     },
     async createBooking(booking) {
       await this.$store.dispatch('rental/createBooking', booking);
-      // check if booking was successfull
+      // check if booking was successful
       this.$buefy.toast.open({
         message: 'Deine Reservierung war erfolgreich.',
         position: 'is-top',

@@ -7,7 +7,7 @@
           <span class="nav-title">{{ title }}</span>
         </div>
         <div class="stretch" />
-        <span v-if="userFullName">{{ userFullName }}</span>
+        <span v-if="user && user.name">{{ user.name }}</span>
         <div class="logout" @click="logout">
           <b-icon pack="fas" icon="sign-out-alt" size="is-small" />
         </div>
@@ -38,14 +38,14 @@ export default {
       'isConnected',
     ]),
     ...mapGetters({
-      userFullName: 'auth/userFullName',
+      user: 'oidc/oidcUser',
       isAdmin: 'rental/isAdmin',
     }),
   },
 
   methods: {
     async logout() {
-      await this.$store.dispatch('auth/logout');
+      await this.$store.dispatch('oidc/signOutOidc');
     },
     toHome() {
       this.$router.push({ name: 'home' }).catch(() => {});

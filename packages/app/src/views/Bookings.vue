@@ -119,7 +119,7 @@ export default {
       return moment().format(dateFormat);
     },
     userId() {
-      return this.$store.getters['auth/userId'];
+      return this.$store.getters['oidc/oidcUser'] && this.$store.getters['oidc/oidcUser'].sub;
     },
     canBook() {
       const date = moment(this.selectedDate, dateFormat);

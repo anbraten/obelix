@@ -50,5 +50,4 @@ module.exports = {
   configureWebpack: {
     plugins: webpackPlugins,
   },
-  transpileDependencies: ['vue-oidc-client'],
 };
