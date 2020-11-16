@@ -46,7 +46,7 @@ function start() {
   io.sockets
     .on('connection', socketioJwt.authorize({
       secret: Buffer.from(JWT_SECRET, 'base64').toString(),
-      timeout: 5000, // 5 seconds to send the authentication message
+      timeout: 1000 * 60, // 1 minute to send the authentication message
     }))
     .on('authenticated', (socket) => {
       // this socket is authenticated, we are good to handle more events from it.
