@@ -18,13 +18,15 @@
 
 <script>
 import { mapState } from 'vuex';
+
+import pkg from '@/../package.json';
 import config from '@/libs/config';
 
 export default {
   name: 'About',
   data: () => ({
     title: config('title', 'Obelix'),
-    version: process.env.VUE_APP_VERSION,
+    version: pkg.version,
   }),
   computed: {
     ...mapState([
