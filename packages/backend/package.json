@@ -11,7 +11,7 @@
     "lodash": "4.17.20",
     "lowdb": "1.0.0",
     "querystring": "0.2.0",
-    "socket.io": "2.3.0",
+    "socket.io": "2.4.1",
     "socketio-jwt": "4.6.2",
     "uuid": "8.3.2"
   },
