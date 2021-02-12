@@ -28,7 +28,7 @@
     "vuelidate": "0.7.6",
     "vuelidate-error-extractor": "2.4.1",
     "vuex": "3.6.2",
-    "vuex-oidc": "3.10.1",
+    "vuex-oidc": "3.10.2",
     "workbox-core": "5.1.4",
     "workbox-precaching": "5.1.4"
   },
