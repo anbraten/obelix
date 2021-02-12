@@ -12784,10 +12784,10 @@ vuelidate@0.7.6:
   resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.7.6.tgz#84100c13b943470660d0416642845cd2a1edf4b2"
   integrity sha512-suzIuet1jGcyZ4oUSW8J27R2tNrJ9cIfklAh63EbAkFjE380iv97BAiIeolRYoB9bF9usBXCu4BxftWN1Dkn3g==
 
-vuex-oidc@3.10.1:
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/vuex-oidc/-/vuex-oidc-3.10.1.tgz#21b13d87a467e780ce522ff4b035ddaac00defdd"
-  integrity sha512-LD94zLRBOJ3CbyuGYrFAFzxrbdoDD1sTH91NfcMtdm3QcSl3S+b2y/GPHLybyRkWrP9wevbgXOFUSLrNaHTBbA==
+vuex-oidc@3.10.2:
+  version "3.10.2"
+  resolved "https://registry.yarnpkg.com/vuex-oidc/-/vuex-oidc-3.10.2.tgz#11324c1320b5a1e25f6ce7705eaf9ef1e9adc9d3"
+  integrity sha512-BH/4db3dAkpPZCQHwvzylzmxo9L7t9NzJ0kOyXJYYaXc4kiXgBayjhuwkYIWElg6E1qRYwigexIlO7rhakAabA==
 
 vuex@3.6.2:
   version "3.6.2"
