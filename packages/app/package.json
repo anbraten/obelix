@@ -33,7 +33,7 @@
     "workbox-precaching": "5.1.4"
   },
   "devDependencies": {
-    "@sentry/webpack-plugin": "1.14.0",
+    "@sentry/webpack-plugin": "1.14.1",
     "@vue/cli-plugin-babel": "4.5.11",
     "@vue/cli-plugin-eslint": "4.5.11",
     "@vue/cli-plugin-pwa": "4.5.11",
