@@ -9,14 +9,13 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "dotenv concurrently \"yarn dev:app\" \"yarn dev:backend\"",
-    "dev:app": "dotenv yarn workspace @obelix/app run dev",
-    "dev:backend": "dotenv yarn workspace @obelix/backend run dev",
+    "start": "dotenv concurrently \"yarn start:app\" \"yarn start:backend\"",
+    "start:app": "dotenv yarn workspace @obelix/app run start",
+    "start:backend": "dotenv yarn workspace @obelix/backend run start",
     "build": "yarn workspace @obelix/app run build",
     "lint": "yarn workspaces run lint",
     "lint:fix": "yarn workspaces run lint --fix",
-    "generate:config": "./docker/set-env-vars.sh ./packages/app/public/env-config.js",
-    "release": "dotenv lerna version --conventional-commits --create-release github"
+    "generate:config": "./docker/set-env-vars.sh ./packages/app/public/env-config.js"
   },
   "resolutions": {
     "**/workbox-webpack-plugin": "5.1.4"
@@ -24,8 +23,5 @@
   "dependencies": {
     "concurrently": "5.3.0",
     "dotenv-cli": "4.0.0"
-  },
-  "devDependencies": {
-    "lerna": "3.22.1"
   }
 }
