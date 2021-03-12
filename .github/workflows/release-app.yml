@@ -1,0 +1,63 @@
+name: Release App
+
+on:
+  push:
+    tags:
+      - 'app-*'
+    paths:
+      - '.github/workflows/release-app.yml'
+      - 'packages/app/**'
+      - '.gitignore'
+      - 'package.json'
+      - 'yarn.lock'
+    branches:
+      - master
+
+env:
+  YARN_CACHE_FOLDER: ~/.yarn
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Caching
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.YARN_CACHE_FOLDER }}
+          key: ${{ runner.OS }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.OS }}-yarn-${{ env.cache-name }}
+            ${{ runner.OS }}-yarn-
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+
+      - name: Install and Build 🔧
+        run: |
+          yarn --frozen-lockfile
+          yarn generate:config
+          yarn build
+        env:
+          APP_TITLE: Obelix
+          APP_OIDC_URL: ${{ secrets.APP_OIDC_URL }}
+          APP_OIDC_CLIENT_ID: ${{ secrets.APP_OIDC_CLIENT_ID }}
+          APP_BACKEND_URL: ${{ secrets.APP_BACKEND_URL }}
+          APP_SENTRY_DSN: ${{ secrets.APP_SENTRY_DSN }}
+          SENTRY_URL: ${{ secrets.SENTRY_URL }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          # SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }} # disable sentry token
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.0.0
+        with:
+          branch: deployment
+          folder: packages/app/dist
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
+          clean: true # Automatically remove deleted files from the deploy branch

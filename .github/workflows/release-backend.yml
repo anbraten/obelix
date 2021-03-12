@@ -3,7 +3,13 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
+      - 'backend-*'
+    paths:
+      - '.github/workflows/release-backend.yml'
+      - 'packages/backend/**'
+      - '.gitignore'
+      - 'package.json'
+      - 'yarn.lock'
 
 env:
   YARN_CACHE_FOLDER: ~/.yarn
@@ -27,7 +33,7 @@ jobs:
       - run: yarn --frozen-lockfile
       - run: yarn lint
 
-  build-docker:
+  build-backend:
     needs: lint
     runs-on: ubuntu-latest
     steps:
@@ -45,42 +51,3 @@ jobs:
         run: docker build --file docker/Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/obelix:latest --build-arg VERSION="$(date +%d.%m.%Y-%H:%M)-${GITHUB_SHA::8}" --cache-from ${{ secrets.DOCKERHUB_USERNAME }}/obelix:latest .
       - name: Push image to DockerHub
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/obelix
-
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v2
-        with:
-          persist-credentials: false
-
-      - name: Install and Build 🔧
-        run: |
-          yarn --frozen-lockfile
-          yarn generate:config
-          yarn build
-        env:
-          APP_TITLE: Obelix
-          APP_OIDC_URL: ${{ secrets.APP_OIDC_URL }}
-          APP_OIDC_CLIENT_ID: ${{ secrets.APP_OIDC_CLIENT_ID }}
-          APP_MATOMO_URL: ${{ secrets.APP_MATOMO_URL }}
-          APP_MATOMO_SITE: ${{ secrets.APP_MATOMO_SITE }}
-          APP_BACKEND_URL: ${{ secrets.APP_BACKEND_URL }}
-          APP_SENTRY_DSN: ${{ secrets.APP_SENTRY_DSN }}
-          SENTRY_URL: ${{ secrets.SENTRY_URL }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-          # SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }} # disable sentry token
-
-      - name: Install SSH Client 🔑
-        uses: webfactory/ssh-agent@v0.4.1
-        with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
-
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@3.7.1
-        with:
-          SSH: true
-          BRANCH: deployment
-          FOLDER: packages/app/dist
-          CLEAN: true # Automatically remove deleted files from the deploy branch
