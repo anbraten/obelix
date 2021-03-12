@@ -5,7 +5,6 @@ import { vuexOidcCreateRouterMiddleware } from 'vuex-oidc';
 import store from '@/store';
 import OnlineWrapper from '@/components/OnlineWrapper.vue';
 import RouterWrapper from '@/components/RouterWrapper.vue';
-import AuthRoutes from '@/router/auth';
 
 Vue.use(VueRouter);
 
@@ -17,7 +16,6 @@ Vue.use(VueRouter);
 // }
 
 const routes = [
-  ...AuthRoutes,
   {
     path: '/',
     component: OnlineWrapper,
@@ -45,6 +43,18 @@ const routes = [
           title: 'About',
           isPublic: true,
         },
+      },
+      {
+        path: '/auth/callback',
+        name: 'auth-callback',
+        component: () => import(/* webpackChunkName: "auth-callback" */ '@/views/auth/AuthCallback.vue'),
+        meta: { isPublic: true, dontTrack: true },
+      },
+      {
+        path: '/auth/callback/error',
+        name: 'auth-callback-error',
+        component: () => import(/* webpackChunkName: "auth-callback-error" */ '@/views/auth/AuthCallbackError.vue'),
+        meta: { isPublic: true, dontTrack: true },
       },
       {
         path: 'admin',
@@ -104,5 +114,13 @@ const router = new VueRouter({
 });
 
 router.beforeEach(vuexOidcCreateRouterMiddleware(store, 'oidc'));
+router.afterEach((to) => {
+  if (to.meta.dontTrack) {
+    return;
+  }
+
+  // eslint-disable-next-line no-undef
+  Shynet.newPageLoad();
+});
 
 export default router;
