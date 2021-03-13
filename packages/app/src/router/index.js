@@ -17,6 +17,18 @@ Vue.use(VueRouter);
 
 const routes = [
   {
+    path: '/auth/callback',
+    name: 'auth-callback',
+    component: () => import(/* webpackChunkName: "auth-callback" */ '@/views/auth/AuthCallback.vue'),
+    meta: { isPublic: true, dontTrack: true },
+  },
+  {
+    path: '/auth/callback/error',
+    name: 'auth-callback-error',
+    component: () => import(/* webpackChunkName: "auth-callback-error" */ '@/views/auth/AuthCallbackError.vue'),
+    meta: { isPublic: true, dontTrack: true },
+  },
+  {
     path: '/',
     component: OnlineWrapper,
     children: [
@@ -43,18 +55,6 @@ const routes = [
           title: 'About',
           isPublic: true,
         },
-      },
-      {
-        path: '/auth/callback',
-        name: 'auth-callback',
-        component: () => import(/* webpackChunkName: "auth-callback" */ '@/views/auth/AuthCallback.vue'),
-        meta: { isPublic: true, dontTrack: true },
-      },
-      {
-        path: '/auth/callback/error',
-        name: 'auth-callback-error',
-        component: () => import(/* webpackChunkName: "auth-callback-error" */ '@/views/auth/AuthCallbackError.vue'),
-        meta: { isPublic: true, dontTrack: true },
       },
       {
         path: 'admin',
