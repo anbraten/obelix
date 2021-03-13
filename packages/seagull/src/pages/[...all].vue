@@ -1,13 +1,15 @@
 <template>
   <div>
-    Upps.
-    <button @click="router.go(-1)">Back</button>
+    <h1>OOPS!</h1>
+    <h2>Seite nicht gefunden.</h2>
+    <router-link :to="{ name: 'home' }">
+      Zurück zur Startseite
+    </router-link>
   </div>
 </template>
 
 <route lang="yaml">
-meta:
-  layout: 404
+name: not-found
 </route>
 
 <script lang="ts">

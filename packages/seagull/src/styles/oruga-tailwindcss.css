@@ -1,0 +1,87 @@
+/* Button */
+
+.btn {
+  @apply font-bold py-2 px-4 text-highlight bg-highlight-background dark:text-highlight-dark dark:bg-highlight-background-dark rounded;
+}
+
+
+/* Field */
+
+.field-label {
+  @apply block text-sm font-bold mb-2 text-main dark:text-main-dark;
+}
+
+.field-danger {
+  @apply text-red-500;
+}
+
+
+/* Input */
+
+.o-ctrl-input {
+  @apply rounded-full flex shadow border w-full py-2 px-3 leading-tight text-main dark:text-main-dark dark:bg-main;
+}
+
+.o-input__icon-left {
+  @apply order-1 mr-2;
+}
+
+.input {
+  @apply flex-grow order-2 appearance-none border-0 outline-transparent;
+}
+
+.input-danger {
+  @apply border-highlight;
+}
+
+
+/* Switch */
+
+.switch {
+  @apply bg-black dark:bg-highlight-dark;
+}
+
+.switch-label {
+  @apply hidden;
+}
+
+/* Dropdown */
+
+.dropdown-menu {
+  @apply shadow-lg rounded-sm z-10 bg-main-dark text-main dark:text-main-dark dark:bg-main z-50 w-full;
+}
+
+.dropdown-item {
+  @apply cursor-pointer text-main dark:text-main-dark dark:bg-main w-full p-1;
+}
+
+.dropdown-item-active {
+  @apply text-highlight bg-highlight-background dark:text-highlight-dark dark:bg-highlight-background-dark;
+}
+
+
+/* Loading */
+
+.loading-background {
+  @apply bg-gray-50 dark:bg-gray-700 opacity-75;
+}
+
+
+/* Radio */
+
+.radio {
+  @apply font-bold py-2 px-4 rounded text-main dark:text-main-dark;
+  min-width: 6rem;
+}
+
+.radio-check {
+  @apply hidden;
+}
+
+.radio-checked {
+  @apply text-highlight bg-highlight-background dark:text-highlight-dark dark:bg-highlight-background-dark;
+}
+
+.radio-label {
+  @apply w-full text-center p-0;
+}

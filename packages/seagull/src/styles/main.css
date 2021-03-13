@@ -10,12 +10,16 @@ html.dark {
   background: #121212;
 }
 
+#app {
+  @apply flex flex-col relative;
+}
+
 #nprogress {
   pointer-events: none;
 }
 
 #nprogress .bar {
-  @apply bg-teal-600 opacity-75;
+  @apply bg-primary opacity-75;
 
   position: fixed;
   z-index: 1031;
@@ -26,16 +30,14 @@ html.dark {
   height: 2px;
 }
 
-.btn {
-  @apply px-4 py-1 rounded inline-block
-    bg-teal-600 text-white cursor-pointer
-    hover:bg-teal-700
-    disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50;
+.footer-btn {
+  @apply p-2 bg-white text-gray-300 flex flex-col border-t-2 border-transparent items-center justify-center;
 }
 
-.icon-btn {
-  @apply inline-block cursor-pointer select-none
-    opacity-75 transition duration-200 ease-in-out
-    hover:opacity-100 hover:text-teal-600;
-  font-size: 0.9em;
+.footer-btn.router-link-active {
+  @apply border-primary;
+}
+
+.footer-btn.router-link-exact-active {
+  @apply text-primary;
 }

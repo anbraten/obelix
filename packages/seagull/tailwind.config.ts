@@ -9,6 +9,16 @@ export default defineConfig({
   ],
   theme: {
     extend: {
+      colors: {
+        primary: {
+          DEFAULT: '#008bcf',
+          dark: colors.blue[800],
+        },
+        highlight: {
+          DEFAULT: '#a04023',
+          dark: colors.red[800],
+        },
+      },
       typography: {
         DEFAULT: {
           css: {

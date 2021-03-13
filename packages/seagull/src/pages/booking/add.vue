@@ -1,18 +1,19 @@
 <template>
   <div>
-    Moin!
+    Create new booking!
   </div>
 </template>
 
 <route lang="yaml">
-name: home
+name: add-booking
 </route>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'Home',
+  name: 'CreateBooking',
+
   setup() {
     return {};
   },

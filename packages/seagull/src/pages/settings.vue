@@ -1,18 +1,18 @@
 <template>
   <div>
-    Moin!
+    Einstellungen!
   </div>
 </template>
 
 <route lang="yaml">
-name: home
+name: settings
 </route>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'Home',
+  name: 'Settings',
   setup() {
     return {};
   },

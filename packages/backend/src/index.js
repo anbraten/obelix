@@ -11,7 +11,7 @@ const db = require('./db');
 const app = express();
 const server = http.createServer(app);
 
-const PORT = process.env.BACKEND_PORT || 3000;
+const PORT = process.env.BACKEND_PORT || 3030;
 const DIST_DIR = process.env.NODE_ENV === 'production' ? [__dirname, '..', 'dist'] : [__dirname, '..', '..', 'app', 'dist'];
 const JWT_SECRET = process.env.JWT_SECRET || null;
 const USER_INIT_ACCESS = process.env.USER_INIT_ACCESS || 'granted'; // default access a new user will have

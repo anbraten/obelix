@@ -1,11 +1,11 @@
 <template>
   <div>
-    Moin!
+    Admin!
   </div>
 </template>
 
 <route lang="yaml">
-name: home
+name: admin
 </route>
 
 <script lang="ts">

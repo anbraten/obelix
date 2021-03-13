@@ -2,7 +2,7 @@
   "name": "@obelix/app",
   "version": "1.3.18",
   "scripts": {
-    "dev": "vue-cli-service serve",
+    "start": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint --no-fix && stylelint src",
     "lint:fix": "vue-cli-service lint && stylelint src --fix"
