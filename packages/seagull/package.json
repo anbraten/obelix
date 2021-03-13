@@ -1,0 +1,28 @@
+{
+  "name": "@obelix/seagull",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "vite",
+    "build": "cross-env NODE_ENV=production vite build"
+  },
+  "dependencies": {
+    "nprogress": "0.2.0",
+    "vue": "3.0.7",
+    "vue-router": "4.0.4"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "0.4.3",
+    "@types/nprogress": "0.2.0",
+    "@typescript-eslint/eslint-plugin": "4.17.0",
+    "@vitejs/plugin-vue": "1.1.5",
+    "@vue/compiler-sfc": "3.0.7",
+    "cross-env": "7.0.3",
+    "eslint": "7.21.0",
+    "pnpm": "5.18.5",
+    "typescript": "4.2.3",
+    "vite": "2.0.5",
+    "vite-plugin-pages": "0.7.0",
+    "vite-plugin-pwa": "0.5.6",
+    "vite-plugin-windicss": "0.8.1"
+  }
+}

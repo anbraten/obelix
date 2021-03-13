@@ -1,3 +1,4 @@
 {
-  "eslint.workingDirectories": ["./packages/app", "./packages/backend"]
+  "eslint.workingDirectories": ["./packages/*"],
+  "monorepoWorkspace.folders.regex.apps": "app|web|api|frontend|backend|seagull",
 }

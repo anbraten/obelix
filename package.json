@@ -5,20 +5,13 @@
   "repository": "https://github.com/anbraten/obelix",
   "author": "Anbraten",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
-    "start": "dotenv concurrently \"yarn start:app\" \"yarn start:backend\"",
-    "start:app": "dotenv yarn workspace @obelix/app run start",
+    "start": "dotenv concurrently \"yarn start:seagull\" \"yarn start:backend\"",
+    "start:app": "dotenv yarn workspace @obelix/seagull run start",
     "start:backend": "dotenv yarn workspace @obelix/backend run start",
     "build": "yarn workspace @obelix/app run build",
     "lint": "yarn workspaces run lint",
-    "lint:fix": "yarn workspaces run lint --fix",
-    "generate:config": "./docker/set-env-vars.sh ./packages/app/public/env-config.js"
-  },
-  "resolutions": {
-    "**/workbox-webpack-plugin": "5.1.4"
+    "lint:fix": "yarn workspaces run lint --fix"
   },
   "dependencies": {
     "concurrently": "5.3.0",
