@@ -1,6 +1,7 @@
 <template>
-  <div class="flex flex-col flex-grow overflow-y-auto p-4 relative">
-    <span>Heute, 13. März</span>
+  <date-slider v-model:selected-date="selectedDate" />
+  <div class="flex flex-col flex-grow overflow-y-auto px-4 pb-4 relative">
+    <span>Montag, {{ selectedDate.format('DD.MM.YYYY') }}</span>
 
     <div class="mt-4">
       <booking-card
@@ -25,21 +26,27 @@ name: bookings
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import dayjs from 'dayjs';
+
 import Booking from '~/types/booking';
 
 import BookingCard from '~/components/BookingCard.vue';
+import DateSlider from '~/components/atomic/DateSlider.vue';
 import FloatingButton from '~/components/atomic/FloatingButton.vue';
 
 export default defineComponent({
   name: 'Bookings',
 
   components: {
+    DateSlider,
     BookingCard,
     FloatingButton,
   },
 
   setup() {
     const router = useRouter();
+
+    const selectedDate = ref(dayjs());
 
     const raw = [
       {
@@ -93,6 +100,7 @@ export default defineComponent({
     return {
       router,
       bookings,
+      selectedDate,
       selectedBooking,
       clickBooking,
     };
