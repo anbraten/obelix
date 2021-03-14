@@ -25,24 +25,27 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Caching
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.YARN_CACHE_FOLDER }}
-          key: ${{ runner.OS }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.OS }}-yarn-${{ env.cache-name }}
-            ${{ runner.OS }}-yarn-
-      - name: Set up Node
+      - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '12.x'
+          node-version: '14.x'
 
-      - name: Install and Build 🔧
+      - name: Cache .pnpm-store
+        uses: actions/cache@v1
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-node${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Install pnpm
+        run: npm i -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build 🔧
         run: |
-          yarn --frozen-lockfile
-          yarn generate:config
-          yarn build
+          pnpm generate:config
+          pnpm run build
         env:
           APP_TITLE: Obelix
           APP_OIDC_URL: ${{ secrets.APP_OIDC_URL }}

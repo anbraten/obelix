@@ -15,15 +15,23 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - uses: actions/cache@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
         with:
-          path: ${{ env.YARN_CACHE_FOLDER }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-      - name: Set up Node
-        uses: actions/setup-node@v1
+          node-version: '14.x'
+
+      - name: Cache .pnpm-store
+        uses: actions/cache@v1
         with:
-          node-version: '12.x'
-      - run: yarn --frozen-lockfile
-      - run: yarn lint
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-node${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Install pnpm
+        run: npm i -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Lint
+        run: pnpm run lint
