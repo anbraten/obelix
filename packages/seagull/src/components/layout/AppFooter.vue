@@ -9,6 +9,10 @@
         <o-icon pack="fas" icon="ship" />
         <span class="text">Boote</span>
       </router-link>
+      <router-link v-if="isTrainer" class="footer-btn" :to="{ name: 'training' }">
+        <o-icon pack="fas" icon="dumbbell" />
+        <span class="text">Training</span>
+      </router-link>
       <router-link v-if="isAdmin" class="footer-btn" :to="{ name: 'admin' }">
         <o-icon pack="fas" icon="cog" />
         <span class="text">Admin</span>
@@ -29,9 +33,11 @@ export default defineComponent({
 
   setup() {
     const isAdmin = ref(true);
+    const isTrainer = ref(true);
 
     return {
       isAdmin,
+      isTrainer,
     };
   },
 });
