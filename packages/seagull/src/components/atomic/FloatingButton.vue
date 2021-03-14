@@ -1,11 +1,11 @@
 <template>
-  <div class="flex items-center justify-center w-16 h-16 text-white text-4xl rounded-full shadow p-2 cursor-pointer bg-primary">
+  <div class="flex items-center justify-center w-14 h-14 text-white text-4xl rounded-full shadow-xl p-2 cursor-pointer bg-primary">
     <o-icon pack="fas" :icon="icon" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'FloatingButton',
@@ -15,9 +15,6 @@ export default defineComponent({
       type: String,
       required: true,
     },
-  },
-
-  setup(props) {
   },
 });
 </script>
