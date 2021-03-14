@@ -22,7 +22,7 @@
   "scripts": {
     "start": "ts-node-dev --no-notify src/",
     "bulid": "shx rm -rf lib/ && tsc",
-    "lint": "eslint src/. test/. --config .eslintrc.json --ext .ts --fix"
+    "lint": "eslint src/. --ext .ts --fix"
   },
   "types": "lib/",
   "dependencies": {

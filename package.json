@@ -10,8 +10,8 @@
     "start:seagull": "dotenv -- pnpm run --filter @obelix/seagull start",
     "start:backend": "dotenv -- pnpm run --filter @obelix/backend start",
     "build": "pnpm run --filter @obelix/seagull build",
-    "lint": "pnpm run lint",
-    "lint:fix": "pnpm run lint --fix"
+    "lint": "pnpm run --filter \"@obelix/*\" lint",
+    "lint:fix": "pnpm run --filter \"@obelix/*\" lint --fix"
   },
   "dependencies": {
     "concurrently": "5.3.0",
