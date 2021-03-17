@@ -1,0 +1,3 @@
+{
+  "include": [".eslintrc.js", "index.js", "jest.js", "vue.js"]
+}

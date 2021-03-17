@@ -20,3 +20,4 @@ lerna-debug.log*
 *.sw?
 
 .cache
+.eslintcache
