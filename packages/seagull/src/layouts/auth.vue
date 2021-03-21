@@ -1,17 +1,11 @@
 <template>
-  <div>
-    Einstellungen!
-  </div>
+  <router-view />
 </template>
-
-<route lang="yaml">
-name: settings
-</route>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'Settings',
+  name: 'auth',
 });
 </script>

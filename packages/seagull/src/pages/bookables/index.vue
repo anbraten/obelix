@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4">
+  <div class="p-4 overflow-y-auto">
     <o-input
       v-model="search"
       rounded
@@ -8,7 +8,7 @@
     />
 
     <div class="mt-4">
-      <card v-for="bookable in searchResult" :key="bookable._id" is-open :closeable="false" class="mb-2 rounded-2xl">
+      <card v-for="bookable in searchResult" :key="bookable._id" is-open :closeable="false" :background="`/src/assets/images/${bookable.category}.jpg`" class="mb-2 rounded-2xl">
         <span>{{ bookable.name }}</span>
 
         <pre>{{ bookable }}</pre>
@@ -55,6 +55,11 @@ export default defineComponent({
         _id: 'bookable:3',
         name: 'Teamwork',
         category: 'category:2',
+      },
+      {
+        _id: 'bookable:4',
+        name: 'Ergo 1',
+        category: 'category:3',
       },
     ];
 

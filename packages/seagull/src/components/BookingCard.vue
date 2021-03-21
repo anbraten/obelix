@@ -1,8 +1,8 @@
 <template>
-  <card background="/src/assets/images/card-bg.jpg" :is-open="isOpen">
+  <card :background="isOpen ? '/src/assets/images/card-bg.jpg' : ''" :is-open="isOpen">
     <template #header>
       <div class="flex flex-row justify-between">
-        <span class>{{ bookable.name }}</span>
+        <span>{{ bookable.name }}</span>
         <span>{{ booking.time }}</span>
       </div>
     </template>
