@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <button @click="startAuth">Login</button>
+  <div class="flex flex-col items-start m-auto">
+    <img src="/src/assets/images/logo.png" />
+    <o-button class="mt-4 mx-auto" @click="startAuth">Login</o-button>
   </div>
 </template>
 
