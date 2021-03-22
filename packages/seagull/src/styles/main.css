@@ -32,6 +32,8 @@ html.dark {
 
 .footer-btn {
   @apply p-2 bg-white text-gray-300 flex flex-col border-t-2 border-transparent items-center justify-center;
+  flex-grow: 1;
+  flex-basis: 0;
 }
 
 .footer-btn.router-link-active {
