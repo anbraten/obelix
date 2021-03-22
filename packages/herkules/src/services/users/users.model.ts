@@ -5,7 +5,8 @@ export default function (app: Application): Model<any> {
   const modelName = 'users';
   const mongooseClient: Mongoose = app.get('mongooseClient');
   const schema = new mongooseClient.Schema({
-    githubId: { type: String },
+    name: { type: String, required: true },
+    email: { type: String, required: true },
   }, {
     timestamps: true
   });
