@@ -1,12 +1,11 @@
 /* Button */
 
 .btn {
-  @apply font-bold py-2 px-4 text-highlight bg-highlight-background dark:text-highlight-dark dark:bg-highlight-background-dark rounded;
+  @apply font-bold py-2 px-4 text-white bg-primary dark:text-white-dark dark:bg-highlight-dark rounded;
 }
 
 
 /* Field */
-
 .field-label {
   @apply block text-sm font-bold mb-2 text-main dark:text-main-dark;
 }

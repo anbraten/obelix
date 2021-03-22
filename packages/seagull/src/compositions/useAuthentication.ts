@@ -21,7 +21,7 @@ export async function load(): Promise<void> {
   try {
     await feathers.reAuthenticate();
     const authentication = await feathers.get('authentication');
-    user.value = authentication ? authentication.user : undefined;
+    user.value = authentication?.user;
   } catch (e) {
     const error = e as FeathersError;
 

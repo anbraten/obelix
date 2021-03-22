@@ -1,10 +1,10 @@
-import Oruga from '@oruga-ui/oruga-next';
-import { App } from 'vue';
-
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'virtual:windi.css';
 import '~/styles/main.css';
 import '~/styles/oruga-tailwindcss.css';
+
+import Oruga from '@oruga-ui/oruga-next';
+import { App } from 'vue';
 
 export default function(app: App<Element>) {
   app.use(Oruga, {
