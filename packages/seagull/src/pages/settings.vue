@@ -1,7 +1,15 @@
 <template>
-  <div class="flex flex-col m-auto">
-    <span v-if="user">Hallo {{ user.name }}!</span>
-    <o-button class="mt-4" @click="doLogout">Abmelden</o-button>
+  <div class="flex flex-col m-auto items-start">
+    <div class="flex flex-col">
+      <span class="text-3xl text-center">Obelix</span>
+      <span class="text-sm text-center">Version 1.2.3</span>
+      <img src="/src/assets/images/logo.png" class="w-1/2 mx-auto" />
+    </div>
+
+    <div class="flex flex-col items-center justify-center w-full mt-8">
+      <span v-if="user">Angemeldet als: {{ user.name }}</span>
+      <o-button class="mt-4" @click="doLogout">Abmelden</o-button>
+    </div>
   </div>
 </template>
 

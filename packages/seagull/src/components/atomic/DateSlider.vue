@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-col w-full">
-    <div class="bg-primary text-white p-1 text-center">{{ selectedDate.format('MMMM YYYY') }}</div>
+  <div class="flex flex-col w-full items-center">
+    <div class="bg-primary text-white p-1 text-center w-full">{{ selectedDate.format('MMMM YYYY') }}</div>
 
-    <div class="flex justify-between px-4 py-2">
+    <div class="flex justify-between px-4 py-2 max-w-2xl w-full">
       <div
         v-for="day in days"
         :key="day._id"
@@ -10,10 +10,7 @@
         @click="selectDate(day.day)"
       >
         <span>{{ day.label }}</span>
-        <span
-          class="rounded-full p-2"
-          :class="{ 'bg-primary text-white': day._id === selectedDate.valueOf() }"
-        >
+        <span class="rounded-full p-2" :class="{ 'bg-primary text-white': day._id === selectedDate.valueOf() }">
           <template v-if="day.day.date() === 1">{{ day.day.format('DD.MM') }}</template>
           <template v-else>{{ day.day.format('DD') }}</template>
         </span>
@@ -23,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, PropType } from 'vue';
+import { computed, defineComponent, PropType, ref } from 'vue';
 
 export default defineComponent({
   name: 'DateSlider',
@@ -42,7 +39,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const dayNames = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
 
-    const getDay = (day) => {
+    const getDay = day => {
       return {
         _id: day.valueOf(),
         label: dayNames[day.day()],
@@ -62,7 +59,7 @@ export default defineComponent({
       ];
     });
 
-    const selectDate = (day) => {
+    const selectDate = day => {
       emit('update:selected-date', day);
     };
 

@@ -1,17 +1,21 @@
 <template>
   <div class="absolute bottom-0 w-full px-2 border-t-1 shadow-xl bg-white">
     <div class="flex mx-auto max-w-2xl justify-around">
+      <router-link class="footer-btn" :to="{ name: 'home' }">
+        <o-icon class="icon" pack="fas" icon="home" />
+        <span class="text">Start</span>
+      </router-link>
       <router-link class="footer-btn" :to="{ name: 'bookings' }">
         <o-icon class="icon" pack="fas" icon="calendar" />
         <span class="text">Buchen</span>
       </router-link>
-      <router-link class="footer-btn" :to="{ name: 'bookables' }">
-        <o-icon pack="fas" icon="ship" />
-        <span class="text">Boote</span>
-      </router-link>
       <router-link v-if="isTrainer" class="footer-btn" :to="{ name: 'training' }">
         <o-icon pack="fas" icon="dumbbell" />
         <span class="text">Training</span>
+      </router-link>
+      <router-link class="footer-btn" :to="{ name: 'bookables' }">
+        <o-icon pack="fas" icon="ship" />
+        <span class="text">Boote</span>
       </router-link>
       <router-link v-if="isAdmin" class="footer-btn" :to="{ name: 'admin' }">
         <o-icon pack="fas" icon="cog" />

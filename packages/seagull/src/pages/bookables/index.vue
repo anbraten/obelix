@@ -1,18 +1,24 @@
 <template>
-  <div class="p-4 overflow-y-auto">
-    <o-input
-      v-model="search"
-      rounded
-      placeholder="Suche ein Boot ..."
-      icon="search"
-    />
+  <div class="flex flex-col p-4 overflow-y-auto items-center">
+    <div class="max-w-2xl w-full">
+      <o-input v-model="search" rounded placeholder="Suche ein Boot ..." icon="search" />
+    </div>
 
-    <div class="mt-4">
-      <card v-for="bookable in searchResult" :key="bookable._id" is-open :closeable="false" :background="`/src/assets/images/${bookable.category}.jpg`" class="mb-2 rounded-2xl">
+    <div class="mt-4 flex flex-wrap max-w-4xl w-full">
+      <Card
+        v-for="bookable in searchResult"
+        :key="bookable._id"
+        is-open
+        :closeable="false"
+        :background="`/src/assets/images/${bookable._id}.jpg`"
+        class="m-2 mx-auto rounded-2xl w-full"
+      >
         <span>{{ bookable.name }}</span>
 
-        <pre>{{ bookable }}</pre>
-      </card>
+        <div v-if="bookable.tags.length > 0" class="flex space-x-2 mt-4">
+          <span v-for="tag in bookable.tags" :key="tag" class="bg-gray-400 px-3 rounded-lg">{{ tag }}</span>
+        </div>
+      </Card>
     </div>
   </div>
 </template>
@@ -23,9 +29,9 @@ name: bookables
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
-import Bookable from '~/types/bookable';
 
 import Card from '~/components/Card.vue';
+import useFind from '~/compositions/useFind';
 
 export default defineComponent({
   name: 'Bookables',
@@ -35,44 +41,20 @@ export default defineComponent({
   },
 
   setup() {
-    const bookables: Bookable[] = [
-      {
-        _id: 'bookable:1',
-        name: 'Pegasus',
-        category: 'category:1',
-      },
-      {
-        _id: 'bookable:2',
-        name: 'Obelix',
-        category: 'category:1',
-      },
-      {
-        _id: 'bookable:3',
-        name: 'Herkules',
-        category: 'category:1',
-      },
-      {
-        _id: 'bookable:3',
-        name: 'Teamwork',
-        category: 'category:2',
-      },
-      {
-        _id: 'bookable:4',
-        name: 'Ergo 1',
-        category: 'category:3',
-      },
-    ];
+    const { data: bookables } = useFind('bookables');
 
     const search = ref('');
-    const searchResult = computed(
-      () => {
-        if (!search.value) {
-          return bookables;
-        }
+    const searchResult = computed(() => {
+      if (!search.value) {
+        return bookables.value;
+      }
 
-        return bookables.filter(bookable => JSON.stringify(bookable).toLocaleLowerCase().includes(search.value));
-      },
-    );
+      return bookables.value.filter(bookable =>
+        JSON.stringify(bookable)
+          .toLocaleLowerCase()
+          .includes(search.value),
+      );
+    });
 
     return {
       search,

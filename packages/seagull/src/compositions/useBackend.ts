@@ -77,6 +77,9 @@ socket.on('disconnect', () => {
 feathersClient.configure(socketio(socket));
 feathersClient.configure(auth());
 
+// @ts-ignore
+window.feathers = feathersClient;
+
 export default feathersClient;
 
 export function load(): void {

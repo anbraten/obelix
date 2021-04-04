@@ -18,7 +18,7 @@
 /* Input */
 
 .o-ctrl-input {
-  @apply rounded-full flex shadow border w-full py-2 px-3 leading-tight text-main dark:text-main-dark dark:bg-main;
+  @apply flex w-full;
 }
 
 .o-input__icon-left {
@@ -83,4 +83,114 @@
 
 .radio-label {
   @apply w-full text-center p-0;
+}
+
+/* Button */
+.btn {
+  outline: none !important;
+  @apply font-bold py-2 px-4 bg-blue-500 text-white rounded;
+}
+.btn-rounded {
+  @apply rounded-full;
+}
+.btn-outlined-primary {
+  @apply bg-transparent text-blue-700 font-semibold py-2 px-4 border border-blue-500;
+}
+.btn-outlined-primary:hover {
+  @apply font-bold py-2 px-4 bg-blue-500 text-white rounded;
+}
+.btn-disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+/* Field */
+.field {
+  margin-top: 0.5rem
+}
+.field-label {
+  @apply block text-gray-700 text-sm font-bold mb-2;
+}
+.field-danger {
+  @apply text-red-500;
+}
+
+/* Input */
+.input {
+  @apply appearance-none border w-full py-2 px-3 text-gray-500 leading-tight;
+}
+.input-danger {
+  @apply border-red-500;
+}
+.input-icon-right {
+  right: 0.5rem
+}
+
+.input-icon-danger {
+  @apply text-red-500;
+}
+
+/* Dropdown */
+.dropdown {
+  @apply inline-flex relative;
+}
+.dropdown-menu {
+  min-width: 12em;
+  @apply bg-white shadow-lg rounded-sm ;
+}
+.dropdown-item {
+  @apply relative block no-underline py-2 cursor-pointer;
+}
+
+.dropdown-item-active {
+  @apply bg-blue-500;
+}
+
+/* Checkbox */
+
+.checkbox {
+  @apply appearance-none bg-blue-500 border-blue-500;
+}
+
+.checkbox-checked {
+  @apply bg-blue-500;
+}
+
+.checkbox-label {
+  margin-left: 0.2rem;
+}
+
+/* Steps */
+
+.step-marker {
+  @apply rounded-full w-10 h-10;
+}
+
+.step-divider {
+  background: #b5b5b5;
+  content: " ";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: -50%;
+  width: 100%;
+  height: 5px;
+  top: 35%;
+}
+
+.steps-nav-item-active .step-marker {
+  @apply text-blue-500 border-blue-500;
+}
+
+.steps-nav-item-active .step-divider {
+  background: none;
+  @apply bg-blue-500;
+}
+
+.steps-nav-item-previous .step-marker {
+  @apply bg-blue-500;
+}
+
+.steps-nav-item-previous .step-divider {
+  background: none;
+  @apply bg-blue-500;
 }

@@ -1,7 +1,10 @@
 <template>
-  <div class="flex flex-col items-start m-auto">
-    <img src="/src/assets/images/logo.png" />
-    <o-button class="mt-4 mx-auto" @click="startAuth">Login</o-button>
+  <div class="flex flex-col items-start m-auto items-center">
+    <span class="text-5xl text-center">Obelix</span>
+    <span class="text-xl text-center">Na brauchst n` Boot?</span>
+
+    <img src="/src/assets/images/logo.png" class="w-1/2 mt-8" />
+    <o-button class="mt-8" @click="startAuth">Login</o-button>
   </div>
 </template>
 

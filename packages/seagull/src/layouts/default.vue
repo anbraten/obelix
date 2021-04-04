@@ -1,6 +1,6 @@
 <template>
   <router-view />
-  <app-footer />
+  <AppFooter />
   <div class="placeholder mt-16" />
   <!-- <changelog /> -->
 </template>
@@ -9,7 +9,7 @@
 import { defineComponent } from 'vue';
 
 // import Changelog from './components/Changelog.vue';
-import AppFooter from '~/components/layout/AppFooter.vue';
+import AppFooter from '~/layouts/default/AppFooter.vue';
 
 export default defineComponent({
   name: 'Default',
