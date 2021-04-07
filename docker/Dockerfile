@@ -1,4 +1,4 @@
-FROM node:12.19.1-alpine
+FROM node:12.22.1-alpine
 ARG VERSION
 
 WORKDIR /app
