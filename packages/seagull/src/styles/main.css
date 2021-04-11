@@ -43,3 +43,11 @@ html.dark {
 .footer-btn.router-link-exact-active {
   @apply text-primary;
 }
+
+.footer-btn.home {
+  @apply border-transparent;
+}
+
+.footer-btn.home.router-link-exact-active {
+  @apply border-primary text-primary;
+}

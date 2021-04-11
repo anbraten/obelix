@@ -1,6 +1,7 @@
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@oruga-ui/oruga-next/dist/oruga-full.css';
 import 'virtual:windi.css';
+import 'virtual:windi-devtools';
 import '~/styles/main.css';
 import '~/styles/oruga-tailwindcss.css';
 

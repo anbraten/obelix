@@ -18,7 +18,11 @@
       </p>
     </div>
 
-    <FloatingButton class="fixed bottom-20 right-4" icon="plus" @click="router.push({ name: 'add-booking' })" />
+    <FloatingButton
+      class="fixed bottom-20 md:right-1/5 right-4"
+      icon="plus"
+      @click="router.push({ name: 'add-booking' })"
+    />
   </div>
 </template>
 

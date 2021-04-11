@@ -11,12 +11,13 @@
         is-open
         :closeable="false"
         :background="`/src/assets/images/${bookable._id}.jpg`"
-        class="m-2 mx-auto rounded-2xl w-full"
+        class="mt-4 rounded-2xl w-full"
       >
         <span>{{ bookable.name }}</span>
-
-        <div v-if="bookable.tags.length > 0" class="flex space-x-2 mt-4">
-          <span v-for="tag in bookable.tags" :key="tag" class="bg-gray-400 px-3 rounded-lg">{{ tag }}</span>
+        <div v-if="bookable.tags.length > 0" class="mt-1 flex flex-row space-x-2">
+          <span v-for="tag in bookable.tags" :key="tag" class="flex flex-col bg-gray-400 text-xs rounded-full px-2">{{
+            tag
+          }}</span>
         </div>
       </Card>
     </div>
@@ -49,11 +50,7 @@ export default defineComponent({
         return bookables.value;
       }
 
-      return bookables.value.filter(bookable =>
-        JSON.stringify(bookable)
-          .toLocaleLowerCase()
-          .includes(search.value),
-      );
+      return bookables.value.filter((bookable) => JSON.stringify(bookable).toLocaleLowerCase().includes(search.value));
     });
 
     return {

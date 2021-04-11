@@ -79,6 +79,12 @@ export default defineComponent({
     },
   },
 
+  emits: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    'update:booking': (__booking: Partial<Booking>) => true,
+    done: () => true,
+  },
+
   setup(props, { emit }) {
     const bookingProp = toRef(props, 'booking');
     const booking = computed(() => ({

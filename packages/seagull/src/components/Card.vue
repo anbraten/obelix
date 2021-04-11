@@ -3,9 +3,9 @@
     class="relative border-gray-300 bg-white border rounded-t-xl shadow p-4 cursor-pointer pb-6 overflow-hidden text-white"
     :class="{ 'cursor-default': isOpen || !closeable, 'shadow-xl': isOpen }"
   >
-    <img class="absolute top-0 left-0 object-cover min-w-full h-full" :src="background">
+    <img class="absolute top-0 left-0 object-cover min-w-full h-full" :src="background" />
     <div class="absolute top-0 left-0 w-full h-full bg-gray-600 bg-opacity-90" />
-    <div class="relative" :class="{ 'cursor-pointer': closeable }">
+    <div v-if="$slots.header" class="relative" :class="{ 'cursor-pointer': closeable }">
       <slot name="header" class="relative" />
     </div>
     <div v-if="isOpen" class="relative text-white" :class="{ 'mt-4': $slots.header }">
@@ -25,10 +25,12 @@ export default defineComponent({
       type: String,
       default: '/src/assets/images/card-bg.jpg',
     },
+
     isOpen: {
       type: Boolean,
       required: false,
     },
+
     closeable: {
       type: Boolean,
       required: false,

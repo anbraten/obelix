@@ -15,7 +15,8 @@ export default defineConfig({
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#008bcf',
+          // DEFAULT: '#008bcf',
+          DEFAULT: '#3b82f6',
           dark: colors.blue[800],
         },
         highlight: {
