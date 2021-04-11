@@ -15,7 +15,6 @@ export const name = 'bookables';
 
 const BookableSchema = new Schema<Document, MongooseModel<Document, unknown>, Bookable>({
   name: { type: SchemaTypes.String, required: true },
-  category: { type: SchemaTypes.String, required: true },
   tags: [{ type: SchemaTypes.String, }],
 }, {
   timestamps: true,
