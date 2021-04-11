@@ -1,5 +1,6 @@
 import { OAuthProfile, OAuthStrategy } from '@feathersjs/authentication-oauth';
 import { Params } from '@feathersjs/feathers';
+import User from '../../types/user';
 
 type EntityData = {
   [x: string]: unknown;
@@ -20,6 +21,12 @@ export class KeycloakStrategy extends OAuthStrategy {
       ...baseData,
       email: profile.email,
       name: profile.name,
+    };
+  }
+
+  async getEntityQuery(profile: KeycloakProfile): Promise<Partial<User>> {
+    return {
+      email: profile.email,
     };
   }
 }
