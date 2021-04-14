@@ -11,19 +11,15 @@
     </ValidationField>
 
     <ValidationField :validation="v$.startTime" label="Startzeit">
-      <o-input v-model="v$.startTime.$model" placeholder="HH:MM" @blur="v$.startTime.$touch" />
-      <!-- <o-input v-cleave="masks.time" :value="bookable.startTime" placeholder="HH:MM" @input.native="updateStartTime" /> -->
+      <o-input v-model="v$.startTime.$model" v-cleave="masks.time" placeholder="HH:MM" @blur="v$.startTime.$touch" />
     </ValidationField>
 
     <ValidationField :validation="v$.endTime" label="Endzeit">
-      <!-- <o-input v-cleave="masks.time" :value="bookable.endTime" placeholder="HH:MM" @input.native="updateEndTime" /> -->
-      <o-input v-model="v$.endTime.$model" placeholder="HH:MM" @blur="v$.endTime.$touch" />
+      <o-input v-model="v$.endTime.$model" v-cleave="masks.time" placeholder="HH:MM" @blur="v$.endTime.$touch" />
     </ValidationField>
 
     <div class="mt-4 flex flex-row justify-center content-center">
-      <o-button :disabled="v$.$invalid" @click="submit">
-        Weiter
-      </o-button>
+      <o-button :disabled="v$.$invalid" @click="submit"> Weiter </o-button>
     </div>
   </div>
 </template>
@@ -37,6 +33,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { computed, defineComponent, PropType, reactive, ref, toRef } from 'vue';
 
 import ValidationField from '~/components/atomic/ValidationField.vue';
+import cleave from '~/libs/cleave';
 import { futureDate, futureTime, required, timeBetween, timeLater, validDate, validTime } from '~/libs/date';
 import Booking from '~/types/booking';
 
@@ -49,19 +46,6 @@ export default defineComponent({
     ValidationField,
   },
 
-  // directives: { cleave },
-
-  // data() {
-  //   return {
-  //     masks: {
-  //       time: {
-  //         time: true,
-  //         timePattern: ['h', 'm'],
-  //       },
-  //     },
-  //   };
-  // },
-
   // mounted() {
   //   if (this.$route.hash) {
   //     // hash without #
@@ -71,6 +55,10 @@ export default defineComponent({
   //     this.$set(this.form, 'date', moment().format(dateFormat));
   //   }
   // },
+
+  directives: {
+    cleave,
+  },
 
   props: {
     booking: {
@@ -128,9 +116,7 @@ export default defineComponent({
       return dayjs(`${dayjs(date).format('DD.MM.YYYY')} ${time}`, 'DD.MM.YYYY HH:mm').toDate();
     };
 
-    const minDate = dayjs()
-      .subtract(1, 'days')
-      .toDate();
+    const minDate = dayjs().subtract(1, 'days').toDate();
 
     const maxDate = computed(() => {
       if (isTrainer.value) {
@@ -139,9 +125,7 @@ export default defineComponent({
           .toDate(); // 3 weeks
       }
 
-      return dayjs()
-        .add(7, 'days')
-        .toDate();
+      return dayjs().add(7, 'days').toDate();
     });
 
     const dateFormatter = (date: Date) => {
@@ -158,7 +142,14 @@ export default defineComponent({
       emit('done');
     };
 
-    return { v$, submit, minDate, maxDate, dateFormatter };
+    const masks = {
+      time: {
+        time: true,
+        timePattern: ['h', 'm'],
+      },
+    };
+
+    return { v$, submit, minDate, maxDate, dateFormatter, masks };
   },
 });
 </script>
