@@ -6,10 +6,10 @@
   "author": "Anbraten",
   "private": true,
   "scripts": {
-    "start": "dotenv -- pnpm multi --color --filter @obelix/seagull --filter @obelix/herkules run start",
-    "start:app": "dotenv -- pnpm run --filter @obelix/seagull start",
-    "start:backend": "dotenv -- pnpm run --filter @obelix/herkules start",
-    "build": "pnpm run --filter @obelix/seagull build",
+    "start": "dotenv -- pnpm multi --color --filter @obelix/app --filter @obelix/backend run start",
+    "start:app": "dotenv -- pnpm run --filter @obelix/app start",
+    "start:backend": "dotenv -- pnpm run --filter @obelix/backend start",
+    "build": "pnpm run --filter @obelix/app build",
     "lint": "pnpm run --filter \"@obelix/*\" lint",
     "lint:fix": "pnpm run --filter \"@obelix/*\" lint --fix"
   },

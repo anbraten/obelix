@@ -1,201 +1,155 @@
 <template>
-  <div class="step">
-    <form-group v-if="form.date" :validator="$v.form.date" label="Datum">
-      <b-datepicker
-        :value="selectedDate"
+  <div class="flex flex-col">
+    <ValidationField :validation="v$.date" label="Datum">
+      <o-datepicker
+        v-model="v$.date.$model"
         :date-formatter="dateFormatter"
         :min-date="minDate"
         :max-date="maxDate"
-        @input="updateDate"
+        @blur="v$.date.$touch"
       />
-    </form-group>
+    </ValidationField>
 
-    <form-group :validator="$v.form.startTime" label="Startzeit">
-      <b-input
-        v-cleave="masks.time"
-        :value="form.startTime"
-        placeholder="HH:MM"
-        @input.native="updateStartTime"
-      />
-    </form-group>
+    <ValidationField :validation="v$.startTime" label="Startzeit">
+      <o-input v-model="v$.startTime.$model" v-cleave="masks.time" placeholder="HH:MM" @blur="v$.startTime.$touch" />
+    </ValidationField>
 
-    <form-group :validator="$v.form.endTime" label="Endzeit">
-      <b-input
-        v-cleave="masks.time"
-        :value="form.endTime"
-        placeholder="HH:MM"
-        @input.native="updateEndTime"
-      />
-    </form-group>
+    <ValidationField :validation="v$.endTime" label="Endzeit">
+      <o-input v-model="v$.endTime.$model" v-cleave="masks.time" placeholder="HH:MM" @blur="v$.endTime.$touch" />
+    </ValidationField>
 
-    <div class="actions">
-      <b-button class="next" :disabled="$v.$invalid" @click="submit">
-        Weiter
-      </b-button>
-    </div>
-
-    <div class="info-box mt-6">
-      <div class="title is-3 has-text-centered">
-        Trainings-Slots Ergometer
-      </div>
-      <table class="table" style="width: 100%;">
-        <thead>
-          <tr>
-            <th>Mo - Fr</th>
-            <th>Sa + So</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>17:30 - 19:00</td>
-            <td>06:00 - 07:30</td>
-          </tr>
-          <tr>
-            <td>19:00 - 20:30</td>
-            <td>07:30 - 09:00</td>
-          </tr>
-          <tr>
-            <td>20:30 - 22:00</td>
-            <td>09:00 - 10:30</td>
-          </tr>
-          <tr>
-            <td>---</td>
-            <td>10:30 - 12:00</td>
-          </tr>
-          <tr>
-            <td>---</td>
-            <td>12:00 - 13:30</td>
-          </tr>
-          <tr>
-            <td>---</td>
-            <td>13:30 - 15:00</td>
-          </tr>
-          <tr>
-            <td>---</td>
-            <td>15:00 - 16:30</td>
-          </tr>
-          <tr>
-            <td>---</td>
-            <td>16:30 - 18:00</td>
-          </tr>
-          <tr>
-            <td>---</td>
-            <td>18:00 - 19:30</td>
-          </tr>
-          <tr>
-            <td>---</td>
-            <td>19:30 - 21:00</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="mt-4 flex flex-row justify-center content-center">
+      <o-button :disabled="v$.$invalid" @click="submit"> Weiter </o-button>
     </div>
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex';
-import { required } from 'vuelidate/lib/validators';
+<script lang="ts">
+// import cleave from '@/libs/cleave';
+// import { dateFormat, prettyDateFormat, moment } from '@/libs/momentUtils';
+import { useVuelidate } from '@vuelidate/core';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { computed, defineComponent, PropType, reactive, ref, toRef } from 'vue';
 
-import cleave from '@/libs/cleave';
-import {
-  time,
-  timeLater,
-  futureDate,
-  futureTime,
-  timeBetween,
-} from '@/libs/vuelidate';
-import { dateFormat, prettyDateFormat, moment } from '@/libs/momentUtils';
+import ValidationField from '~/components/atomic/ValidationField.vue';
+import cleave from '~/libs/cleave';
+import { futureDate, futureTime, required, timeBetween, timeLater, validDate, validTime } from '~/libs/date';
+import Booking from '~/types/booking';
 
-export default {
+dayjs.extend(customParseFormat);
+
+export default defineComponent({
   name: 'BookingCreateDate',
 
-  directives: { cleave },
-
-  data() {
-    return {
-      form: {
-        date: null,
-        startTime: null,
-        endTime: null,
-      },
-      masks: {
-        time: {
-          time: true,
-          timePattern: ['h', 'm'],
-        },
-      },
-    };
+  components: {
+    ValidationField,
   },
 
-  validations: {
-    form: {
+  // mounted() {
+  //   if (this.$route.hash) {
+  //     // hash without #
+  //     this.$set(this.form, 'date', this.$route.hash.substr(1));
+  //   } else {
+  //     // today
+  //     this.$set(this.form, 'date', moment().format(dateFormat));
+  //   }
+  // },
+
+  directives: {
+    cleave,
+  },
+
+  props: {
+    booking: {
+      type: Object as PropType<Partial<Booking>>,
+      required: true,
+    },
+  },
+
+  emits: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    'update:booking': (__booking: Partial<Booking>) => true,
+    done: () => true,
+  },
+
+  setup(props, { emit }) {
+    const bookingProp = toRef(props, 'booking');
+    const booking = computed(() => ({
+      ...bookingProp.value,
+      startDate: props.booking.startDate || new Date(),
+      endDate: props.booking.endDate || new Date(),
+    }));
+
+    const isTrainer = ref(false);
+
+    const form = reactive<{ date: Date; startTime: string; endTime: string }>({
+      date: booking.value.startDate,
+      startTime: '',
+      endTime: '',
+    });
+
+    const rules = {
       date: {
         required,
+        validDate,
         futureDate,
       },
+
       startTime: {
         required,
-        time,
-        futureTime: futureTime('date'),
+        validTime,
+        // futureTime: futureTime('date'),
       },
+
       endTime: {
         required,
-        time,
-        timeBetween: timeBetween('startTime', 1, 4), // min 1 hours, max 4 hours
-        timeLater: timeLater('startTime'),
+        validTime,
+        // timeBetween: timeBetween('startTime', 1, 4), // min 1 hours, max 4 hours
+        timeLater: timeLater(toRef(form, 'startTime')),
       },
-    },
-  },
+    };
 
-  computed: {
-    ...mapGetters('rental', [
-      'isTrainer',
-    ]),
-    minDate() {
-      return moment().subtract(1, 'days').toDate();
-    },
-    maxDate() {
-      // TODO: isTrainer
-      if (this.isTrainer) {
-        return moment().add(3 * 7, 'days').toDate(); // 3 weeks
+    const v$ = useVuelidate(rules, form);
+
+    const combineDateTime = (date: Date, time: string) => {
+      return dayjs(`${dayjs(date).format('DD.MM.YYYY')} ${time}`, 'DD.MM.YYYY HH:mm').toDate();
+    };
+
+    const minDate = dayjs().subtract(1, 'days').toDate();
+
+    const maxDate = computed(() => {
+      if (isTrainer.value) {
+        return dayjs()
+          .add(3 * 7, 'days')
+          .toDate(); // 3 weeks
       }
 
-      return moment().add(7, 'days').toDate();
-    },
-    selectedDate() {
-      return moment(this.form.date, dateFormat).toDate();
-    },
-  },
+      return dayjs().add(7, 'days').toDate();
+    });
 
-  mounted() {
-    if (this.$route.hash) {
-      // hash without #
-      this.$set(this.form, 'date', this.$route.hash.substr(1));
-    } else {
-      // today
-      this.$set(this.form, 'date', moment().format(dateFormat));
-    }
-  },
+    const dateFormatter = (date: Date) => {
+      return dayjs(date).format('DD.MM.YYYY');
+    };
 
-  methods: {
-    dateFormatter(date) {
-      return moment(date).format(prettyDateFormat);
-    },
-    updateDate(date) {
-      this.$set(this.form, 'date', moment(date).format(dateFormat));
-      this.$v.form.date.$touch();
-    },
-    updateStartTime({ target }) {
-      this.$set(this.form, 'startTime', target._vCleave.getFormattedValue());
-      this.$v.form.startTime.$touch();
-    },
-    updateEndTime({ target }) {
-      this.$set(this.form, 'endTime', target._vCleave.getFormattedValue());
-      this.$v.form.endTime.$touch();
-    },
-    submit() {
-      this.$emit('done', this.form);
-    },
+    const submit = () => {
+      emit('update:booking', {
+        ...booking.value,
+        startDate: combineDateTime(form.date, form.startTime),
+        endDate: combineDateTime(form.date, form.endTime),
+      });
+
+      emit('done');
+    };
+
+    const masks = {
+      time: {
+        time: true,
+        timePattern: ['h', 'm'],
+      },
+    };
+
+    return { v$, submit, minDate, maxDate, dateFormatter, masks };
   },
-};
+});
 </script>

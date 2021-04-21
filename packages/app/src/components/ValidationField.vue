@@ -3,7 +3,8 @@
     <slot />
   </b-field>
 </template>
-<script>
+
+<script lang="ts">
 import { singleErrorExtractorMixin } from 'vuelidate-error-extractor';
 
 export default {

@@ -1,3 +1,7 @@
-/public/env-config.js
-/public/downloads
-/dist/
+.DS_Store
+.vite-ssg-dist
+.vite-ssg-temp
+*.local
+dist
+dist-ssr
+node_modules
