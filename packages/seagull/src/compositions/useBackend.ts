@@ -5,6 +5,8 @@ import socketio from '@feathersjs/socketio-client';
 import io from 'socket.io-client';
 import { ref } from 'vue';
 
+import Bookable from '~/types/bookable';
+import Booking from '~/types/booking';
 import User from '~/types/user';
 
 type Service<T> = AdapterService<T> & ServiceAddons<T>;
@@ -12,6 +14,8 @@ type Service<T> = AdapterService<T> & ServiceAddons<T>;
 // Add this service to the service type index
 interface ServiceTypes {
   users: Service<User>;
+  bookings: Service<Booking>;
+  bookables: Service<Bookable>;
 }
 
 interface AuthenticationResult {

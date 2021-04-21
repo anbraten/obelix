@@ -8,7 +8,7 @@ import feathers from './useBackend';
 
 function loadServiceEventHandlers<T extends AbstractEntity>(
   service: FeathersService<T>,
-  _id: Ref<Id>,
+  _id: Ref<Id | undefined>,
   data: Ref<T | undefined>,
 ): () => void {
   const onCreated = (item: T): void => {
@@ -49,7 +49,7 @@ export type UseGet<T extends AbstractEntity> = {
   isLoading: Ref<boolean>;
 };
 
-export default <T extends keyof ServiceModels>(serviceName: T, _id: Ref<Id>): UseGet<ServiceModels[T]> => {
+export default <T extends keyof ServiceModels>(serviceName: T, _id: Ref<Id | undefined>): UseGet<ServiceModels[T]> => {
   type M = ServiceModels[T];
 
   const data = ref<M>();
@@ -60,7 +60,9 @@ export default <T extends keyof ServiceModels>(serviceName: T, _id: Ref<Id>): Us
 
   const get = async () => {
     isLoading.value = true;
-    data.value = await service.get(_id.value);
+    if (_id.value) {
+      data.value = await service.get(_id.value);
+    }
     isLoading.value = false;
   };
 
@@ -68,9 +70,10 @@ export default <T extends keyof ServiceModels>(serviceName: T, _id: Ref<Id>): Us
     await get();
   });
 
-  feathers.on('connect', () => {
+  const onConnect = () => {
     void get();
-  });
+  };
+  feathers.on('connect', onConnect);
 
   watch(_id, async () => {
     await get();
@@ -78,6 +81,7 @@ export default <T extends keyof ServiceModels>(serviceName: T, _id: Ref<Id>): Us
 
   onBeforeUnmount(() => {
     unloadEventHandlers();
+    feathers.off('connect', onConnect);
   });
 
   return { isLoading, data };

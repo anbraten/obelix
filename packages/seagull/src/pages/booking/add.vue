@@ -10,8 +10,7 @@
       </o-step-item>
 
       <o-step-item icon="check">
-        <pre>{{ booking }}</pre>
-        <!-- <BookingCreateFinish :booking="booking" @done="createBooking" @back="activeStep--" /> -->
+        <BookingCreateFinish v-model:booking="booking" @done="createBooking" @back="activeStep--" />
       </o-step-item>
     </o-steps>
   </div>
@@ -26,8 +25,10 @@ import { defineComponent, ref } from 'vue';
 
 import BookingCreateBoat from '~/components/booking/BookingCreateBoat.vue';
 import BookingCreateDate from '~/components/booking/BookingCreateDate.vue';
-// import BookingCreateFinish from '~/components/booking/BookingCreateFinish.vue';
+import BookingCreateFinish from '~/components/booking/BookingCreateFinish.vue';
 import { user } from '~/compositions/useAuthentication';
+import feathers from '~/compositions/useBackend';
+import router from '~/router';
 import Booking from '~/types/booking';
 
 export default defineComponent({
@@ -36,6 +37,7 @@ export default defineComponent({
   components: {
     BookingCreateDate,
     BookingCreateBoat,
+    BookingCreateFinish,
   },
 
   setup() {
@@ -44,9 +46,15 @@ export default defineComponent({
       bookedBy: user.value?._id,
     });
 
+    const createBooking = async () => {
+      await feathers.service('bookings').create(booking.value);
+      await router.replace({ name: 'bookings' });
+    };
+
     return {
       booking,
       activeStep,
+      createBooking,
     };
   },
 });

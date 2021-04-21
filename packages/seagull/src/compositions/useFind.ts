@@ -65,12 +65,14 @@ export default <T extends keyof ServiceModels>(serviceName: T): UseFind<ServiceM
     await find();
   });
 
-  feathers.on('connect', () => {
+  const onConnect = () => {
     void find();
-  });
+  };
+  feathers.on('connect', onConnect);
 
   onBeforeUnmount(() => {
     unloadEventHandlers();
+    feathers.off('connect', onConnect);
   });
 
   return { data, isLoading };
