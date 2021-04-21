@@ -6,6 +6,7 @@
         :date-formatter="dateFormatter"
         :min-date="minDate"
         :max-date="maxDate"
+        :mobile-native="false"
         @blur="v$.date.$touch"
       />
     </ValidationField>
@@ -17,10 +18,6 @@
     <ValidationField :validation="v$.endTime" label="Endzeit">
       <o-input v-model="v$.endTime.$model" v-cleave="masks.time" placeholder="HH:MM" @blur="v$.endTime.$touch" />
     </ValidationField>
-
-    <div class="mt-4 flex flex-row justify-center content-center">
-      <o-button :disabled="v$.$invalid" @click="submit"> Weiter </o-button>
-    </div>
   </div>
 </template>
 
@@ -30,7 +27,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { computed, defineComponent, PropType, reactive, ref, toRef } from 'vue';
+import { computed, defineComponent, PropType, reactive, ref, toRef, watch } from 'vue';
 
 import ValidationField from '~/components/atomic/ValidationField.vue';
 import cleave from '~/libs/cleave';
@@ -46,16 +43,6 @@ export default defineComponent({
     ValidationField,
   },
 
-  // mounted() {
-  //   if (this.$route.hash) {
-  //     // hash without #
-  //     this.$set(this.form, 'date', this.$route.hash.substr(1));
-  //   } else {
-  //     // today
-  //     this.$set(this.form, 'date', moment().format(dateFormat));
-  //   }
-  // },
-
   directives: {
     cleave,
   },
@@ -70,7 +57,6 @@ export default defineComponent({
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     'update:booking': (__booking: Partial<Booking>) => true,
-    done: () => true,
   },
 
   setup(props, { emit }) {
@@ -81,6 +67,7 @@ export default defineComponent({
       endDate: props.booking.endDate || new Date(),
     }));
 
+    // TODO
     const isTrainer = ref(false);
 
     const form = reactive<{ date: Date; startTime: string; endTime: string }>({
@@ -132,16 +119,6 @@ export default defineComponent({
       return dayjs(date).format('DD.MM.YYYY');
     };
 
-    const submit = () => {
-      emit('update:booking', {
-        ...booking.value,
-        startDate: combineDateTime(form.date, form.startTime),
-        endDate: combineDateTime(form.date, form.endTime),
-      });
-
-      emit('done');
-    };
-
     const masks = {
       time: {
         time: true,
@@ -149,7 +126,22 @@ export default defineComponent({
       },
     };
 
-    return { v$, submit, minDate, maxDate, dateFormatter, masks };
+    watch(
+      () => v$.value.$invalid,
+      (invalid) => {
+        if (invalid) {
+          return;
+        }
+
+        emit('update:booking', {
+          ...booking.value,
+          startDate: combineDateTime(form.date, form.startTime),
+          endDate: combineDateTime(form.date, form.endTime),
+        });
+      },
+    );
+
+    return { v$, minDate, maxDate, dateFormatter, masks };
   },
 });
 </script>

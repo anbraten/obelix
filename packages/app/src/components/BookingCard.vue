@@ -3,7 +3,7 @@
     <template #header>
       <div class="flex flex-row justify-between">
         <span v-if="bookable">{{ bookable.name }}</span>
-        <span>{{ booking.startDate }}-{{ booking.endDate }}</span>
+        <span>{{ startTime }} - {{ endTime }}</span>
       </div>
     </template>
 
@@ -15,6 +15,7 @@
 </template>
 
 <script lang="ts">
+import dayjs from 'dayjs';
 import { computed, defineComponent, PropType, toRef } from 'vue';
 
 import Card from '~/components/Card.vue';
@@ -49,9 +50,14 @@ export default defineComponent({
     const bookedById = computed(() => bookingProp.value.bookedBy);
     const { data: bookedBy } = useGet('users', bookedById);
 
+    const startTime = computed(() => bookingProp.value && dayjs(bookingProp.value.startDate).format('HH:mm'));
+    const endTime = computed(() => bookingProp.value && dayjs(bookingProp.value.endDate).format('HH:mm'));
+
     return {
       bookable,
       bookedBy,
+      startTime,
+      endTime,
     };
   },
 });

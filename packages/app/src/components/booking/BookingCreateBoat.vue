@@ -54,11 +54,6 @@
     <div v-else class="flex flex-col w-full mt-16 mb-auto items-center">
       <span>Keine Boote gefunden.</span>
     </div>
-
-    <div class="mt-4 flex flex-row justify-center content-center">
-      <o-button @click="emit('back')">Zurück</o-button>
-      <o-button :disabled="!isValid" class="ml-2" @click="emit('done')">Weiter</o-button>
-    </div>
   </div>
 </template>
 
@@ -82,13 +77,12 @@ export default defineComponent({
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     'update:booking': (__booking: Partial<Booking>) => true,
-    back: () => true,
-    done: () => true,
   },
 
   setup(props, { emit }) {
     const booking = toRef(props, 'booking');
 
+    // TODO
     const bookedBookables = ref<string[]>(['60696b5153da9b3663e02dfc']);
 
     const selectBookable = (selectedBookable: Bookable) => {
@@ -111,7 +105,6 @@ export default defineComponent({
       });
     };
 
-    const isValid = computed(() => !!booking.value.bookable);
     const { data: bookables } = useFind('bookables');
 
     const bookablesTags = computed(() =>
@@ -134,8 +127,6 @@ export default defineComponent({
 
     return {
       selectBookable,
-      emit,
-      isValid,
       bookedBookables,
       filteredBookables,
       bookablesTags,

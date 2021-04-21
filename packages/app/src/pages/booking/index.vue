@@ -21,7 +21,7 @@
     <FloatingButton
       class="fixed bottom-20 md:right-1/5 right-4"
       icon="plus"
-      @click="router.push({ name: 'add-booking' })"
+      @click="router.push({ name: 'booking-create' })"
     />
   </div>
 </template>
