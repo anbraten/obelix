@@ -43,13 +43,13 @@ module.exports = {
     'vue/no-boolean-default': 'error',
     'vue/html-button-has-type': 'error',
     'vue/component-name-in-template-casing': 'error',
-    'vue/match-component-file-name': [
-      'error',
-      {
-        extensions: ['vue'],
-        shouldMatchCase: true,
-      },
-    ],
+    // 'vue/match-component-file-name': [
+    //   'error',
+    //   {
+    //     extensions: ['vue'],
+    //     shouldMatchCase: true,
+    //   },
+    // ],
     'vue/require-name-property': 'error',
     'vue/v-for-delimiter-style': 'error',
     'vue/no-empty-component-block': 'error',

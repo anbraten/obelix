@@ -51,3 +51,11 @@ html.dark {
 .footer-btn.home.router-link-exact-active {
   @apply border-primary text-primary;
 }
+
+.multiselect-tag {
+  @apply bg-primary;
+}
+
+.multiselect-tag i:before {
+  @apply text-white;
+}

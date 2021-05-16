@@ -21,6 +21,12 @@
         </div>
       </Card>
     </div>
+
+    <FloatingButton
+      class="fixed bottom-20 md:right-1/5 right-4"
+      icon="plus"
+      @click="$router.push({ name: 'bookable-create' })"
+    />
   </div>
 </template>
 
@@ -31,6 +37,7 @@ name: bookables
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
 
+import FloatingButton from '~/components/atomic/FloatingButton.vue';
 import Card from '~/components/Card.vue';
 import useFind from '~/compositions/useFind';
 
@@ -39,6 +46,7 @@ export default defineComponent({
 
   components: {
     Card,
+    FloatingButton,
   },
 
   setup() {

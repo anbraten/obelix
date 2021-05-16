@@ -1,6 +1,8 @@
 <template>
   <div class="flex p-4 justify-center items-center w-full max-w-2xl px-4 md:mx-auto">
-    <div class="px-2" @click="$router.replace({ name: 'bookings' })"><o-icon pack="fas" icon="times" /></div>
+    <div class="px-2 cursor-pointer" @click="$router.replace({ name: 'bookings' })">
+      <o-icon pack="fas" icon="times" />
+    </div>
     <span class="mx-auto text-xl">Neue Reservierungen</span>
   </div>
 

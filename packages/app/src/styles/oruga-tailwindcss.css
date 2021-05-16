@@ -1,86 +1,72 @@
-/* Button */
-
-.btn {
-  @apply font-bold py-2 px-4 text-white bg-primary dark:text-white-dark dark:bg-highlight-dark rounded;
-}
-
-
 /* Field */
-.field-label {
-  @apply block text-sm font-bold mb-2 text-main dark:text-main-dark;
+.field {
+  margin-top: 0.5rem
 }
-
+.field-label {
+  @apply block text-gray-700 text-sm font-bold mb-2 text-main dark:text-main-dark;
+}
 .field-danger {
   @apply text-red-500;
 }
 
-
 /* Input */
-
 .o-ctrl-input {
   @apply flex w-full;
 }
-
 .o-input__icon-left {
   @apply order-1 mr-2;
 }
-
 .input {
-  @apply flex-grow order-2 appearance-none border-0 outline-transparent;
+  @apply flex-grow order-2 appearance-none outline-transparent border w-full py-2 text-gray-500 leading-tight;
 }
-
 .input-danger {
-  @apply border-highlight;
+  @apply border-red-500;
 }
-
+.o-input-iconspace-left {
+  @apply pl-8;
+}
+.input-icon-right {
+  right: 0.5rem
+}
+.input-icon-danger {
+  @apply text-red-500;
+}
 
 /* Switch */
-
 .switch {
   @apply bg-black dark:bg-highlight-dark;
 }
-
 .switch-label {
   @apply hidden;
 }
 
 /* Dropdown */
-
 .dropdown-menu {
   @apply shadow-lg rounded-sm z-10 bg-main-dark text-main dark:text-main-dark dark:bg-main z-50 w-full;
 }
-
 .dropdown-item {
   @apply cursor-pointer text-main dark:text-main-dark dark:bg-main w-full p-1;
 }
-
 .dropdown-item-active {
   @apply text-highlight bg-highlight-background dark:text-highlight-dark dark:bg-highlight-background-dark;
 }
 
-
 /* Loading */
-
 .loading-background {
   @apply bg-gray-50 dark:bg-gray-700 opacity-75;
 }
 
-
 /* Radio */
-
 .radio {
   @apply font-bold py-2 px-4 rounded text-main dark:text-main-dark;
   min-width: 6rem;
 }
-
 .radio-check {
   @apply hidden;
 }
-
 .radio-checked {
   @apply text-highlight bg-highlight-background dark:text-highlight-dark dark:bg-highlight-background-dark;
 }
-
 .radio-label {
   @apply w-full text-center p-0;
 }
@@ -88,7 +74,7 @@
 /* Button */
 .btn {
   outline: none !important;
-  @apply font-bold py-2 px-4 bg-blue-500 text-white rounded;
+  @apply font-bold py-2 px-4 text-white bg-primary dark:text-white-dark dark:bg-highlight-dark rounded;
 }
 .btn-rounded {
   @apply rounded-full;
@@ -101,32 +87,6 @@
 }
 .btn-disabled {
   @apply opacity-50 cursor-not-allowed;
-}
-
-/* Field */
-.field {
-  margin-top: 0.5rem
-}
-.field-label {
-  @apply block text-gray-700 text-sm font-bold mb-2;
-}
-.field-danger {
-  @apply text-red-500;
-}
-
-/* Input */
-.input {
-  @apply appearance-none border w-full py-2 px-3 text-gray-500 leading-tight;
-}
-.input-danger {
-  @apply border-red-500;
-}
-.input-icon-right {
-  right: 0.5rem
-}
-
-.input-icon-danger {
-  @apply text-red-500;
 }
 
 /* Dropdown */
@@ -146,25 +106,20 @@
 }
 
 /* Checkbox */
-
 .checkbox {
   @apply appearance-none bg-blue-500 border-blue-500;
 }
-
 .checkbox-checked {
   @apply bg-blue-500;
 }
-
 .checkbox-label {
   margin-left: 0.2rem;
 }
 
 /* Steps */
-
 .step-marker {
   @apply rounded-full w-10 h-10;
 }
-
 .step-divider {
   background: #b5b5b5;
   content: " ";
@@ -176,21 +131,31 @@
   height: 5px;
   top: 35%;
 }
-
 .steps-nav-item-active .step-marker {
   @apply text-blue-500 border-blue-500;
 }
-
 .steps-nav-item-active .step-divider {
   background: none;
   @apply bg-blue-500;
 }
-
 .steps-nav-item-previous .step-marker {
   @apply bg-blue-500;
 }
-
 .steps-nav-item-previous .step-divider {
   background: none;
   @apply bg-blue-500;
+}
+
+/* Date-picker */
+.date-picker-today {
+  @apply border border-blue-500;
+}
+.date-picker-selectable {
+  @apply bg-blue-100;
+}
+.date-picker-selected {
+  @apply bg-blue-600;
+}
+.date-picker-hover {
+  @apply bg-blue-300;
 }

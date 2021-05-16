@@ -13,6 +13,7 @@
     "@feathersjs/socketio-client": "4.5.11",
     "@fortawesome/fontawesome-free": "5.15.3",
     "@oruga-ui/oruga-next": "0.3.5",
+    "@vueform/multiselect": "1.4.0",
     "@vuelidate/core": "2.0.0-alpha.14",
     "@vuelidate/validators": "2.0.0-alpha.12",
     "cleave.js": "^1.6.0",

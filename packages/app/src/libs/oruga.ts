@@ -1,5 +1,6 @@
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@oruga-ui/oruga-next/dist/oruga-full.css';
+import '@vueform/multiselect/themes/default.css';
 import 'virtual:windi.css';
 import 'virtual:windi-devtools';
 import '~/styles/main.css';
@@ -64,6 +65,15 @@ export default (app: App<Element>) => {
       itemHeaderPreviousClass: 'steps-nav-item-previous',
       stepMarkerClass: 'step-marker',
       stepDividerClass: 'step-divider',
+    },
+    datepicker: {
+      rootClass: 'date-picker',
+      tableCellHoveredClass: 'date-picker-hover',
+      tableCellFirstHoveredClass: 'date-picker-hover',
+      tableCellSelectedClass: 'date-picker-selected',
+      tableCellFirstSelectedClass: 'date-picker-selected',
+      tableCellSelectableClass: 'date-picker-selectable',
+      tableCellTodayClass: 'date-picker-today',
     },
   });
 };

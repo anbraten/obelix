@@ -21,7 +21,7 @@
     <FloatingButton
       class="fixed bottom-20 md:right-1/5 right-4"
       icon="plus"
-      @click="router.push({ name: 'booking-create' })"
+      @click="$router.push({ name: 'booking-create' })"
     />
   </div>
 </template>
@@ -33,7 +33,6 @@ name: bookings
 <script lang="ts">
 import dayjs from 'dayjs';
 import { defineComponent, ref } from 'vue';
-import { useRouter } from 'vue-router';
 
 import DateSlider from '~/components/atomic/DateSlider.vue';
 import FloatingButton from '~/components/atomic/FloatingButton.vue';
@@ -51,8 +50,6 @@ export default defineComponent({
   },
 
   setup() {
-    const router = useRouter();
-
     const selectedDate = ref(dayjs());
     const { data: bookings } = useFind('bookings');
     const selectedBooking = ref<Booking | undefined>(bookings.value[bookings.value.length - 1]);
@@ -67,7 +64,6 @@ export default defineComponent({
     };
 
     return {
-      router,
       bookings,
       selectedDate,
       selectedBooking,
